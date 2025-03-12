@@ -7,6 +7,17 @@
       }
     ]
   },
+  "preserveSymlinks": false,
+  "removeComments": true,
+  "typeRoots": [
+    "./app/_types/common/*",
+  ],
+  "baseUrl": "./",
+  "paths": {
+    "@/*": [
+      "./app/*"
+    ]
+  },
   "include": [
     "**/*.ts",
     "**/*.tsx",
