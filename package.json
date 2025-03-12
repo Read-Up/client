@@ -5,7 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "start": "turbo start",
-    "read": "pnpm -F read-up",
+    "user": "pnpm -F user",
     "cms": "pnpm -F cms",
     "lint": "turbo run lint",
     "ui": "pnpm -F @repo/ui",
