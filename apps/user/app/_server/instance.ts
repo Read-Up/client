@@ -1,10 +1,10 @@
 import ky from 'ky';
 // package
-import { parseJWT, updateApiLog } from '@repo/utils';
+import { parseJWT } from '@repo/utils';
 
 import { apiLogger, serverLogger, HttpError } from '@/_lib';
 import { END_POINT } from '@/_constant/end-point';
-import { getServerToken } from './helper';
+// import { getServerToken } from './helper';
 
 // ----------------------------------------------------------------------
 // ! direct backend api instance
@@ -18,9 +18,9 @@ export const BaseApi = ky.create({
   hooks: {
     beforeRequest: [
       async request => {
-        const JWT = parseJWT(await getServerToken('토큰명', ''));
+        // const JWT = parseJWT(await getServerToken('토큰명', ''));
 
-        request.headers.set('X-IDEATEC-AT-CLAIMS', encodeURIComponent(JSON.stringify(JWT)));
+        // request.headers.set('X-IDEATEC-AT-CLAIMS', encodeURIComponent(JSON.stringify(JWT)));
 
         return request;
       },
@@ -37,7 +37,6 @@ export const BaseApi = ky.create({
       async error => {
         serverLogger({ result: 'ERROR', request: error.request, status: error.response.status });
 
-        updateApiLog(error);
         HttpError.backend(error);
 
         return error;
@@ -84,7 +83,6 @@ export const clientApi = ky.create({
           method: 'error',
         });
 
-        updateApiLog(error);
         HttpError.backend(error);
 
         return error;

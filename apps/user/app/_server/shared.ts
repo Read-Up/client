@@ -9,5 +9,5 @@ import { BaseApi } from "./instance";
 export const getSample = async () => {
   return BaseApi(END_POINT.MAIN.예시1, {
     method: 'GET',
-  }).json();
+  }).json<ResJson<MemberDTO['member']>>();
 }

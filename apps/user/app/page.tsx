@@ -6,23 +6,14 @@ type Props = Omit<ImageProps, "src"> & {
   srcDark: string;
 };
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
-
 export default function Home() {
   return (
     <main className="container mx-auto">
-      <div className="h-full flex-center">
-        <span className="text-5xl">ㅗㅑㅗㅑㅗㅑ</span>
-        <Button >테스트</Button>
+      <div className="h-full flex-center flex-col gap-5">
+        <Button >일반사이즈</Button>
+        <Button variant='disabled' >일반사이즈</Button>
+        <Button variant='default' size='sm' >작은사이즈</Button>
+        <Button variant='default' size='lg' >큰사이즈</Button>
       </div>
     </main>
   );

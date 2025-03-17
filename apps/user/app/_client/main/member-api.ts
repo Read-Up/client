@@ -25,20 +25,20 @@ class API {
     const { data } = await this.API(END_POINT.MAIN.예시1, {
       method: 'GET',
     })
-      .json<{ data: any[] }>()
+      .json<ResJson<MemberDTO['member']>>()
     // .catch(parseErrorData);
 
     return data;
   }
 
   async createMain() {
-    const { status, message } = await this.API(END_POINT.MAIN.예시1, {
+    const { statusCode, message } = await this.API(END_POINT.MAIN.예시1, {
       method: 'POST',
     })
-      .json<{ status: number, message: string }>()
+      .json<ResJson<null>>()
     // .catch(parseErrorData);
 
-    const isValid = status < 300;
+    const isValid = statusCode === 'OK';
     isValid && (await revalidateCache({ key: END_POINT.MAIN.예시1 }));
 
     return { isValid, message };

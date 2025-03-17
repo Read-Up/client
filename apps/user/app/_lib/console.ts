@@ -66,5 +66,3 @@ export const apiLogger = ({ status, reqData, resData, method: consoleMethod = 'l
 export const serverLogger = ({ result, request: { method, url }, status }: ServerLogger) => {
   return console.log(ANSICODE_MAP[result], `${method} [${status}]`, ANSICODE_MAP['DEFAULT'], `${url}`);
 };
-
-// GET /images/refund/refund-1.png 404 in 1071ms
