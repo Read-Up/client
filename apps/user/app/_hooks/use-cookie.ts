@@ -1,5 +1,10 @@
-import { getCookie, setCookie, deleteCookie as delCookie } from '@repo/utils';
+'use client';
+
 import { useState, useCallback } from 'react';
+// package
+import { getCookie, setCookie, deleteCookie as delCookie } from '@repo/utils';
+
+// ----------------------------------------------------------------------
 
 export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   const [value, setValue] = useState(() => {

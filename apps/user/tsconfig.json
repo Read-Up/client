@@ -1,28 +1,20 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "preserveSymlinks": false,
-  "removeComments": true,
-  "typeRoots": [
-    "./app/_types/common/*",
-  ],
-  "baseUrl": "./",
-  "paths": {
-    "@/*": [
-      "./app/*"
-    ]
+    "typeRoots": [
+      "./app/_types/common/*",
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./app/*"
+      ]
+    },
   },
   "include": [
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next-env.d.ts",
-    "next.config.js",
     ".next/types/**/*.ts"
   ],
   "exclude": [
