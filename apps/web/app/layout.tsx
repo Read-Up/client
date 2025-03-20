@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { Head } from "@/components/shared/head";
 import { QueryProvider } from "@/lib";
+import { Pretendard } from "@readup/font";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head />
-      <body className="bg-background">
+      <body className={`bg-background ${Pretendard.className}`}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

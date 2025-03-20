@@ -1,0 +1,3 @@
+{
+  "extends": "@readup/typescript-config/react-library.json",
+}
