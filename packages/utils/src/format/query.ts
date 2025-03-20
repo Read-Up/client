@@ -23,7 +23,9 @@ export function deleteEmptyObj<T extends Record<string, any>>(obj: T, strType = 
         (item: string | number | boolean) => !item || item.toString().toUpperCase() === "ALL",
       );
 
-      return isEmpty && delete cloneObj[key];
+      if (isEmpty) {
+        return delete cloneObj[key];
+      }
     }
 
     if (typeof cloneObj[key] === "object") {

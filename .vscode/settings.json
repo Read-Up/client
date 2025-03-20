@@ -3,5 +3,7 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  // REF: https://eslint.org/docs/latest/use/configure/migration-guide#visual-studio-code-support
+  "eslint.useFlatConfig": true
 }

@@ -10,8 +10,9 @@ class API {
   API: KyInstance = clientApi;
 
   constructor(ky?: KyInstance) {
-    if (ky) this.API = ky;
-    else {
+    if (ky) {
+      this.API = ky;
+    } else {
       this.API = clientApi;
     }
   }
@@ -34,7 +35,10 @@ class API {
     // .catch(parseErrorData);
 
     const isValid = statusCode === "OK";
-    isValid && (await revalidateCache({ key: END_POINT.MAIN.예시1 }));
+
+    if (isValid) {
+      await revalidateCache({ key: END_POINT.MAIN.예시1 });
+    }
 
     return { isValid, message };
   }

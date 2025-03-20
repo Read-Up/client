@@ -42,7 +42,7 @@ export function convertBirthDate(date: string | undefined) {
 export const convertFormData = (data: { [key: string]: any }) => {
   const formData = new FormData();
 
-  data &&
+  if (data) {
     Object.keys(data).forEach((key) => {
       if (key === "img") {
         data[key].forEach((i: any) => {
@@ -52,7 +52,7 @@ export const convertFormData = (data: { [key: string]: any }) => {
         formData.append(key, data[key]);
       }
     });
-
+  }
   return formData;
 };
 

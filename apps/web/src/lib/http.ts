@@ -37,7 +37,9 @@ export class HttpError {
 
   static async gateway(error: HTTPError) {
     const { status, body } = error.response;
-    if (status === 404) return;
+    if (status === 404) {
+      return;
+    }
 
     return this.errorStatus(status);
   }

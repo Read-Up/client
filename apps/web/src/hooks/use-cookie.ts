@@ -22,7 +22,7 @@ export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   const deleteCookie = useCallback(() => {
     delCookie(name);
     setValue(defaultValue);
-  }, [name]);
+  }, [defaultValue, name]);
 
   return [value, updateCookie, deleteCookie];
 }

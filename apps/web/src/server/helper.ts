@@ -38,8 +38,12 @@ export const updateToken = async (AT: string, RT: string) => {
 
 export const revalidateCache = async ({ key = "", path = "" }) => {
   try {
-    key && revalidateTag(key);
-    path && revalidatePath(path);
+    if (key) {
+      revalidateTag(key);
+    }
+    if (path) {
+      revalidatePath(path);
+    }
     return true;
   } catch (e) {
     console.error(e);
