@@ -10,25 +10,31 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
-        pressed: "bg-primary_variant hover:bg-primary_variant/90",
-        secondary: "bg-white text-gray-30 hover:bg-gray-10",
-        disabled: "bg-gray-80 text-white hover:bg-gray-80/80",
-        outline: "border text-foreground bg-a_gray-50 font-semibold hover:bg-a_gray-100 hover:text-accent-foreground",
-        period: "text-background bg-a_gray-250 hover:bg-black",
-        ghost: "text-foreground hover:bg-accent hover:text-accent-foreground",
-        link: "text-foreground underline hover:underline",
-        modal: "border border-[#c8cad2] bg-background hover:bg-accent hover:text-accent-foreground",
+        default: 'bg-primary text-white hover:bg-primary/90',
+        pressed: 'bg-primary_variant hover:bg-primary_variant/90 text-white',
+        secondary: 'bg-white text-gray-30 hover:bg-gray-80',
+        disabled: 'bg-gray-80 text-white hover:bg-gray-80/80',
+        outline: 'border text-foreground bg-a_gray-50 font-semibold hover:bg-a_gray-100 hover:text-accent-foreground border-primary hover:border-primary/90 text-primary hover:text-primary/90',
+        period: 'text-background bg-a_gray-250 hover:bg-black',
+        ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground',
+        link: 'text-foreground underline hover:underline',
+        modal: 'border border-[#c8cad2] bg-background hover:bg-accent hover:text-accent-foreground',
+        disabled_outline: 'border border-gray-80 text-gray-80 hover:border-gray-80/80 hover:text-gray-80/80',
+        secondary_outline: 'border border-gray-30 text-gray-20 hover:border-gray-30/80 hover:text-gray-20/80',
+        text: 'text-primary hover:text-primary/90',
+        text_disabled: 'text-gray-90 hover:text-gray-90/80',
+        text_secondary: 'text-gray-30 hover:text-gray-30/80',
+        text_connected: 'text-gray-90 hover:text-gray-90/80 underline',
       },
       size: {
-        default: "px-5 h-[45px]",
-        sm: "h-6 px-3 text-sm",
-        supporting: "h-6 px-3 text-sm rounded-full",
-        lg: "h-[45px] w-[343px]",
-        full: "h-[45px] w-full",
-        icon: "h-[45px] w-[45px]",
-        icon_small: "h-5 w-5",
-        grid: "h-[26px] px-[6px] text-xs",
+        default: 'px-[20px] py-[12px] h-[45px]',  // figma padding 참조
+        sm: 'h-6 px-3 text-sm',
+        supporting: 'h-6 px-3 text-sm rounded-full',
+        lg: 'h-[45px] w-[343px]',
+        full: 'h-[45px] w-full',
+        icon: 'h-[45px] w-[45px]',
+        icon_small: 'h-5 w-5',
+        grid: 'h-[26px] px-[6px] text-xs',
       },
     },
     defaultVariants: {
@@ -40,7 +46,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+  VariantProps<typeof buttonVariants> { }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, ...props }, ref) => {
   return <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
