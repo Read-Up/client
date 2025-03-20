@@ -13,7 +13,8 @@
     "re-build": "pnpm install && pnpm build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "pre-commit": "pnpm lint && pnpm format && git add -A ."
+    "pre-commit": "pnpm lint && pnpm format && git add -A .",
+    "postinstall": "git config --local commit.template .gitcommit-message"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
