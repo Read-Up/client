@@ -2,8 +2,8 @@ import ky from "ky";
 // package
 import { parseJWT } from "@readup/utils";
 
-import { apiLogger, serverLogger, HttpError } from "@/_lib";
-import { END_POINT } from "@/_constant/end-point";
+import { apiLogger, serverLogger, HttpError } from "@/lib";
+import { END_POINT } from "@/constant/end-point";
 // import { getServerToken } from './helper';
 
 // ! direct backend api instance
