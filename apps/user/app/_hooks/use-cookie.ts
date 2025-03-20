@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 // package
-import { getCookie, setCookie, deleteCookie as delCookie } from '@repo/utils';
+import { getCookie, setCookie, deleteCookie as delCookie } from '@readup/utils';
 
 // ----------------------------------------------------------------------
 

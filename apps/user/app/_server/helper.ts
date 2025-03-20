@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { revalidatePath, revalidateTag } from 'next/cache';
 //package
-import { parseJWT } from '@repo/utils';
+import { parseJWT } from '@readup/utils';
 
 // ----------------------------------------------------------------------
 

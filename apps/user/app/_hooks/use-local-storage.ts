@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 // package
-import { getLocalStorage, setLocalStorage } from '@repo/utils';
+import { getLocalStorage, setLocalStorage } from '@readup/utils';
 
 // ----------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import { Button } from "@readup/ui/button";
 import Image, { type ImageProps } from "next/image";
 
 type Props = Omit<ImageProps, "src"> & {

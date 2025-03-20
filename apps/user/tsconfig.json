@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "@readup/typescript-config/nextjs.json",
   "compilerOptions": {
     "typeRoots": [
       "./app/_types/common/*",

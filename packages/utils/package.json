@@ -1,5 +1,5 @@
 {
-  "name": "@repo/utils",
+  "name": "@readup/utils",
   "version": "0.0.1",
   "private": true,
   "description": "A collection of utility functions",
@@ -10,8 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@readup/eslint-config": "workspace:*",
+    "@readup/typescript-config": "workspace:*",
     "@types/eslint": "^8.56.5",
     "@types/node": "^20.11.24",
     "eslint": "^9.8.0",

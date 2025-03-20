@@ -1,7 +1,7 @@
 import type { HTTPError } from 'ky';
 import { notFound } from 'next/navigation';
 // package
-import { UserException } from '@repo/utils';
+import { UserException } from '@readup/utils';
 
 // ----------------------------------------------------------------------
 
