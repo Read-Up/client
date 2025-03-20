@@ -1,10 +1,8 @@
-'use client';
+"use client";
 
-import { RefObject, useEffect, useRef, useLayoutEffect } from 'react';
+import { RefObject, useEffect, useRef, useLayoutEffect } from "react";
 
-// ----------------------------------------------------------------------
-
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export function useEventListener<K extends keyof WindowEventMap>(
   eventName: K,
@@ -49,7 +47,7 @@ export function useEventListener<
       return;
     }
 
-    const eventListener: typeof handler = event => savedHandler.current(event);
+    const eventListener: typeof handler = (event) => savedHandler.current(event);
 
     targetElement.addEventListener(eventName, eventListener, options);
 

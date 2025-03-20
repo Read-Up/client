@@ -1,10 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 // import { useShallow } from 'zustand/react/shallow';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// ----------------------------------------------------------------------
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   // ! 스토어에 로딩 만들고 전역으로 쓰시면 됩니다.
@@ -14,17 +12,17 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
     new QueryClient({
       defaultOptions: {
         queries: {
-          networkMode: 'offlineFirst',
+          networkMode: "offlineFirst",
           refetchOnWindowFocus: false,
           staleTime: 1000 * 60,
           retry: false,
         },
         mutations: {
-          networkMode: 'offlineFirst',
+          networkMode: "offlineFirst",
           onMutate: () => {
             // setLoading(true);
           },
-          onSettled: result => {
+          onSettled: (result) => {
             // setLoading(false);
           },
           // useErrorBoundary: true,
@@ -33,9 +31,5 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
     }),
   );
 
-  return (
-    <QueryClientProvider client={client}>
-      {children}
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 };

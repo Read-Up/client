@@ -1,8 +1,8 @@
 export class Base64 {
-  private static _keyStr: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+  private static _keyStr: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   private static _utf8_encode(string: string) {
-    string = string.replace(/\r\n/g, '\n');
-    let utftext = '';
+    string = string.replace(/\r\n/g, "\n");
+    let utftext = "";
 
     for (let n = 0; n < string.length; n++) {
       let c = string.charCodeAt(n);
@@ -23,7 +23,7 @@ export class Base64 {
   }
 
   private static _utf8_decode(utftext: string) {
-    let string = '';
+    let string = "";
     let i = 0;
     let c,
       c3,
@@ -52,7 +52,7 @@ export class Base64 {
 
   static encode(input: string) {
     if (!input) return input;
-    let output = '';
+    let output = "";
     let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
     let i = 0;
 
@@ -87,12 +87,12 @@ export class Base64 {
 
   static decode(input: string) {
     if (!input) return input;
-    let output = '';
+    let output = "";
     let chr1, chr2, chr3;
     let enc1, enc2, enc3, enc4;
     let i = 0;
 
-    input = decodeURIComponent(input).replace(/[^A-Za-z0-9\+\/\=]/g, '');
+    input = decodeURIComponent(input).replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
     while (i < input.length) {
       enc1 = this._keyStr.indexOf(input.charAt(i++));

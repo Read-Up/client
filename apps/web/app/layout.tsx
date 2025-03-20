@@ -18,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head />
-      <body className="bg-background" >
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+      <body className="bg-background">
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

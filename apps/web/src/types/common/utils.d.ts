@@ -19,7 +19,6 @@ type PaginationList<T> = {
 
 // ! 기본적으로 쓸만한 유틸타입들 정의 하였습니다 react setState등 타입 매번 만들지 말고 사용하시면 됩니다
 
-// ----------------------------------------------------------------------
 // ! object type
 
 type Obj = Record<string, unknown>;
@@ -34,7 +33,6 @@ type ValueOfKey<T, K extends keyof T> = T[K];
 
 type ObjKeyToArr<T extends Obj> = { [K in number]: keyof T };
 
-// ----------------------------------------------------------------------
 // ! array type
 
 type ArrayToUnion<A extends any[]> = A[number];
@@ -43,7 +41,6 @@ type ArrayObjToUnion<A extends Record<string, any>[], K extends string> = A[numb
 // ArrayToObject<B> = { a: 'a', b: 'b', c: 'c', d: 'd' }
 type ArrayToObject<V extends Array<string | number>> = { [K in V[number]]: string };
 
-// ----------------------------------------------------------------------
 // ! union type
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
@@ -60,14 +57,12 @@ type UnionToTuple<T, L = LastOf<T>, N = [T] extends [never] ? true : false> = tr
 
 type UnionToObj<U extends string> = { [K in U]: K };
 
-// ----------------------------------------------------------------------
 // ! react type
 
 type ReactSetter<T> = React.Dispatch<React.SetStateAction<T>>;
 
 type GetComponentProps<T> = T extends React.ComponentType<infer P> | React.Component<infer P> ? P : never;
 
-// ----------------------------------------------------------------------
 // ! function type
 
 // type Parameter<T> = T extends Function ? Parameters<T> : never;

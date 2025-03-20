@@ -1,12 +1,10 @@
-'use server';
+"use server";
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache";
 //package
-import { parseJWT } from '@readup/utils';
-
-// ----------------------------------------------------------------------
+import { parseJWT } from "@readup/utils";
 
 export const updateToken = async (AT: string, RT: string) => {
   const {
@@ -21,8 +19,6 @@ export const updateToken = async (AT: string, RT: string) => {
 
   // return accountType === 'ADMIN' ? redirect('/admin') : redirect('/supplier');
 };
-
-// ----------------------------------------------------------------------
 
 // export async function getServerToken<T>(key: string): Promise<T | null>;
 // export async function getServerToken<T>(key: string, defaultValue: T): Promise<T>;
@@ -40,7 +36,7 @@ export const updateToken = async (AT: string, RT: string) => {
 //   typeof key === 'string' ? cookies().delete(key) : key.forEach(k => cookies().delete(k));
 // }
 
-export const revalidateCache = async ({ key = '', path = '' }) => {
+export const revalidateCache = async ({ key = "", path = "" }) => {
   try {
     key && revalidateTag(key);
     path && revalidatePath(path);

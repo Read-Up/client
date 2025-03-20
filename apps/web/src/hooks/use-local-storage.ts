@@ -1,10 +1,8 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 // package
-import { getLocalStorage, setLocalStorage } from '@readup/utils';
-
-// ----------------------------------------------------------------------
+import { getLocalStorage, setLocalStorage } from "@readup/utils";
 
 export function useLocalStorage<ValueType>(key: string, defaultValue: ValueType) {
   const [value, setValue] = useState(() => {
@@ -19,16 +17,16 @@ export function useLocalStorage<ValueType>(key: string, defaultValue: ValueType)
         setValue(e.newValue ? JSON.parse(e.newValue) : e.newValue);
       }
     };
-    window.addEventListener('storage', listener);
+    window.addEventListener("storage", listener);
 
     return () => {
-      window.removeEventListener('storage', listener);
+      window.removeEventListener("storage", listener);
     };
   }, [key, defaultValue]);
 
   const setValueInLocalStorage = (newValue: ValueType) => {
     setValue((currentValue: ValueType) => {
-      const result = typeof newValue === 'function' ? newValue(currentValue) : newValue;
+      const result = typeof newValue === "function" ? newValue(currentValue) : newValue;
 
       setLocalStorage(key, JSON.stringify(result));
 

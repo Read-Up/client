@@ -1,6 +1,4 @@
-import { z } from 'zod';
-
-// ----------------------------------------------------------------------
+import { z } from "zod";
 
 const StringSchema = z.string();
 
@@ -20,7 +18,7 @@ const IdSchema = z.string().regex(/^[a-zA-Z0-9]{4,20}$/);
 
 const PasswordSchema = z.string().regex(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,20}$/);
 
-const SexSchema = z.enum(['남', '여']);
+const SexSchema = z.enum(["남", "여"]);
 
 const ZipAddressSchema = z.string().length(5);
 
@@ -30,9 +28,8 @@ const EnumSchema = (type: [string, ...string[]]) => z.enum(type);
 
 const AccountNumberSchema = z.string().regex(/^(?:\d+-?){10,13}\d$/);
 
-const AmountSchema = z.preprocess(a => parseInt(z.string().parse(a)), z.number());
+const AmountSchema = z.preprocess((a) => parseInt(z.string().parse(a)), z.number());
 
-// ----------------------------------------------------------------------
 // ! 공통 스키마
 
 const OptionalSchema = {
@@ -52,7 +49,6 @@ const OptionalSchema = {
   AmountSchema,
   SexSchema,
 };
-
 
 export { OptionalSchema };
 // export type { MemberSchemaType, SellerSchemaType, BulkLogRowSchemaType, BulkLogOrderSchemaType };

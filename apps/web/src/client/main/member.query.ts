@@ -1,15 +1,11 @@
-'use client';
+"use client";
 
-import { useQueries, useQuery, useSuspenseQueries, useSuspenseQuery } from '@tanstack/react-query';
+import { useQueries, useQuery, useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
 
-import { MemberAPI } from './member-api';
-import { END_POINT } from '@/_constant/end-point';
+import { MemberAPI } from "./member-api";
+import { END_POINT } from "@/_constant/end-point";
 
-// ----------------------------------------------------------------------
-
-export const useMemPointAllListQuery = (
-  open: boolean,
-) => {
+export const useMemPointAllListQuery = (open: boolean) => {
   const queryFn = () => MemberAPI.getMainList();
 
   return useQuery({
@@ -18,4 +14,3 @@ export const useMemPointAllListQuery = (
     enabled: open,
   });
 };
-

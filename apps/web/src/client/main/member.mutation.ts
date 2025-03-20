@@ -1,10 +1,8 @@
-'use client';
+"use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 // package
-import { MemberAPI } from './member-api';
-
-// ----------------------------------------------------------------------
+import { MemberAPI } from "./member-api";
 
 export const useCreateMemMutation = () => {
   const mutationFn = () => MemberAPI.createMain();

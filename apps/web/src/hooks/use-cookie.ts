@@ -1,16 +1,14 @@
-'use client';
+"use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // package
-import { getCookie, setCookie, deleteCookie as delCookie } from '@readup/utils';
-
-// ----------------------------------------------------------------------
+import { getCookie, setCookie, deleteCookie as delCookie } from "@readup/utils";
 
 export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   const [value, setValue] = useState(() => {
     const cookie = getCookie(name, defaultValue);
 
-    return typeof cookie === 'function' ? cookie() : cookie;
+    return typeof cookie === "function" ? cookie() : cookie;
   });
 
   const updateCookie = useCallback(

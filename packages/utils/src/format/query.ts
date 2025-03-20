@@ -1,7 +1,7 @@
-export function parseQueryToObj<T extends Record<string, string>>(obj: T, arraryKey = '|') {
+export function parseQueryToObj<T extends Record<string, string>>(obj: T, arraryKey = "|") {
   const newQuery = structuredClone(obj) as Record<string, any>;
 
-  Object.keys(newQuery).forEach(key => {
+  Object.keys(newQuery).forEach((key) => {
     if (newQuery[key]?.includes(arraryKey)) {
       newQuery[key] = newQuery[key].split(arraryKey);
     }
@@ -10,25 +10,23 @@ export function parseQueryToObj<T extends Record<string, string>>(obj: T, arrary
   return newQuery;
 }
 
-// ----------------------------------------------------------------------
-
-export function deleteEmptyObj<T extends Record<string, any>>(obj: T, strType = 'ALL') {
+export function deleteEmptyObj<T extends Record<string, any>>(obj: T, strType = "ALL") {
   const cloneObj = structuredClone(obj);
 
-  Object.keys(cloneObj).forEach(key => {
+  Object.keys(cloneObj).forEach((key) => {
     if (!cloneObj[key]) {
       return delete cloneObj[key];
     }
 
     if (Array.isArray(cloneObj[key])) {
       const isEmpty = cloneObj[key].every(
-        (item: string | number | boolean) => !item || item.toString().toUpperCase() === 'ALL',
+        (item: string | number | boolean) => !item || item.toString().toUpperCase() === "ALL",
       );
 
       return isEmpty && delete cloneObj[key];
     }
 
-    if (typeof cloneObj[key] === 'object') {
+    if (typeof cloneObj[key] === "object") {
       return deleteEmptyObj(cloneObj[key]);
     }
 
@@ -40,14 +38,12 @@ export function deleteEmptyObj<T extends Record<string, any>>(obj: T, strType = 
   return cloneObj;
 }
 
-// ----------------------------------------------------------------------
-
-export function delEmptyArrParams<T extends Record<string, string>>(searchParmas?: T, arrType = '|') {
+export function delEmptyArrParams<T extends Record<string, string>>(searchParmas?: T, arrType = "|") {
   if (!searchParmas) return searchParmas;
 
   const copyData = structuredClone(searchParmas);
 
-  const condition = copyData && Object.keys(copyData).some(item => copyData[item]?.includes(arrType));
+  const condition = copyData && Object.keys(copyData).some((item) => copyData[item]?.includes(arrType));
 
   if (!condition) return copyData;
 
@@ -55,15 +51,13 @@ export function delEmptyArrParams<T extends Record<string, string>>(searchParmas
     if (copyData[key]?.includes(arrType)) {
       copyData[key] = copyData[key]
         ?.split(arrType)
-        .filter(item => item)
+        .filter((item) => item)
         .join(arrType) as T[Extract<keyof T, string>];
     }
   }
 
   return copyData;
 }
-
-// ----------------------------------------------------------------------
 
 export function mergeQuery<T extends Record<string, any>>(defaultValue: T, query: Partial<T>) {
   return {
@@ -72,13 +66,11 @@ export function mergeQuery<T extends Record<string, any>>(defaultValue: T, query
   };
 }
 
-// ----------------------------------------------------------------------
-
-export function StrToArrWithForm<T extends string[]>(str: string, arr: T, arrType = '|') {
-  if (!str) return arr.map(() => '');
+export function StrToArrWithForm<T extends string[]>(str: string, arr: T, arrType = "|") {
+  if (!str) return arr.map(() => "");
 
   const parseStr = str.split(arrType);
-  const new_form_arr = arr.map(item => (parseStr.includes(item) ? item : ''));
+  const new_form_arr = arr.map((item) => (parseStr.includes(item) ? item : ""));
 
   return new_form_arr;
 }

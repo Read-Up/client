@@ -1,8 +1,6 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
-
-// ----------------------------------------------------------------------
+import { useCallback, useState } from "react";
 
 interface ReturnType {
   value: boolean;
@@ -24,7 +22,7 @@ export function useBoolean(defaultValue?: boolean): ReturnType {
   }, []);
 
   const onToggle = useCallback(() => {
-    setValue(prev => !prev);
+    setValue((prev) => !prev);
   }, []);
 
   return {

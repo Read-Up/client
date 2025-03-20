@@ -1,5 +1,5 @@
 export async function delay(ms: number, promiseFn?: () => Promise<any>) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       if (promiseFn) {
         promiseFn().then(resolve);
@@ -9,24 +9,18 @@ export async function delay(ms: number, promiseFn?: () => Promise<any>) {
   });
 }
 
-// ----------------------------------------------------------------------
-
 export const isEmpty = (param: { [keys: string]: any } | any[] | string | null | undefined): boolean => {
   if (!param) return true;
 
   return !Object.keys(param).length;
 };
 
-// ----------------------------------------------------------------------
-
 export const isClient = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     return true;
   }
   return false;
 };
-
-// ----------------------------------------------------------------------
 
 export const measureTime = (action: () => void) => {
   const startTime = performance.now();
@@ -35,27 +29,22 @@ export const measureTime = (action: () => void) => {
   return `${parseFloat((endTime - startTime).toFixed(3))}ms`;
 };
 
-// ----------------------------------------------------------------------
-
 export const measureTimeConsole = (action: () => void, text?: string) => {
-  const logText = text ?? 'measureTimeConsole';
+  const logText = text ?? "measureTimeConsole";
   console.time(logText);
   action();
   console.timeEnd(logText);
 };
 
-// ----------------------------------------------------------------------
-
 export const isErrorWithMessage = (error: unknown): error is { message: string } => {
   return (
-    typeof error === 'object' &&
+    typeof error === "object" &&
     error !== null &&
-    'message' in error &&
-    typeof (error as Record<string, unknown>).message === 'string'
+    "message" in error &&
+    typeof (error as Record<string, unknown>).message === "string"
   );
 };
 
-// ----------------------------------------------------------------------
 // TODO : [PACKAGE] 파일 타입 비교
 // export const validateFileType = (type:string): string => {
 
