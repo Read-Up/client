@@ -2,8 +2,8 @@
 
 import { Button } from "@repo/ui/button";
 import { TextBox } from "@repo/ui/textbox/default";
-import { LinearProgress } from "@repo/ui/linear_progress/default";
-import { CircularProgress } from "@repo/ui/circular_progress/default";
+import { LinearProgress } from "@repo/ui/progress/linear/default";
+import { CircularProgress } from "@repo/ui/progress/circular/default";
 import Image, { type ImageProps } from "next/image";
 import React from "react";
 
