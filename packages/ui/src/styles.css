@@ -15,6 +15,7 @@
   --color-secondary_variant: oklch(54.36% 0.0766 189.33);
   --color-surface: oklch(28.05% 0.0308 252.71);
   --color-error: oklch(67.46% 0.1915 23.44);
+  --color-progress_background: oklch(62.68% 0 0);
 
   --color-gray-10: oklch(21.32% 0.0042 264.48);
   --color-gray-20: oklch(31.99% 0.0045 247.97);

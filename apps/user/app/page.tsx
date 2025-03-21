@@ -2,6 +2,8 @@
 
 import { Button } from "@repo/ui/button";
 import { TextBox } from "@repo/ui/textbox/default";
+import { LinearProgress } from "@repo/ui/linear_progress/default";
+import { CircularProgress } from "@repo/ui/circular_progress/default";
 import Image, { type ImageProps } from "next/image";
 import React from "react";
 
@@ -16,6 +18,7 @@ export default function Home() {
       <div className="h-full flex-center flex-col gap-5 p-5">
         {Buttons()}
         {TextBoxes()}
+        {ProgressBar()}
       </div>
     </main>
   );
@@ -142,6 +145,33 @@ function TextBoxes() {
         <TextBox placeholder='안내문구가 입력됩니다.' variant='chapterbox' value='사용자 입력 시' onChange={() => { }} index={1} />
         <TextBox placeholder='안내문구가 입력됩니다.' variant='error_chapterbox' value='오류 발견' onChange={() => { }} index={1} />
         <TextBox placeholder='안내문구가 입력됩니다.' variant='chapterbox' value='순서 변경 시' onChange={() => { }} index={1} change={true} />
+      </div>
+    </React.Fragment>
+  )
+}
+
+function ProgressBar() {
+  return (
+    <React.Fragment>
+      <h1 className="text-4xl font-bold text-white w-full ">Progress Bar</h1>
+      <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3 bg-white">
+        <h1 className="text-2xl font-bold text-black">Linear Progress</h1>
+        <h2 className="text-base font-bold text-black">Default</h2>
+        <LinearProgress value={50} />
+        <h2 className="text-base font-bold text-black">Height: 4px</h2>
+        <LinearProgress value={70} height={4} />
+        <h2 className="text-base font-bold text-black">Height: 8px</h2>
+        <LinearProgress value={100} height={8} />
+      </div>
+
+      <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3 bg-white">
+        <h1 className="text-2xl font-bold text-black">Circular Progress</h1>
+        <h2 className="text-base font-bold text-black">Default (50px)</h2>
+        <CircularProgress value={50} />
+        <h2 className="text-base font-bold text-black">Size: 100px</h2>
+        <CircularProgress value={70} size={100} />
+        <h2 className="text-base font-bold text-black">Size: 200px, Stroke: 10px</h2>
+        <CircularProgress value={90} size={200} strokeWidth={10} />
       </div>
     </React.Fragment>
   )
