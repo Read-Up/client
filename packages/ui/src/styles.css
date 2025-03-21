@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --font-display: "Pretendard", "system-ui", "sans-serif";
@@ -8,6 +8,7 @@
   --color-background: oklch(20.12% 0.0218 251.84);
   --color-foreground: oklch(100% 0 0);
 
+  --color-on_primary: oklch(100% 0 0);
   --color-primary: oklch(64.6% 0.1423 253.92);
   --color-primary_variant: oklch(52.55% 0.0912 246.3);
   --color-secondary: oklch(76.34% 0.1297 189.1);
@@ -66,7 +67,6 @@
 }
 
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -81,7 +81,6 @@
     font-family: "Pretendard", "system-ui", "sans-serif";
   }
 }
-
 
 thead {
   top: 0;
@@ -102,7 +101,7 @@ thead {
   }
 }
 
-details>summary {
+details > summary {
   list-style: none;
 }
 
@@ -110,13 +109,12 @@ details>summary::marker,
 /* Latest Chrome, Edge, Firefox */
 details>summary::-webkit-details-marker
 
-/* Safari */
-  {
+/* Safari */ {
   display: none;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-out-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-out-spin-button {
   -webkit-appearance: none;
 
   -moz-appearance: none;
