@@ -4,6 +4,7 @@ import { Button } from "@repo/ui/button";
 import { TextBox } from "@repo/ui/textbox/default";
 import { LinearProgress } from "@repo/ui/progress/linear/default";
 import { CircularProgress } from "@repo/ui/progress/circular/default";
+import { Modal } from "@repo/ui/modal/default";
 import Image, { type ImageProps } from "next/image";
 import React from "react";
 
@@ -19,6 +20,7 @@ export default function Home() {
         {Buttons()}
         {TextBoxes()}
         {ProgressBar()}
+        {Modals()}
       </div>
     </main>
   );
@@ -172,6 +174,33 @@ function ProgressBar() {
         <CircularProgress value={70} size={100} />
         <h2 className="text-base font-bold text-black">Size: 200px, Stroke: 10px</h2>
         <CircularProgress value={90} size={200} strokeWidth={10} />
+      </div>
+    </React.Fragment>
+  )
+}
+
+function Modals() {
+  const [textModalOpen, setTextModalOpen] = React.useState<boolean>(false);
+  const [containedModalOpen, setContainedModalOpen] = React.useState<boolean>(false);
+
+  const handleTextModalOpen = () => {
+    setTextModalOpen(true);
+  }
+
+  const handleContainedModalOpen = () => {
+    setContainedModalOpen(true);
+  }
+
+  return (
+    <React.Fragment>
+      <h1 className="text-4xl font-bold text-white w-full">Modals</h1>
+      <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3">
+        <div className="w-full flex flex-row justify-center items-center gap-5">
+          <Button onClick={handleTextModalOpen}>Text</Button>
+          <Button onClick={handleContainedModalOpen}>Contained</Button>
+          <Modal title="타이틀을 입력합니다" subtext="서브텍스트를 입력합니다" onClose={() => setTextModalOpen(false)} onConfirm={() => setTextModalOpen(false)} confirmText="확인" cancelText="취소" open={textModalOpen} variant="text" />
+          <Modal title="타이틀을 입력합니다" subtext="서브텍스트를 입력합니다" onClose={() => setContainedModalOpen(false)} onConfirm={() => setContainedModalOpen(false)} confirmText="확인" cancelText="취소" open={containedModalOpen} />
+        </div>
       </div>
     </React.Fragment>
   )
