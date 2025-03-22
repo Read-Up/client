@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --font-display: "Pretendard", "system-ui", "sans-serif";
@@ -8,12 +8,14 @@
   --color-background: oklch(20.12% 0.0218 251.84);
   --color-foreground: oklch(100% 0 0);
 
+  --color-on_primary: oklch(100% 0 0);
   --color-primary: oklch(64.6% 0.1423 253.92);
   --color-primary_variant: oklch(52.55% 0.0912 246.3);
   --color-secondary: oklch(76.34% 0.1297 189.1);
   --color-secondary_variant: oklch(54.36% 0.0766 189.33);
   --color-surface: oklch(28.05% 0.0308 252.71);
   --color-error: oklch(67.46% 0.1915 23.44);
+  --color-progress_background: oklch(62.68% 0 0);
 
   --color-gray-10: oklch(21.32% 0.0042 264.48);
   --color-gray-20: oklch(31.99% 0.0045 247.97);
@@ -40,9 +42,13 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+  --radius-modal: 12px;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --text-modal_title: 20px;
+  --text-modal_subtext: 16px;
 
   @keyframes accordion-down {
     from {
@@ -66,7 +72,6 @@
 }
 
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -81,7 +86,6 @@
     font-family: "Pretendard", "system-ui", "sans-serif";
   }
 }
-
 
 thead {
   top: 0;
@@ -102,7 +106,7 @@ thead {
   }
 }
 
-details>summary {
+details > summary {
   list-style: none;
 }
 
@@ -110,13 +114,12 @@ details>summary::marker,
 /* Latest Chrome, Edge, Firefox */
 details>summary::-webkit-details-marker
 
-/* Safari */
-  {
+/* Safari */ {
   display: none;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-out-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-out-spin-button {
   -webkit-appearance: none;
 
   -moz-appearance: none;
