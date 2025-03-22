@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
-import { Button } from '@repo/ui/button';
+import { Button } from '@readup/ui/button';
 
 const modalContentVariants = cva(
   'relative w-[337px] h-[178px] bg-white rounded-modal shadow-lg p-6 text-center',
