@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 interface LinearProgressProps {
   value: number; // 진행률 (%)
@@ -17,10 +17,7 @@ const LinearProgress: React.FC<LinearProgressProps> = ({ value, max = 100, heigh
       className="w-full bg-progress_background rounded-full overflow-hidden"
       style={{ height: `${height}px`, minHeight: `${height}px` }}
     >
-      <div
-        className="h-full bg-primary transition-all duration-300 ease-in-out"
-        style={{ width: `${percentage}%` }}
-      />
+      <div className="h-full bg-primary transition-all duration-300 ease-in-out" style={{ width: `${percentage}%` }} />
     </div>
   );
 };

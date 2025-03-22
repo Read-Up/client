@@ -22,8 +22,8 @@ const meta = {
         type: "select",
       },
       options: ["default", "sm", "supporting", "lg", "full", "icon", "icon_small", "grid"],
-    }
-  }
+    },
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
