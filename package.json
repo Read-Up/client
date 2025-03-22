@@ -13,10 +13,12 @@
     "re-build": "pnpm install && pnpm build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "pre-commit": "pnpm lint && pnpm format && git add -A .",
+    "prepare": "husky",
+    "pre-commit": "pnpm lint && pnpm format",
     "postinstall": "git config --local commit.template .gitcommit-message"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
     "typescript": "5.8.2"
