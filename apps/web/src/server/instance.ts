@@ -1,6 +1,5 @@
 import ky from "ky";
 // package
-import { parseJWT } from "@readup/utils";
 
 import { apiLogger, serverLogger, HttpError } from "@/lib";
 import { END_POINT } from "@/constant/end-point";

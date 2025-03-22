@@ -22,9 +22,9 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
           onMutate: () => {
             // setLoading(true);
           },
-          onSettled: (result) => {
-            // setLoading(false);
-          },
+          // onSettled: (result) => {
+          // setLoading(false);
+          // },
           // useErrorBoundary: true,
         },
       },

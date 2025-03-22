@@ -30,13 +30,13 @@ export class HttpError {
   }
 
   static async backend(error: HTTPError) {
-    const { status, body } = error.response;
+    const { status } = error.response;
 
     return this.errorStatus(status);
   }
 
   static async gateway(error: HTTPError) {
-    const { status, body } = error.response;
+    const { status } = error.response;
     if (status === 404) {
       return;
     }

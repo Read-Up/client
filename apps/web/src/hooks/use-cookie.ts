@@ -12,7 +12,7 @@ export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   });
 
   const updateCookie = useCallback(
-    (newValue: any, options: any) => {
+    (newValue: unknown, options: unknown) => {
       setCookie(name, newValue, options);
       setValue(newValue);
     },

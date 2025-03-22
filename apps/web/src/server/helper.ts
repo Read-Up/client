@@ -1,24 +1,24 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+// import { cookies } from "next/headers";
+// import { redirect } from "next/navigation";
 import { revalidatePath, revalidateTag } from "next/cache";
 //package
-import { parseJWT } from "@readup/utils";
+// import { parseJWT } from "@readup/utils";
 
-export const updateToken = async (AT: string, RT: string) => {
-  const {
-    claims: { accountType },
-  } = parseJWT(AT);
+// export const updateToken = async (AT: string, RT: string) => {
+//   const {
+//     claims: { accountType },
+//   } = parseJWT(AT);
 
-  // await cookies().set({
-  //   name: 'name',
-  //   value: AT,
-  //   ...LOGIN_TOKEN_OPTION,
-  // });
+// await cookies().set({
+//   name: 'name',
+//   value: AT,
+//   ...LOGIN_TOKEN_OPTION,
+// });
 
-  // return accountType === 'ADMIN' ? redirect('/admin') : redirect('/supplier');
-};
+// return accountType === 'ADMIN' ? redirect('/admin') : redirect('/supplier');
+// };
 
 // export async function getServerToken<T>(key: string): Promise<T | null>;
 // export async function getServerToken<T>(key: string, defaultValue: T): Promise<T>;

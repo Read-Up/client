@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 // package
 import { MemberAPI } from "./member-api";
 
@@ -9,8 +9,8 @@ export const useCreateMemMutation = () => {
 
   return useMutation({
     mutationFn,
-    onSuccess: ({ isValid, message }) => {
-      // toast[isValid ? 'success' : 'error'](CUSTOMER_MESSAGE.REGISTER.register(isValid, message));
-    },
+    // onSuccess: ({ isValid, message }) => {
+    // toast[isValid ? 'success' : 'error'](CUSTOMER_MESSAGE.REGISTER.register(isValid, message));
+    // },
   });
 };

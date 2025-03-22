@@ -9,10 +9,10 @@ declare module "ky" {
 }
 
 declare module "@tanstack/react-table" {
-  export interface TableMeta<TData extends unknown> {
+  export interface TableMeta<TData> {
     addRow: (row?: TData) => void;
     deleteRow?: (...idx: number[]) => void;
-    updateData: (rowIndex: number, columnId: string, value: any) => void;
+    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
     insertData?: (data: TData[]) => void;
   }
 }

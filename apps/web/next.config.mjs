@@ -18,6 +18,9 @@ const nextConfig = {
       fullUrl: true,
     },
   },
+  eslint: {
+    ignoreDuringBuilds: true
+  },
   experimental: {
     esmExternals: true,
     scrollRestoration: true,

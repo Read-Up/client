@@ -1,6 +1,6 @@
 "use client";
 
-import { useQueries, useQuery, useSuspenseQueries, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { MemberAPI } from "./member-api";
 import { END_POINT } from "@/constant/end-point";
