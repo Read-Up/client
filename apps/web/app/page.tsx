@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from "@readup/ui/button";
 import { TextBox } from "@readup/ui/textbox/default";
 import { LinearProgress } from "@readup/ui/progress/linear/default";
@@ -15,7 +17,7 @@ export default function Home() {
   return (
     <main className="container mx-auto">
       <div className="h-full flex-center flex-col gap-5 p-5">
-        {Buttons()}
+        {/* {Buttons()} */}
         {TextBoxes()}
         {ProgressBar()}
         {Modals()}
@@ -35,9 +37,6 @@ function Buttons() {
           <Button variant="pressed">Pressed</Button>
           <Button variant="disabled">Disabled</Button>
           <Button variant="secondary">Secondary</Button>
-          {/* <Button variant='disabled' >일반사이즈</Button> */}
-          {/* <Button variant='default' size='sm' >작은사이즈</Button> */}
-          {/* <Button variant='default' size='lg' >큰사이즈</Button> */}
         </div>
       </div>
       <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3">
@@ -162,7 +161,7 @@ function TextBoxes() {
           placeholder="안내문구가 입력됩니다."
           variant="error"
           value={"오류 발견 시, 텍스트 색상은 ‘on primary’ 유지"}
-          onChange={() => {}}
+          onChange={() => { }}
         />
         <TextBox
           className="rounded-full"
@@ -177,7 +176,7 @@ function TextBoxes() {
           placeholder="안내문구가 입력됩니다."
           variant="error"
           value={"오류 발견 시, 텍스트 색상은 ‘on primary’ 유지"}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3">
@@ -194,7 +193,7 @@ function TextBoxes() {
           value={
             "따스한 햇살이 스며듭니다. 차가운 공기는 어느새 옅은 미풍으로 변해가며, 나뭇가지 끝에는 작은 새싹이 모습을 드러냅니다. 이윽고 나무들은 조금씩 연두빛을 띠기 시작하고, 기다란 가지는 새로운 생명을 향해 뻗어갑니다. 봄은 언제나 그러하듯 천천히, 조용히 다가오지만, 그 변화는 미세하면서도 놀랍도록 분명합니다. 사람들"
           }
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <div className="w-full flex flex-col p-5 border-dashed border-2 border-[#9747FF] rounded-[5px] gap-3">
@@ -211,21 +210,21 @@ function TextBoxes() {
           placeholder="안내문구가 입력됩니다."
           variant="chapterbox"
           value="사용자 입력 시"
-          onChange={() => {}}
+          onChange={() => { }}
           index={1}
         />
         <TextBox
           placeholder="안내문구가 입력됩니다."
           variant="error_chapterbox"
           value="오류 발견"
-          onChange={() => {}}
+          onChange={() => { }}
           index={1}
         />
         <TextBox
           placeholder="안내문구가 입력됩니다."
           variant="chapterbox"
           value="순서 변경 시"
-          onChange={() => {}}
+          onChange={() => { }}
           index={1}
           change={true}
         />
