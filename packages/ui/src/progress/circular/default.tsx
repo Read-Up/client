@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-interface CircularProgressProps {
+export interface CircularProgressProps {
   value: number; // 진행률 (%)
   size?: number; // SVG 크기
   strokeWidth?: number; // 테두리 두께
