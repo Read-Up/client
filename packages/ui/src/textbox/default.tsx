@@ -57,9 +57,9 @@ const indexVariants = cva(
 
 export interface TextBoxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, "onSubmit">,
-    VariantProps<typeof textBoxVariants> {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  VariantProps<typeof textBoxVariants> {
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   index?: number; // 챕터박스의 인덱스
   change?: boolean; // 챕터박스에서 순서 변경 가능 여부
