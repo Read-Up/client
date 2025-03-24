@@ -18,11 +18,11 @@ const modalContentVariants = cva("relative w-[337px] h-[178px] bg-white rounded-
 });
 
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof modalContentVariants> {
-  open: boolean;
-  title: string;
-  subtext: string;
-  onClose: () => void;
-  onConfirm: () => void;
+  open?: boolean;
+  title?: string;
+  subtext?: string;
+  onClose?: () => void;
+  onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
 }
