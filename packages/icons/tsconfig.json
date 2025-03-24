@@ -1,0 +1,10 @@
+{
+  "extends": "@readup/typescript-config/react-library.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["src", "**/*.ts"],
+  "exclude": ["dist", "build", "node_modules"]
+}
