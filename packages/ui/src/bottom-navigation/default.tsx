@@ -14,7 +14,7 @@ export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationPro
   ] as const;
 
   return (
-    <nav className="absolute bottom-0 w-full flex flex-row bg-surface text-white items-center" style={{ justifyContent: "space-evenly", height: "90px" }}>
+    <nav className="absolute bottom-0 w-full flex flex-row bg-surface text-white items-center h-[90px] justify-evenly" >
       {tabs.map(({ key, label, icon: Icon }) => {
         const isActive = activeTab === key;
         return (
