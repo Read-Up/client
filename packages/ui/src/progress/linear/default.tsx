@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-interface LinearProgressProps {
+export interface LinearProgressProps {
   value: number; // 진행률 (%)
   max?: number; // 최대값 (기본값: 100)
   height?: number; // 높이 (기본값: 2px)
