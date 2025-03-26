@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
+import React from "react";
 import { BottomNavigation } from "./default";
 
 const meta: Meta<typeof BottomNavigation> = {
@@ -16,12 +16,17 @@ type Story = StoryObj<typeof BottomNavigation>;
 
 export const Interactive: Story = {
   render: () => {
-    const [tab, setTab] = useState<"library" | "home" | "mypage">("home");
-    return (
-      <div className="w-full bg-black p-4">
-        <BottomNavigation activeTab={tab} onTabChange={setTab} />
-      </div>
-    );
+    const BottomNavWithState = () => {
+      const [tab, setTab] = React.useState<"library" | "home" | "mypage">("home");
+
+      return (
+        <div className="w-full h-[90px]">
+          <BottomNavigation activeTab={tab} onTabChange={setTab} />
+        </div>
+      );
+    };
+
+    return <BottomNavWithState />;
   },
   args: {},
 };

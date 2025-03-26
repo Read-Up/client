@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Modal, type ModalProps } from "./default";
+import { Modal } from "./default";
 import { Button } from "@readup/ui/button";
 import React from "react";
 
@@ -19,24 +19,28 @@ type Story = StoryObj<typeof Modal>;
 
 export const TextModalWithTrigger: Story = {
   render: (args) => {
-    const [open, setOpen] = React.useState(false);
+    const TextModalWithState = () => {
+      const [open, setOpen] = React.useState(false);
 
-    return (
-      <>
-        <Button variant="outline" onClick={() => setOpen(true)}>
-          텍스트 모달 열기
-        </Button>
-        <Modal
-          {...args}
-          open={open}
-          onClose={() => setOpen(false)}
-          onConfirm={() => {
-            args.onConfirm?.(); // Storybook Action 패널에서도 확인 가능
-            setOpen(false);
-          }}
-        />
-      </>
-    );
+      return (
+        <>
+          <Button variant="outline" onClick={() => setOpen(true)}>
+            텍스트 모달 열기
+          </Button>
+          <Modal
+            {...args}
+            open={open}
+            onClose={() => setOpen(false)}
+            onConfirm={() => {
+              args.onConfirm?.();
+              setOpen(false);
+            }}
+          />
+        </>
+      );
+    };
+
+    return <TextModalWithState />;
   },
   args: {
     variant: "text",
@@ -49,22 +53,26 @@ export const TextModalWithTrigger: Story = {
 
 export const ContainedModalWithTrigger: Story = {
   render: (args) => {
-    const [open, setOpen] = React.useState(false);
+    const ContainedModalWithState = () => {
+      const [open, setOpen] = React.useState(false);
 
-    return (
-      <>
-        <Button onClick={() => setOpen(true)}>Contained 모달 열기</Button>
-        <Modal
-          {...args}
-          open={open}
-          onClose={() => setOpen(false)}
-          onConfirm={() => {
-            args.onConfirm?.();
-            setOpen(false);
-          }}
-        />
-      </>
-    );
+      return (
+        <>
+          <Button onClick={() => setOpen(true)}>Contained 모달 열기</Button>
+          <Modal
+            {...args}
+            open={open}
+            onClose={() => setOpen(false)}
+            onConfirm={() => {
+              args.onConfirm?.();
+              setOpen(false);
+            }}
+          />
+        </>
+      );
+    };
+
+    return <ContainedModalWithState />;
   },
   args: {
     variant: "contained",

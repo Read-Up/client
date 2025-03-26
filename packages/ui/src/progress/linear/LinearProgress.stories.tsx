@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import React, { useState } from "react";
+import React from "react";
 import { LinearProgress } from "./default";
 
 const meta = {

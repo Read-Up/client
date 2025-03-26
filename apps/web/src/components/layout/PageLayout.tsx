@@ -13,9 +13,15 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   const router = useRouter();
 
   const getActiveTab = (): "home" | "library" | "mypage" | undefined => {
-    if (pathname === "/" || pathname.startsWith("/home")) return "home";
-    if (pathname.startsWith("/library")) return "library";
-    if (pathname.startsWith("/mypage")) return "mypage";
+    if (pathname === "/" || pathname.startsWith("/home")) {
+      return "home";
+    }
+    if (pathname.startsWith("/library")) {
+      return "library";
+    }
+    if (pathname.startsWith("/mypage")) {
+      return "mypage";
+    }
     return undefined;
   };
 
