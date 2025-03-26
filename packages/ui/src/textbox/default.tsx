@@ -57,7 +57,7 @@ const indexVariants = cva(
 
 export interface TextBoxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>, "onSubmit">,
-  VariantProps<typeof textBoxVariants> {
+    VariantProps<typeof textBoxVariants> {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;

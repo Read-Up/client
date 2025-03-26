@@ -14,7 +14,7 @@ export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationPro
   ] as const;
 
   return (
-    <nav className="absolute bottom-0 w-full flex flex-row bg-surface text-white items-center h-[90px] justify-evenly" >
+    <nav className="absolute bottom-0 w-full flex flex-row bg-surface text-white items-center h-[90px] justify-evenly">
       {tabs.map(({ key, label, icon: Icon }) => {
         const isActive = activeTab === key;
         return (
@@ -24,9 +24,7 @@ export const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationPro
             className="flex flex-col items-center justify-center gap-1 text-sm cursor-pointer"
           >
             <Icon size={24} className={isActive ? "text-primary" : "text-white"} />
-            <span className={isActive ? "text-primary font-medium" : "text-white"}>
-              {label}
-            </span>
+            <span className={isActive ? "text-primary font-medium" : "text-white"}>{label}</span>
           </button>
         );
       })}

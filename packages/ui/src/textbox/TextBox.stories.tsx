@@ -74,11 +74,7 @@ export const TextBoxComponent: Story = {
 
 export const ErrorTextBox: Story = {
   render: () => (
-    <TextBox
-      variant="error"
-      value="오류 발견 시, 텍스트 색상은 ‘on primary’ 유지"
-      placeholder="에러 문구"
-    />
+    <TextBox variant="error" value="오류 발견 시, 텍스트 색상은 ‘on primary’ 유지" placeholder="에러 문구" />
   ),
 };
 
@@ -91,24 +87,11 @@ export const ChapterBox: Story = {
 };
 
 export const ErrorChapterBox: Story = {
-  render: () => (
-    <TextBox
-      variant="error_chapterbox"
-      value="오류 발견"
-      placeholder="에러 문구"
-      index={1}
-    />
-  ),
+  render: () => <TextBox variant="error_chapterbox" value="오류 발견" placeholder="에러 문구" index={1} />,
 };
 
 export const ChapterBoxWithChange: Story = {
   render: () => (
-    <TextBox
-      variant="chapterbox"
-      value="순서 변경 시"
-      placeholder="안내문구가 입력됩니다."
-      index={1}
-      change={true}
-    />
+    <TextBox variant="chapterbox" value="순서 변경 시" placeholder="안내문구가 입력됩니다." index={1} change={true} />
   ),
 };
