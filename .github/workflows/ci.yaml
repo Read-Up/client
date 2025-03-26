@@ -4,32 +4,39 @@ on:
   push:
     branches:
       - main
+      - dev/*
   pull_request:
     branches:
       - main
 
 jobs:
-  cache-and-install:
+  ci:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10.6.5
-          run_install: false
-
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Common Setup
+        uses: ./.github/actions/common-steps
 
       - name: run pre-commit
+        if: ${{ !env.ACT }} # Skip during local actions testing
         run: pnpm pre-commit
+
+  chromatic:
+    if: ${{ !github.event.act }} # skip during local actions testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Common Setup
+        uses: ./.github/actions/common-steps
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: apps/storybook
