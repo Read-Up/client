@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "storybook build --docs",
+    "build-storybook": "pnpm build",
     "clean": "rm -rf .turbo && rm -rf node_modules"
   },
   "dependencies": {
@@ -24,7 +25,8 @@
     "postcss": "^8.5.3",
     "storybook": "^8.6.7",
     "tailwindcss": "^4.0.13",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vite": "6.2.3"
   },
   "eslintConfig": {
     "extends": [
