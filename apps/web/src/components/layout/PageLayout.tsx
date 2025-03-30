@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 import { BottomNavigation } from "@readup/ui/bottom-navigation/default";
 
 interface PageLayoutProps {

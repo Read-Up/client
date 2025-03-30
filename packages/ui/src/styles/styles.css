@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: "Pretendard", "system-ui", "sans-serif";
+  }
+
+  .z-modal {
+    z-index: var(--z-index-modal, 400);
+  }
+}
+
+thead {
+  top: 0;
+  position: sticky;
+}
+
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .m-center {
+    @apply mx-auto my-0;
+  }
+
+  .header_active {
+    @apply before:block before:bg-white before:w-2 before:h-2 before:rounded-full before:absolute before:top-0 before:left-[50%] before:transform before:-translate-x-1;
+  }
+
+  .typo-h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-h1);
+    font-weight: var(--font-weight-h1);
+  }
+
+  .typo-h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-h2);
+    font-weight: var(--font-weight-h2);
+  }
+
+  .typo-title1 {
+    font-size: var(--text-title1);
+    line-height: var(--leading-title1);
+    font-weight: var(--font-weight-title1);
+  }
+
+  .typo-title2 {
+    font-size: var(--text-title2);
+    line-height: var(--leading-title2);
+    font-weight: var(--font-weight-title2);
+  }
+
+  .typo-title3 {
+    font-size: var(--text-title3);
+    line-height: var(--leading-title3);
+    font-weight: var(--font-weight-title3);
+  }
+
+  .typo-body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-weight: var(--font-weight-body);
+  }
+
+  .typo-footnote {
+    font-size: var(--text-footnote);
+    line-height: var(--leading-footnote);
+    font-weight: var(--font-weight-footnote);
+  }
+
+  .z-modal {
+  }
+}
+
+details > summary {
+  list-style: none;
+}
+
+details>summary::marker,
+ /* Latest Chrome, Edge, Firefox */
+ details>summary::-webkit-details-marker
+ 
+ /* Safari */ {
+  display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-out-spin-button {
+  -webkit-appearance: none;
+
+  -moz-appearance: none;
+
+  appearance: none;
+}
