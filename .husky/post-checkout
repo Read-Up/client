@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+checkout_type="$3"
+
+# 브랜치 전환인 경우에만 실행
+if [ "$checkout_type" -eq 1 ]; then
+    pnpm install
+fi
