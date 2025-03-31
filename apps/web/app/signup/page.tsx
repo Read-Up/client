@@ -14,7 +14,7 @@ import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
 export default function Signup() {
   const router = useRouter();
   const [step, setStep] = React.useState<number>(1);
-  const { agreements, toggle, setAll } = useAgreementStore();
+  const { agreements, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = React.useState<Partial<Record<AgreementItem["key"], boolean>>>({});
   const [nickname, setNickname] = React.useState<string>("");
 
@@ -23,6 +23,7 @@ export default function Signup() {
       setStep(step - 1);
       return;
     }
+    clear();
     router.push("/login");
   };
 
@@ -50,14 +51,14 @@ export default function Signup() {
       <Topbar
         className="w-full bg-background text-white font-600 text-[20px]"
         variant="icon2"
-        onArrowClick={handleBack}
-      >
-        {step === 1 ? "회원가입" : "닉네임 설정"}
-      </Topbar>
+        onLeftClick={handleBack}
+        text={step === 1 ? "회원가입" : "닉네임 설정"}
+      />
 
       {/* ProgressBar */}
       <LinearProgress value={step * 50} />
 
+      {/* 회원가입 약관 동의 */}
       {step === 1 && (
         <React.Fragment>
           {/* Info Message */}
@@ -139,6 +140,7 @@ export default function Signup() {
         </React.Fragment>
       )}
 
+      {/* 닉네임 설정 */}
       {step === 2 && (
         <React.Fragment>
           <div className="flex flex-col w-full px-4 mt-16">

@@ -6,6 +6,7 @@ interface AgreementState {
   agreements: Record<AgreementKey, boolean>;
   toggle: (key: AgreementKey) => void;
   setAll: (value: boolean) => void;
+  clear: () => void;
 }
 
 export const useAgreementStore = create<AgreementState>((set) => ({
@@ -42,4 +43,15 @@ export const useAgreementStore = create<AgreementState>((set) => ({
         marketing: value,
       },
     })),
+  clear: () => {
+    set(() => ({
+      agreements: {
+        all: false,
+        age: false,
+        terms: false,
+        privacy: false,
+        marketing: false,
+      },
+    }));
+  },
 }));
