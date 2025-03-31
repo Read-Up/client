@@ -24,7 +24,6 @@ const nextConfig = {
   experimental: {
     esmExternals: true,
     scrollRestoration: true,
-    optimizePackageImports: ['framer-motion'],
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

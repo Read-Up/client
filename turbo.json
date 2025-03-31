@@ -3,7 +3,8 @@
   "ui": "tui",
   "globalEnv": [
     "BACKEND_URL",
-    "NEXT_PUBLIC_BACKEND_URL"
+    "NEXT_PUBLIC_BACKEND_URL",
+    "NODE_ENV"
   ],
   "tasks": {
     "build": {
@@ -18,7 +19,8 @@
       "outputs": [
         ".next/**",
         "!.next/cache/**",
-        "storybook-static/**"
+        "storybook-static/**",
+        "dist"
       ]
     },
     "build:storybook": {},
