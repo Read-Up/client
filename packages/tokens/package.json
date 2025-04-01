@@ -1,0 +1,15 @@
+{
+  "name": "@readup/tokens",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Design tokens for ReadUp UI system",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@readup/typescript-config": "workspace:*",
+    "@readup/eslint-config": "workspace:*",
+    "prettier": "^3.0.0",
+    "typescript": "^5.3.3"
+  }
+}
