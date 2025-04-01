@@ -3,10 +3,9 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
-
 import { SiNaver, SiApple } from "react-icons/si";
-import { RiKakaoTalkFill } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
+import { KakaoSVG } from "@readup/icons";
 
 const socialLoginButtonVariants = cva(
   "inline-flex items-center justify-center w-full gap-2 rounded-[4px] text-[15px] font-600 cursor-pointer transition duration-150 ease-in-out active:shadow-lg",
@@ -39,7 +38,7 @@ export interface SocialLoginButtonProps
 const SocialLoginButton = React.forwardRef<HTMLButtonElement, SocialLoginButtonProps>(
   ({ className, provider, label, size, ...props }, ref) => {
     const icons = {
-      kakao: <RiKakaoTalkFill size={18} />,
+      kakao: <KakaoSVG size="md" fill="#000" />,
       naver: <SiNaver size={18} />,
       google: <FcGoogle size={18} />,
       apple: <SiApple size={18} />,

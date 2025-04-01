@@ -18,6 +18,7 @@ export { default as CheckedDisabledSVG } from "./CheckedDisabledSVG";
 export { default as CheckedSVG } from "./CheckedSVG";
 export { default as CloseSVG } from "./CloseSVG";
 export { default as HomeSVG } from "./HomeSVG";
+export { default as KakaoSVG } from "./KakaoSVG";
 export { default as KeyLineSVG } from "./KeyLineSVG";
 export { default as MenuSVG } from "./MenuSVG";
 export { default as ScanSVG } from "./ScanSVG";
