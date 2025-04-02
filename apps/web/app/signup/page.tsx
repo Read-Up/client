@@ -46,10 +46,10 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-screen text-white relative">
+    <div className="flex flex-col items-center w-full h-screen text-on-primary relative">
       {/* Topbar */}
       <Topbar
-        className="w-full bg-background text-white font-600 text-[20px]"
+        className="w-full bg-background text-on-primary typo-title1"
         variant="icon2"
         onLeftClick={handleBack}
         text={step === 1 ? "회원가입" : "닉네임 설정"}
@@ -62,12 +62,12 @@ export default function Signup() {
       {step === 1 && (
         <React.Fragment>
           {/* Info Message */}
-          <div className="flex flex-col w-full px-4 mt-16">
-            <p className="text-title1">리드업 서비스 이용을 위해</p>
-            <p className="text-title1">동의가 필요해요</p>
+          <div className="flex flex-col w-full px-4 mt-[62px]">
+            <p className="typo-title1">리드업 서비스 이용을 위해</p>
+            <p className="typo-title1">동의가 필요해요</p>
           </div>
 
-          <div className="flex flex-col w-full px-4 mt-16 gap-4">
+          <div className="flex flex-col w-full px-4 mt-[50px] gap-4">
             <div className="flex flex-row items-center gap-2">
               {agreements.all ? (
                 <CheckedSVG
@@ -83,7 +83,7 @@ export default function Signup() {
                   onClick={() => setAll(!agreements.all)}
                 />
               )}
-              <p className="text-title3">전체 동의</p>
+              <p className="typo-title3">전체 동의</p>
             </div>
             <Divider />
             {AGREEMENT_ITEMS.map((item) => (
@@ -104,7 +104,7 @@ export default function Signup() {
                         onClick={() => toggle(item.key)}
                       />
                     )}
-                    <p className="text-title3">{item.label}</p>
+                    <p className="typo-title3">{item.label}</p>
                   </div>
                   {item.detail &&
                     (expanded[item.key] ? (
@@ -130,7 +130,7 @@ export default function Signup() {
             ))}
             {/* Button */}
             <Button
-              className="text-title2 fixed bottom-10 left-4 right-4"
+              className="typo-title2 fixed bottom-10 left-4 right-4"
               variant={agreements.age && agreements.terms && agreements.privacy ? "default" : "disabled"}
               onClick={handleNext}
             >
@@ -143,11 +143,11 @@ export default function Signup() {
       {/* 닉네임 설정 */}
       {step === 2 && (
         <React.Fragment>
-          <div className="flex flex-col w-full px-4 mt-16">
-            <p className="text-title1">리드업 서비스에서</p>
-            <p className="text-title1">사용하실 이름을 정해주세요</p>
+          <div className="flex flex-col w-full px-4 mt-[62px]">
+            <p className="typo-title1">리드업 서비스에서</p>
+            <p className="typo-title1">사용하실 이름을 정해주세요</p>
           </div>
-          <div className="flex flex-row w-full px-4 mt-16 gap-2">
+          <div className="flex flex-row w-full px-4 mt-[50px] gap-2">
             {/* 입력창 또는 정보 표시 */}
             <div className="flex items-center justify-between bg-surface px-4 py-3 rounded-[6px] text-sm w-full">
               <input
@@ -168,7 +168,7 @@ export default function Signup() {
           </div>
           {/* Button */}
           <Button
-            className="text-title2 fixed bottom-10 left-4 right-4"
+            className="typo-title2 fixed bottom-10 left-4 right-4"
             variant={nickname.length !== 0 ? "default" : "disabled"}
             onClick={handleNext}
           >

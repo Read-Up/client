@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 import { BackSVG, CloseSVG } from "@readup/icons";
 
-const topbarVariants = cva("flex fixed w-full items-center px-4 py-[13px] bg-background text-white", {
+const topbarVariants = cva("flex w-full items-center px-4 py-[13px] bg-background text-white", {
   variants: {
     variant: {
       original: "justify-between gap-2 bg-[#d9d9d9]",
@@ -60,13 +60,13 @@ export function Topbar({
         {variant === "icon1" && (
           <>
             <button onClick={onLeftClick}>{leftSVG}</button>
-            {text && <div className="absolute left-1/2 transform -translate-x-1/2 font-semibold text-xl">{text}</div>}
+            {text && <div className="absolute left-1/2 transform -translate-x-1/2 typo-title1">{text}</div>}
           </>
         )}
         {variant === "icon2" && (
           <>
             <button onClick={onLeftClick}>{leftSVG}</button>
-            {text && <div className="font-semibold text-xl">{text}</div>}
+            {text && <div className="typo-title1">{text}</div>}
             <button onClick={onRightClick}>{rightSVG}</button>
           </>
         )}

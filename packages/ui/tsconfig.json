@@ -16,6 +16,6 @@
     "target": "esnext",
     "types": ["react", "react-dom"]
   },
-  "include": ["src"],
+  "include": ["src", "**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

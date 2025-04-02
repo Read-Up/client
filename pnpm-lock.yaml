@@ -36,6 +36,9 @@ importers:
       '@readup/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@readup/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       '@readup/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -235,6 +238,21 @@ importers:
         specifier: ^5.3.3
         version: 5.8.2
 
+  packages/tokens:
+    devDependencies:
+      '@readup/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@readup/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      prettier:
+        specifier: ^3.0.0
+        version: 3.5.3
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.2
+
   packages/typescript-config: {}
 
   packages/ui:
@@ -255,6 +273,9 @@ importers:
       '@readup/icons':
         specifier: workspace:*
         version: link:../icons
+      '@readup/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@readup/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -294,6 +315,12 @@ importers:
       tailwindcss:
         specifier: ^4.0.13
         version: 4.0.17
+      tsup:
+        specifier: ^8.0.2
+        version: 8.4.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)
+      tsx:
+        specifier: ^4.19.3
+        version: 4.19.3
       typescript:
         specifier: 5.8.2
         version: 5.8.2
