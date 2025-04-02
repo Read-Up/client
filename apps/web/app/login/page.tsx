@@ -13,13 +13,13 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-5">
-      <h2 className="text-head2 text-on_primary">Log-in</h2>
+      <h2 className="typo-h2 text-on-primary">Log-in</h2>
       <SocialLoginButton provider="kakao" className="w-full mt-15" onClick={handleLogin} />
       {/* <Image src={KakaoLoginButton} alt="Kakao Login" className="w-full mt-2.5" /> */}
       <SocialLoginButton provider="naver" className="w-full mt-2.5" onClick={handleLogin} />
       <SocialLoginButton provider="google" className="w-full mt-2.5" onClick={handleLogin} />
       <SocialLoginButton provider="apple" className="w-full mt-2.5" onClick={handleLogin} />
-      <p className="text-title3 text-on_primary underline mt-30">고객센터 문의하기</p>
+      <p className="typo-title3 text-on-primary underline mt-30">고객센터 문의하기</p>
     </div>
   );
 }
