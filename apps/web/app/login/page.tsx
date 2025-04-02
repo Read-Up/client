@@ -1,6 +1,6 @@
 "use client";
 
-import { SocialLoginButton } from "@readup/ui/social-login-button/default";
+import { SocialLoginButton } from "@readup/ui/social-login-button";
 import { useRouter } from "next/navigation";
 // import KakaoLoginButton from "./_assets/kakao_login_medium_wide.png";
 // import Image from "next/image";
