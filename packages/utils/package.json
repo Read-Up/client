@@ -5,6 +5,7 @@
   "description": "A collection of utility functions",
   "exports": "./src/index.ts",
   "scripts": {
+    "build": "tsup",
     "dev": "tsup --watch",
     "check-types": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
