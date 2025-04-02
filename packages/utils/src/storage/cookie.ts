@@ -28,14 +28,22 @@ export function getCookie(name: string, defaultValue = null) {
   // return value ? value : null;
 }
 
-export function setCookie<T>(name: string, value: T, options: any = {}) {
+export interface CookieOptions {
+  path?: string;
+  expires?: Date | string;
+  domain?: string;
+  secure?: boolean;
+  sameSite?: "lax" | "strict" | "none";
+}
+
+export function setCookie<T>(name: string, value: T, options: CookieOptions = {}): void {
   options = {
     path: "/",
     ...options,
   };
 
   if (typeof document === "undefined") {
-    console.error("can not access without document");
+    console.error("cannot access without document");
     return;
   }
 
@@ -47,7 +55,7 @@ export function setCookie<T>(name: string, value: T, options: any = {}) {
 
   for (const optionKey in options) {
     updateCookie += "; " + optionKey;
-    const optionValue = options[optionKey];
+    const optionValue = options[optionKey as keyof CookieOptions];
     if (optionValue !== true) {
       updateCookie += "=" + optionValue;
     }
@@ -62,28 +70,27 @@ export function deleteCookie(name: string) {
   });
 }
 
-export const allDelCookies = (domain: string, path: string) => {
+export const allDelCookies = (domain: string, path: string): void => {
   if (typeof document === "undefined") {
-    return null;
-  }
-
-  domain = domain || document.domain;
-  path = path || "/";
-
-  if (typeof document === "undefined") {
-    console.error("can not access without document");
+    console.error("cannot access without document");
     return;
   }
 
-  const cookies = document.cookie.split("; ");
-
-  const expiration = "Sat, 01 Jan 1972 00:00:00 GMT";
+  // domain과 path가 falsy할 경우 기본값 적용
+  const currentDomain: string = domain || document.domain;
+  const currentPath: string = path || "/";
 
   if (!document.cookie) {
-    return console.log("no cookies.");
+    console.log("no cookies.");
+    return;
   }
 
-  for (let i = 0; i < cookies.length; i++) {
-    document.cookie = cookies[i]?.split("=")[0] + "=; expires=" + expiration;
-  }
+  const cookies: string[] = document.cookie.split("; ");
+  const expiration: string = "Sat, 01 Jan 1972 00:00:00 GMT";
+
+  // 각 쿠키에 대해 만료일, 경로, 도메인을 지정하여 삭제합니다.
+  cookies.forEach((cookie) => {
+    const cookieName: string = cookie.split("=")[0] ?? "";
+    document.cookie = `${cookieName}=; expires=${expiration}; path=${currentPath}; domain=${currentDomain}`;
+  });
 };

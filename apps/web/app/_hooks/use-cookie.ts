@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 // package
-import { getCookie, setCookie, deleteCookie as delCookie } from "@readup/utils";
+import { getCookie, setCookie, deleteCookie as delCookie, type CookieOptions } from "@readup/utils";
 
 export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   const [value, setValue] = useState(() => {
@@ -12,7 +12,7 @@ export function useCookie<ValueType>(name: string, defaultValue: ValueType) {
   });
 
   const updateCookie = useCallback(
-    (newValue: unknown, options: unknown) => {
+    (newValue: unknown, options: CookieOptions) => {
       setCookie(name, newValue, options);
       setValue(newValue);
     },
