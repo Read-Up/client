@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircle } from "react-icons/io";
 import { PiCaretUpDownBold } from "react-icons/pi";
 
-const textBoxVariants = cva("w-full p-2 text-on_primary transition focus:outline-none focus:ring-none", {
+const textBoxVariants = cva("w-full p-2 text-on-primary transition focus:outline-none focus:ring-none", {
   variants: {
     variant: {
       searchbox: "px-3 placeholder-gray-400",
