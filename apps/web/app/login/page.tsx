@@ -1,24 +1,15 @@
-"use client";
+import SocialLoginButtonWrapper from "./_components/social-login-button-wrapper";
 
-import { SocialLoginButton } from "@readup/ui/social-login-button/default";
-import { useRouter } from "next/navigation";
-// import KakaoLoginButton from "./_assets/kakao_login_medium_wide.png";
-// import Image from "next/image";
+const getSocialHref = (provider: string) => `/signup?login=${provider}`; // `/api/auth/signin/${provider}`;
 
 export default function Login() {
-  const router = useRouter();
-  const handleLogin = () => {
-    router.push("/signup");
-  };
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-5">
       <h2 className="typo-h2 text-on-primary">Log-in</h2>
-      <SocialLoginButton provider="kakao" className="w-full mt-15" onClick={handleLogin} />
-      {/* <Image src={KakaoLoginButton} alt="Kakao Login" className="w-full mt-2.5" /> */}
-      <SocialLoginButton provider="naver" className="w-full mt-2.5" onClick={handleLogin} />
-      <SocialLoginButton provider="google" className="w-full mt-2.5" onClick={handleLogin} />
-      <SocialLoginButton provider="apple" className="w-full mt-2.5" onClick={handleLogin} />
+      <SocialLoginButtonWrapper provider="kakao" href={getSocialHref("kakao")} className="mt-15" />
+      <SocialLoginButtonWrapper provider="naver" href={getSocialHref("naver")} className="mt-2.5" />
+      <SocialLoginButtonWrapper provider="google" href={getSocialHref("google")} className="mt-2.5" />
+      <SocialLoginButtonWrapper provider="apple" href={getSocialHref("apple")} className="mt-2.5" />
       <p className="typo-title3 text-on-primary underline mt-30">고객센터 문의하기</p>
     </div>
   );
