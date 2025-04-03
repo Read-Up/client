@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import { Head } from "@/components/shared/head";
-import { QueryProvider } from "@/lib";
+import { Head } from "@/_components/shared/head";
+import { QueryProvider } from "@/_lib";
 import { Pretendard } from "@readup/font";
 
 export const metadata: Metadata = {

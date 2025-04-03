@@ -3,6 +3,7 @@
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { BottomNavigation } from "@readup/ui/bottom-navigation/default";
+import { Topbar } from "@readup/ui/topbar/default";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
 
   return (
     <div className="relative min-h-screen pb-[90px]">
+      <Topbar variant="icon2" text="책 정보" />
       {children}
       <BottomNavigation activeTab={getActiveTab()} onTabChange={handleTabChange} />
     </div>
