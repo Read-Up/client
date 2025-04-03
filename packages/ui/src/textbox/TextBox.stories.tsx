@@ -2,96 +2,95 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { TextBox } from "./default";
 import React, { useState } from "react";
 
-const meta = {
+const meta: Meta<typeof TextBox> = {
   title: "TextBox",
   component: TextBox,
   tags: ["autodocs"],
-} satisfies Meta<typeof TextBox>;
+  argTypes: {
+    variant: {
+      control: { type: "select" },
+      options: ["searchbox", "textbox", "error", "questionbox", "chapterbox", "error_chapterbox"],
+      description: "텍스트 박스의 스타일 타입",
+      defaultValue: "searchbox",
+    },
+    placeholder: {
+      control: "text",
+      description: "입력 필드에 표시되는 안내 문구",
+    },
+    value: {
+      control: "text",
+      description: "현재 입력된 텍스트 값",
+    },
+    disabled: {
+      control: "boolean",
+      description: "입력 비활성화 여부",
+    },
+    index: {
+      control: "number",
+      description: "챕터 또는 에러 챕터 박스에서 인덱스를 표시할 때 사용",
+      if: { arg: "variant", eq: "chapterbox" },
+    },
+    change: {
+      control: "boolean",
+      description: "순서 변경 가능 여부 (챕터 박스에서만 사용)",
+    },
+    rounded: {
+      control: "boolean",
+      description: "입력 필드의 모서리를 둥글게 처리할지 여부 (default: false)",
+    },
+    onChange: {
+      action: "changed",
+      description: "입력 값이 변경될 때 호출되는 함수",
+    },
+    onClear: {
+      action: "cleared",
+      description: "입력 필드 초기화 버튼 클릭 시 호출되는 함수",
+    },
+    onSubmit: {
+      action: "submitted",
+      description: "폼이 제출되었을 때 호출되는 함수",
+    },
+  },
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// 각 컴포넌트 정의
+const ControlledTextBox = (args: ControlledTextBoxProps) => {
+  const [value, setValue] = useState(args.value || "");
 
-const SearchBoxComponent = () => {
-  const [value, setValue] = useState("");
+  React.useEffect(() => {
+    setValue(args.value || "");
+  }, [args.value]);
+
   return (
     <TextBox
-      variant="searchbox"
-      placeholder="검색어를 입력해주세요."
+      {...args}
       value={value}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      onClear={() => {
+        setValue("");
+      }}
     />
   );
 };
 
-const TextBoxBaseComponent = () => {
-  const [value, setValue] = useState("");
-  return (
-    <TextBox
-      variant="textbox"
-      placeholder="안내문구가 입력됩니다."
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-};
+interface ControlledTextBoxProps {
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  [key: string]: unknown;
+}
 
-const QuestionBoxComponent = () => {
-  const [value, setValue] = useState("");
-  return (
-    <TextBox
-      variant="questionbox"
-      placeholder={`최대 255자까지 작성 가능합니다.\n한글, 영문 대·소문자, 숫자를 입력할 수 있습니다.`}
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-    />
-  );
-};
-
-const ChapterBoxComponent = () => {
-  const [value, setValue] = useState("");
-  return (
-    <TextBox
-      variant="chapterbox"
-      placeholder="안내문구가 입력됩니다."
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      index={1}
-    />
-  );
-};
-
-// Story 객체
-
-export const SearchBox: Story = {
-  render: () => <SearchBoxComponent />,
-};
-
-export const TextBoxComponent: Story = {
-  render: () => <TextBoxBaseComponent />,
-};
-
-export const ErrorTextBox: Story = {
-  render: () => (
-    <TextBox variant="error" value="오류 발견 시, 텍스트 색상은 ‘on primary’ 유지" placeholder="에러 문구" />
-  ),
-};
-
-export const QuestionBox: Story = {
-  render: () => <QuestionBoxComponent />,
-};
-
-export const ChapterBox: Story = {
-  render: () => <ChapterBoxComponent />,
-};
-
-export const ErrorChapterBox: Story = {
-  render: () => <TextBox variant="error_chapterbox" value="오류 발견" placeholder="에러 문구" index={1} />,
-};
-
-export const ChapterBoxWithChange: Story = {
-  render: () => (
-    <TextBox variant="chapterbox" value="순서 변경 시" placeholder="안내문구가 입력됩니다." index={1} change={true} />
-  ),
+export const Playground: Story = {
+  render: (args: ControlledTextBoxProps) => <ControlledTextBox {...args} />,
+  args: {
+    variant: "searchbox",
+    placeholder: "텍스트를 입력하세요",
+    value: "",
+    index: 1,
+    change: false,
+    rounded: false,
+  },
 };
