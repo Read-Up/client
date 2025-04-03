@@ -36,7 +36,14 @@ jobs:
         uses: ./.github/actions/common-steps
 
       - name: Run Chromatic
+        id: chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: apps/storybook
+
+      - name: Discord Webhook
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Storybook Link - ${{ steps.chromatic.outputs.storybookUrl }}"

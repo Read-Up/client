@@ -1,8 +1,11 @@
-export function parseQueryToObj<T extends Record<string, string>>(obj: T, arraryKey = "|") {
-  const newQuery = structuredClone(obj) as Record<string, any>;
+export function parseQueryToObj<T extends Record<string, string>>(
+  obj: T,
+  arraryKey: string = "|",
+): { [K in keyof T]: string | string[] } {
+  const newQuery = structuredClone(obj) as { [K in keyof T]: string | string[] };
 
-  Object.keys(newQuery).forEach((key) => {
-    if (newQuery[key]?.includes(arraryKey)) {
+  (Object.keys(newQuery) as (keyof T)[]).forEach((key) => {
+    if (typeof newQuery[key] === "string" && newQuery[key].includes(arraryKey)) {
       newQuery[key] = newQuery[key].split(arraryKey);
     }
   });
@@ -10,30 +13,38 @@ export function parseQueryToObj<T extends Record<string, string>>(obj: T, arrary
   return newQuery;
 }
 
-export function deleteEmptyObj<T extends Record<string, any>>(obj: T, strType = "ALL") {
-  const cloneObj = structuredClone(obj);
+export function deleteEmptyObj<T extends Record<string, unknown>>(obj: T, strType: string = "ALL"): Partial<T> {
+  // cloneObj는 각 프로퍼티가 선택적인 mapped type으로 선언합니다.
+  const cloneObj = structuredClone(obj) as { [K in keyof T]?: T[K] };
 
-  Object.keys(cloneObj).forEach((key) => {
-    if (!cloneObj[key]) {
-      return delete cloneObj[key];
+  (Object.keys(cloneObj) as (keyof T)[]).forEach((key) => {
+    const value = cloneObj[key];
+
+    // falsy 값이면 해당 키를 삭제합니다.
+    if (!value) {
+      delete cloneObj[key];
+      return;
     }
 
-    if (Array.isArray(cloneObj[key])) {
-      const isEmpty = cloneObj[key].every(
-        (item: string | number | boolean) => !item || item.toString().toUpperCase() === "ALL",
-      );
-
+    // 배열인 경우: 모든 요소가 falsy이거나 "ALL" (대문자)와 일치하면 삭제합니다.
+    if (Array.isArray(value)) {
+      const isEmpty = (value as unknown[]).every((item) => !item || item.toString().toUpperCase() === "ALL");
       if (isEmpty) {
-        return delete cloneObj[key];
+        delete cloneObj[key];
       }
+      return;
     }
 
-    if (typeof cloneObj[key] === "object") {
-      return deleteEmptyObj(cloneObj[key]);
+    // 객체인 경우 (null과 배열은 제외): 재귀적으로 처리합니다.
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      cloneObj[key] = deleteEmptyObj(value as Record<string, unknown>, strType) as T[typeof key];
+      return;
     }
 
-    if (cloneObj[key].toString().toUpperCase() === strType) {
-      return delete cloneObj[key];
+    // 값이 지정한 문자열(strType)과 일치하면 삭제합니다.
+    if (value.toString().toUpperCase() === strType) {
+      delete cloneObj[key];
+      return;
     }
   });
 
@@ -61,7 +72,7 @@ export function delEmptyArrParams<T extends Record<string, string>>(searchParmas
   return copyData;
 }
 
-export function mergeQuery<T extends Record<string, any>>(defaultValue: T, query: Partial<T>) {
+export function mergeQuery<T extends Record<string, unknown>>(defaultValue: T, query: Partial<T>) {
   return {
     ...structuredClone(defaultValue),
     ...structuredClone(query),

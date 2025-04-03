@@ -28,7 +28,7 @@ export function convertPhone(phone: string | undefined) {
   return phone
     .replace(/[^0-9]/g, "")
     .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
-    .replace(/(\-{1,2})$/g, "");
+    .replace(/(-{1,2})$/g, "");
 }
 
 export function convertBirthDate(date: string | undefined) {
@@ -39,26 +39,38 @@ export function convertBirthDate(date: string | undefined) {
     .replace(/(\.{1,2})$/g, "");
 }
 
-export const convertFormData = (data: { [key: string]: any }) => {
+interface ConvertFormDataInput {
+  img?: File[];
+  // img를 제외한 다른 프로퍼티는 string 또는 Blob 타입으로 처리
+  [key: string]: string | Blob | File[] | undefined;
+}
+
+export const convertFormData = (data: ConvertFormDataInput): FormData => {
   const formData = new FormData();
 
-  if (data) {
-    Object.keys(data).forEach((key) => {
-      if (key === "img") {
-        data[key].forEach((i: any) => {
-          formData.append("file", i);
-        });
-      } else {
-        formData.append(key, data[key]);
+  Object.keys(data).forEach((key) => {
+    if (key === "img" && Array.isArray(data.img)) {
+      data.img.forEach((file: File) => {
+        formData.append("file", file);
+      });
+    } else {
+      // data[key]는 string 혹은 Blob이어야 함
+      if (data[key] !== undefined) {
+        formData.append(key, data[key] as string | Blob);
       }
-    });
-  }
+    }
+  });
+
   return formData;
 };
 
-export const switchValues = (arr: any[], idxs: [number, ...number[]]) => {
-  let changeArr = idxs.map((idx) => arr[idx]);
-  changeArr = [...changeArr.reverse()];
+export const switchValues = <T>(arr: T[], idxs: [number, ...number[]]): T[] => {
+  const changeArr = idxs.map((idx) => arr[idx]).reverse();
+  idxs.forEach((idx, i) => {
+    if (changeArr[i] !== undefined) {
+      arr[idx] = changeArr[i];
+    }
+  });
 
   return arr;
 };
@@ -112,7 +124,7 @@ export function parseJWT(token: string) {
 
   try {
     return JSON.parse(Buffer.from(token.split(".")[1] ?? "", "base64").toString());
-  } catch (e) {
+  } catch {
     return null;
   }
 }

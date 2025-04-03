@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./*": "./src/*.tsx",
-    "./button": "./src/button/index.ts",
+    "./*": {
+      "types": "./dist/*/index.d.mts",
+      "default": "./dist/*/index.mjs"
+    },
     "./styles.css": "./src/styles/styles.css"
   },
   "scripts": {
+    "build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "generate:theme": "tsx ./scripts/generateThemeCSS.ts",
