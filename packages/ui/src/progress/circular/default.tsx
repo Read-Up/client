@@ -4,9 +4,15 @@ export interface CircularProgressProps {
   value: number; // 진행률 (%)
   size?: number; // SVG 크기
   strokeWidth?: number; // 테두리 두께
+  fill?: string; // 배경 원 색상
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = ({ value, size = 60, strokeWidth = 5 }) => {
+const CircularProgress: React.FC<CircularProgressProps> = ({
+  value,
+  size = 60,
+  strokeWidth = 5,
+  fill = "oklch(64.6% 0.1423 253.92)",
+}) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const progressOffset = circumference - (value / 100) * circumference;
@@ -27,7 +33,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({ value, size = 60, s
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        stroke="oklch(64.6% 0.1423 253.92)"
+        stroke={fill}
         strokeWidth={strokeWidth}
         fill="transparent"
         strokeDasharray={circumference}
