@@ -79,10 +79,7 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
             {variant === "chapterbox" && !change && <span>{index}</span>}
           </span>
         )}
-        <form
-          onSubmit={onSubmit}
-          className={cn(formVariants({ className, variant })) + `${rounded ? " rounded-full" : ""}`}
-        >
+        <form onSubmit={onSubmit} className={cn(formVariants({ className, variant }), { "rounded-full": rounded })}>
           {/* variant가 'questionbox'이면 textarea, 아니면 input */}
           {variant === "questionbox" ? (
             <textarea
