@@ -3,7 +3,7 @@ import { cn } from "../lib";
 
 import { KeyLineSVG, ShareLine2SVG } from "@readup/icons";
 
-const cardVariants = cva("flex flex-col justify-between p-4 rounded-md text-on_primary w-[140px] h-[180px]", {
+const cardVariants = cva("flex flex-col justify-between p-4 rounded-md text-on-primary w-[140px] h-[180px]", {
   variants: {
     variant: {
       finished: "bg-primary_variant", // 완료된 챕터 스타일

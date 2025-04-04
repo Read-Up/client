@@ -7,6 +7,9 @@ export const color = {
   background: "#0F1720",
   surface: "#1E2A38",
   error: "#F65A5B",
+  progress_background: "#888888",
+  kakao: "#FEE500",
+  naver: "#03C75A",
 
   "on-primary": "#FFFFFF",
   "on-secondary": "#FFFFFF",

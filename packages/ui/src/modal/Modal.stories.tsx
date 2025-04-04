@@ -23,7 +23,7 @@ export const TextModalWithTrigger: Story = {
       const [open, setOpen] = React.useState(false);
 
       return (
-        <>
+        <div className="min-h-80 flex items-center justify-center bg-background">
           <Button variant="outline" onClick={() => setOpen(true)}>
             텍스트 모달 열기
           </Button>
@@ -36,7 +36,7 @@ export const TextModalWithTrigger: Story = {
               setOpen(false);
             }}
           />
-        </>
+        </div>
       );
     };
 
@@ -57,7 +57,7 @@ export const ContainedModalWithTrigger: Story = {
       const [open, setOpen] = React.useState(false);
 
       return (
-        <>
+        <div className="min-h-80 flex items-center justify-center bg-background">
           <Button onClick={() => setOpen(true)}>Contained 모달 열기</Button>
           <Modal
             {...args}
@@ -68,7 +68,7 @@ export const ContainedModalWithTrigger: Story = {
               setOpen(false);
             }}
           />
-        </>
+        </div>
       );
     };
 

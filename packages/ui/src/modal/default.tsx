@@ -1,21 +1,8 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../lib/utils";
 import { Button } from "../button";
 
-const modalContentVariants = cva("relative w-[337px] h-[178px] bg-white rounded-modal shadow-lg p-6 text-center", {
-  variants: {
-    variant: {
-      text: "border border-gray-200",
-      contained: "border border-gray-200",
-    },
-  },
-  defaultVariants: {
-    variant: "text",
-  },
-});
-
-export interface ModalProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof modalContentVariants> {
+export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "text" | "contained";
   open?: boolean;
   title?: string;
   subtext?: string;
@@ -26,8 +13,7 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement>, Varian
 }
 
 const Modal: React.FC<ModalProps> = ({
-  className,
-  variant,
+  variant = "text",
   open,
   title,
   subtext,
@@ -40,10 +26,9 @@ const Modal: React.FC<ModalProps> = ({
   return (
     open && (
       <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" {...props}>
-        <div className={cn(modalContentVariants({ className, variant }))}>
-          {/* <div className="w-[337px] h-[178px] bg-white rounded-modal shadow-lg p-6 text-center"> */}
-          <h2 className="text-modal_title font-bold">{title}</h2>
-          <p className="text-modal_subtext text-black mt-2">{subtext}</p>
+        <div className="relative w-[337px] h-[178px] bg-white rounded-[12px] shadow-lg p-6 text-center">
+          <h2 className="typo-title1 text-gray-20 font-bold">{title}</h2>
+          <p className="typo-title3 text-gray-20 mt-2">{subtext}</p>
           <div className="absolute bottom-0 left-0 w-full h-15 flex flex-row items-center justify-center">
             {variant === "text" ? (
               <>
@@ -72,16 +57,3 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export { Modal };
-
-{
-  /* <div className="fixed inset-0 flex items-center justify-center bg-black/30">
-        <div className="w-[320px] bg-white rounded-xl shadow-lg p-6 text-center">
-          <h1 className="text-2xl font-bold text-black">Modal Title</h1>
-          <p className="text-base text-black">Modal Subtitle</p>
-          <div className="w-full flex flex-row justify-center items-center gap-5">
-            <Button>확인</Button>
-            <Button>취소</Button>
-          </div>
-        </div>
-      </div> */
-}

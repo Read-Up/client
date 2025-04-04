@@ -14,6 +14,7 @@ export { default as BellLineSVG } from "./BellLineSVG";
 export { default as BookSVG } from "./BookSVG";
 export { default as BookcaseSVG } from "./BookcaseSVG";
 export { default as BookmarkSVG } from "./BookmarkSVG";
+export { default as BooksSVG } from "./BooksSVG";
 export { default as CheckedDisabledSVG } from "./CheckedDisabledSVG";
 export { default as CheckedSVG } from "./CheckedSVG";
 export { default as CloseSVG } from "./CloseSVG";
