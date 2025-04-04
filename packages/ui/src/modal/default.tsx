@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "@readup/ui/button";
+import { Button } from "../button";
 
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "text" | "contained";
