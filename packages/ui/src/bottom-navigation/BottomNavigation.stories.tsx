@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { BottomNavigation } from "./default";
 
 const meta = {
-  title: "Components/BottomNavigation",
+  title: "BottomNavigation",
   component: BottomNavigation,
   tags: ["autodocs"],
   parameters: {

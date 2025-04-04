@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { SocialLoginLink } from "./default";
 
 const meta: Meta<typeof SocialLoginLink> = {
-  title: "Components/SocialLoginButton",
+  title: "SocialLoginButton",
   component: SocialLoginLink,
   tags: ["autodocs"],
   argTypes: {
