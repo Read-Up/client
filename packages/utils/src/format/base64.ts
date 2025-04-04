@@ -5,7 +5,7 @@ export class Base64 {
     let utftext = "";
 
     for (let n = 0; n < string.length; n++) {
-      let c = string.charCodeAt(n);
+      const c = string.charCodeAt(n);
 
       if (c < 128) {
         utftext += String.fromCharCode(c);
@@ -92,7 +92,7 @@ export class Base64 {
     let enc1, enc2, enc3, enc4;
     let i = 0;
 
-    input = decodeURIComponent(input).replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    input = decodeURIComponent(input).replace(/[^A-Za-z0-9+/=]/g, "");
 
     while (i < input.length) {
       enc1 = this._keyStr.indexOf(input.charAt(i++));

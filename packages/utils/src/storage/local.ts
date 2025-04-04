@@ -8,7 +8,7 @@ export function getLocalStorage(key: string, defaultValue = null) {
   return JSON.parse(value);
 }
 
-export const setLocalStorage = <T = any>(key: string, value: T, defaultValue?: T) => {
+export const setLocalStorage = <T = unknown>(key: string, value: T, defaultValue?: T) => {
   if (typeof window === "undefined") {
     console.error("can not access without window");
     return;

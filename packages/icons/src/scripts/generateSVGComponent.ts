@@ -45,6 +45,18 @@ const extractSvgAttributes = (svgContent: string) => {
   };
 };
 
+const transformAttributeNames = (content: string) => {
+  return content.replace(/<([a-zA-Z]+)([^>]+)>/g, (_, tagName, attributes) => {
+    const transformedAttributes = attributes.replace(
+      /(\s)([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)+)(?==)/g,
+      (_: string, space: string, attrName: string) => {
+        return space + attrName.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+      },
+    );
+    return `<${tagName}${transformedAttributes}>`;
+  });
+};
+
 const createComponentContent = (componentName: string, svgContent: string, svgFile: string): string => {
   const iconName = path.basename(svgFile, ".svg");
   const hasStroke = svgContent.includes("stroke=");
@@ -54,8 +66,7 @@ const createComponentContent = (componentName: string, svgContent: string, svgFi
 
   const propsString = `{ className, size = "md", ${viewBox}${hasStroke || hasFill ? ` ${hasStroke ? ', stroke = "#FFF"' : ""}${hasFill ? ', fill = "#FFF"' : ""}` : ""}, ...rest }`;
 
-  const modifiedSvgContent = svgContent
-    .replace(/-(\w)/g, (_, letter) => letter.toUpperCase())
+  const modifiedSvgContent = transformAttributeNames(svgContent)
     .replace(/width="(\d+)"/g, `width={ICON_SIZE_MAP[size]}`)
     .replace(/height="(\d+)"/g, `height={ICON_SIZE_MAP[size]}`)
     .replace(/viewBox="(.*?)"/g, `viewBox={viewBox}`)

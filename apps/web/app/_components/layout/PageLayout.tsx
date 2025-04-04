@@ -2,8 +2,8 @@
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { BottomNavigation } from "@readup/ui/bottom-navigation/default";
-import { Topbar } from "@readup/ui/topbar/default";
+import { BottomNavigation } from "@readup/ui/bottom-navigation";
+import { Topbar } from "@readup/ui/topbar";
 
 interface PageLayoutProps {
   children: React.ReactNode;

@@ -1,15 +1,16 @@
-export async function delay(ms: number, promiseFn?: () => Promise<any>) {
+export async function delay<T = void>(ms: number, promiseFn?: () => Promise<T>): Promise<T | void> {
   return new Promise((resolve) => {
     setTimeout(() => {
       if (promiseFn) {
         promiseFn().then(resolve);
+      } else {
+        resolve();
       }
-      resolve;
     }, ms);
   });
 }
 
-export const isEmpty = (param: { [keys: string]: any } | any[] | string | null | undefined): boolean => {
+export const isEmpty = (param: { [keys: string]: unknown } | unknown[] | string | null | undefined): boolean => {
   if (!param) return true;
 
   return !Object.keys(param).length;

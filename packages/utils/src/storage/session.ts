@@ -8,7 +8,7 @@ export function getSessionStorage(key: string, defaultValue = null) {
   return JSON.parse(value);
 }
 
-export const setSessionStorage = <T = any>(key: string, value: T, defaultValue?: T) => {
+export const setSessionStorage = <T = unknown>(key: string, value: T, defaultValue?: T) => {
   if (typeof window === "undefined") {
     console.error("can not access without window");
     return;
