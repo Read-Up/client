@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { LinearProgress } from "./default";
+import { color } from "@readup/tokens";
 
 const meta: Meta<typeof LinearProgress> = {
   title: "ProgressBar/LinearProgress",
@@ -31,8 +32,8 @@ const meta: Meta<typeof LinearProgress> = {
     value: 50,
     max: 100,
     height: 4,
-    fill: "oklch(64.6% 0.1423 253.92)", // 기본 색상
-    background: "#E0E0E0", // 배경 기본 색상
+    fill: color.primary, // 기본 색상
+    background: color.progress_background, // 배경 기본 색상
   },
 };
 

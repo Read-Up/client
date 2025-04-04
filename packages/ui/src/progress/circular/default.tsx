@@ -1,3 +1,4 @@
+import { color } from "@readup/tokens";
 import * as React from "react";
 
 export interface CircularProgressProps {
@@ -11,7 +12,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
   value,
   size = 60,
   strokeWidth = 5,
-  fill = "oklch(64.6% 0.1423 253.92)",
+  fill = color.primary,
 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;

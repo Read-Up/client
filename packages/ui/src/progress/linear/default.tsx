@@ -1,3 +1,4 @@
+import { color } from "@readup/tokens";
 import * as React from "react";
 
 export interface LinearProgressProps {
@@ -12,8 +13,8 @@ const LinearProgress: React.FC<LinearProgressProps> = ({
   value,
   max = 100,
   height = 2,
-  fill = "oklch(64.6% 0.1423 253.92)",
-  background = "#888",
+  fill = color.primary,
+  background = color.progress_background,
 }) => {
   const progress = Math.min(Math.max(value, 0), max); // 0 ~ max 범위 유지
   const percentage = (progress / max) * 100;

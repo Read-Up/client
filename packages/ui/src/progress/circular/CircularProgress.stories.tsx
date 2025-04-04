@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { CircularProgress } from "./default";
+import { color } from "@readup/tokens";
 
 const meta: Meta<typeof CircularProgress> = {
   title: "ProgressBar/CircularProgress",
@@ -28,7 +29,7 @@ const meta: Meta<typeof CircularProgress> = {
     value: 50,
     size: 60,
     strokeWidth: 5,
-    fill: "oklch(64.6% 0.1423 253.92)", // primary blue
+    fill: color.primary,
   },
 };
 
@@ -44,7 +45,7 @@ export const ThinSmall: Story = {
     value: 30,
     size: 40,
     strokeWidth: 2,
-    fill: "#4A90E2",
+    fill: color.primary,
   },
 };
 
