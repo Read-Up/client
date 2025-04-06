@@ -5,7 +5,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircle } from "react-icons/io";
 import { PiCaretUpDownBold } from "react-icons/pi";
 
-const textBoxVariants = cva("w-full p-2 text-on_primary transition focus:outline-none focus:ring-none", {
+const textBoxVariants = cva("w-full p-2 text-on-primary transition focus:outline-none focus:ring-none", {
   variants: {
     variant: {
       searchbox: "px-3 placeholder-gray-400",
@@ -61,24 +61,25 @@ export interface TextBoxProps
   placeholder?: string;
   index?: number; // 챕터박스의 인덱스
   change?: boolean; // 챕터박스에서 순서 변경 가능 여부
+  rounded?: boolean; // 챕터박스에서 라운드 full 여부(default: false)
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear?: () => void;
 }
 
 const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBoxProps>(
-  ({ className, value, onChange, onSubmit, placeholder, onClear, index, change, variant, ...props }, ref) => {
+  ({ className, value, onChange, onSubmit, placeholder, onClear, index, change, variant, rounded, ...props }, ref) => {
     const closeVariants = ["textbox", "error", "chapterbox", "error_chapterbox"];
     return (
       <div className="w-full flex flex-center items-center gap-[10px]">
         {(variant === "chapterbox" || variant === "error_chapterbox") && (
           <span className={cn(indexVariants({ className, variant }))}>
             {/* {error ? '!' : index} */}
-            {variant === "error_chapterbox" && "!"}
+            {variant === "error_chapterbox" && !change && "!"}
             {change && <PiCaretUpDownBold size={20} />}
             {variant === "chapterbox" && !change && <span>{index}</span>}
           </span>
         )}
-        <form onSubmit={onSubmit} className={cn(formVariants({ className, variant }))}>
+        <form onSubmit={onSubmit} className={cn(formVariants({ className, variant }), { "rounded-full": rounded })}>
           {/* variant가 'questionbox'이면 textarea, 아니면 input */}
           {variant === "questionbox" ? (
             <textarea
