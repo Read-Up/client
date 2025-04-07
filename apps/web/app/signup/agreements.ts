@@ -7,6 +7,7 @@ export interface AgreementItem {
   detail?: string;
 }
 
+// detail을 공백으로 설정할 경우, 세부 설명이 표시되지 않습니다.
 const AGREEMENT_ITEMS = [
   {
     key: "age",
