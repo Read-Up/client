@@ -9,7 +9,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-const PageLayout = ({ children }: PageLayoutProps) => {
+export default function PageLayout({ children }: PageLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -38,6 +38,4 @@ const PageLayout = ({ children }: PageLayoutProps) => {
       <BottomNavigation activeTab={getActiveTab()} onTabChange={handleTabChange} />
     </div>
   );
-};
-
-export default PageLayout;
+}
