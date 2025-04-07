@@ -1,7 +1,6 @@
 import { KakaoSVG } from "@readup/icons";
 import { SiNaver, SiApple } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
-import { color } from "@readup/tokens";
 
 export interface SocialLoginLinkProps {
   provider: "kakao" | "naver" | "google" | "apple";
@@ -18,8 +17,8 @@ export const SocialLoginLink = ({ provider, label, className }: SocialLoginLinkP
   };
 
   const variantClasses = {
-    kakao: `bg-[${color.kakao}] text-black hover:bg-[${color.kakao}]/90`,
-    naver: `bg-[${color.naver}] text-white hover:bg-[${color.naver}]/90`,
+    kakao: `bg-kakao text-black hover:bg-kakao/90`,
+    naver: `bg-naver text-white hover:bg-naver/90`,
     google: "bg-white text-black hover:bg-gray-100 border border-gray-200",
     apple: "bg-white text-black hover:bg-gray-100 border border-gray-200",
   };
