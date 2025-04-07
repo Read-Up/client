@@ -11,14 +11,36 @@ import { Button } from "@readup/ui/button";
 import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
 
+// 닉네임 검증 정규식 (한글, 영어, 숫자만 가능하고 2자 이상 12자 이하
+const NICKNAME_REGEX = /^[a-zA-Z0-9가-힣]{2,12}$/;
+
+// 검증 정규식 외의 추가 검증은 서버로 이관
+const validateNickname = (nickname: string): [string, string] => {
+  if (nickname.length === 0) {
+    return ["닉네임을 입력해주세요.", "text-red-400"];
+  }
+  if (nickname.length > 12) {
+    return ["닉네임은 최대 12자까지 가능합니다.", "text-red-400"];
+  }
+  if (nickname.length < 2) {
+    return ["닉네임은 최소 2자 이상이어야 합니다.", "text-red-400"];
+  }
+  if (!NICKNAME_REGEX.test(nickname)) {
+    return ["닉네임은 한글, 영어, 숫자만 사용 가능합니다.", "text-red-400"];
+  }
+  return ["사용 가능한 닉네임입니다.", "text-primary"];
+};
+
 export default function SignupScreen() {
   const router = useRouter();
   const [step, setStep] = React.useState<number>(1);
   const { agreements, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = React.useState<Partial<Record<AgreementItem["key"], boolean>>>({});
   const [nickname, setNickname] = React.useState<string>("");
+  const [footnote, setFootnote] = React.useState<[string, string]>(["", "text-primary"]);
 
   const getRandomNickname = async () => {
+    // 추후 서버 API로 교체 예정
     const res = await fetch("https://www.rivestsoft.com/nickname/getRandomNickname.ajax", {
       method: "POST",
       headers: {
@@ -30,6 +52,7 @@ export default function SignupScreen() {
       throw new Error("랜덤 닉네임 생성에 실패했습니다.");
     }
     const data = await res.json();
+    setFootnote(["사용 가능한 닉네임입니다.", "text-primary"]);
     setNickname(data.data);
   };
 
@@ -39,13 +62,38 @@ export default function SignupScreen() {
       return;
     }
     clear();
+    // 추가적으로 로그아웃 처리 필요 (쿠키 삭제 등)
     router.push("/login");
+  };
+
+  const handleChangeNickaname = (value: string) => {
+    setNickname(value);
+    setFootnote(["", "text-primary"]);
+    // 향후 닉네임 검증 로직 추가 예정
+    // setFootnote(validateNickname(value));
   };
 
   const handleNext = () => {
     if (agreements.age && agreements.terms && agreements.privacy) {
       setStep(2);
     }
+  };
+
+  const handleFinish = () => {
+    // 닉네임 검증
+    const errorMessage = validateNickname(nickname);
+
+    if (errorMessage) {
+      setFootnote(errorMessage);
+      return;
+    }
+
+    // 서버로 닉네임 전송
+    // 예시: await fetch("/api/signup", { method: "POST", body: JSON.stringify({ nickname }) });
+
+    // 회원가입 완료 후 처리
+    alert("회원가입이 완료되었습니다.");
+    router.push("/home");
   };
 
   const handleToggleExpand = (key: keyof typeof expanded) => {
@@ -168,7 +216,7 @@ export default function SignupScreen() {
               <input
                 type="text"
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) => handleChangeNickaname(e.target.value)}
                 placeholder="한글, 영어, 숫자만 사용가능"
                 className="bg-transparent outline-none text-white w-full placeholder:text-gray-400"
                 maxLength={12}
@@ -184,11 +232,18 @@ export default function SignupScreen() {
               랜덤닉네임 생성
             </button>
           </div>
+          {/* Footnote */}
+          {footnote && (
+            <div className="flex flex-row items-center justify-between w-full px-4">
+              <p className={`typo-footnote ${footnote[1]} mt-2 px-4`}>{footnote[0]}</p>
+            </div>
+          )}
+
           {/* Button */}
           <Button
             className="typo-title2 fixed bottom-10 left-4 right-4"
             variant={nickname.length !== 0 ? "default" : "disabled"}
-            onClick={handleNext}
+            onClick={handleFinish}
           >
             입력완료
           </Button>
