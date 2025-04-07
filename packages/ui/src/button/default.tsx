@@ -47,9 +47,26 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, ...props }, ref) => {
-  return <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-});
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, disabled, onClick, ...props }, ref) => {
+    const isDisabledVariant =
+      variant === "disabled" || variant === "disabled_outline" || variant === "text_disabled" || disabled;
+
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+      if (isDisabledVariant) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      onClick?.(e);
+    };
+
+    return (
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} onClick={handleClick} {...props} />
+    );
+  },
+);
 
 Button.displayName = "Button";
 
