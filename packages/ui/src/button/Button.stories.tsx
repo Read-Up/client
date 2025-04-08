@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button, ButtonProps } from "./default";
+import { Button } from "./default";
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: "Button",
   component: Button,
   tags: ["autodocs"],
@@ -15,66 +15,153 @@ const meta = {
       control: {
         type: "select",
       },
-      options: ["default", "pressed", "secondary", "disabled", "outline", "period", "ghost", "link", "modal"],
+      options: ["filled", "outline", "text_only"],
+      description: "버튼의 변형을 설정합니다.",
     },
     size: {
       control: {
         type: "select",
       },
-      options: ["default", "sm", "supporting", "lg", "full", "icon", "icon_small", "grid"],
+      options: ["default", "sm", "supporting", "full", "icon", "icon_small", "grid"],
+      description: "버튼의 크기를 설정합니다.",
+    },
+    textOption: {
+      control: {
+        type: "select",
+      },
+      options: ["default", "connected"],
+    },
+    disabled: {
+      control: {
+        type: "boolean",
+      },
+      options: [true, false],
+    },
+    secondary: {
+      control: {
+        type: "boolean",
+      },
+      options: [true, false],
+    },
+    color: {
+      control: {
+        type: "color",
+      },
+      description: "버튼의 색상을 설정합니다.",
+    },
+    backgroundColor: {
+      control: {
+        type: "color",
+      },
+      description: "버튼의 배경 색상을 설정합니다.",
     },
   },
-} satisfies Meta<typeof Button>;
+  args: {
+    variant: "filled",
+    size: "default",
+    disabled: false,
+    textOption: "default",
+    secondary: false,
+    children: "Button",
+  },
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// variant와 label을 받아 스토리를 생성하는 헬퍼 함수
-const createStory = ({ variant, children, size }: ButtonProps): Story => ({
-  args: {
-    variant: variant || "default",
-    children,
-    size: size || "default",
-  },
-});
+export const Playground: Story = {
+  render: (args) => (
+    <div className="bg-surface flex flex-row items-center justify-center h-30">
+      <Button {...args} />
+    </div>
+  ),
+};
 
-export const Default = createStory({ children: "I am a default button." });
-export const Pressed = createStory({ variant: "pressed", children: "I am a pressed button." });
-export const Disabled = createStory({ variant: "disabled", children: "I am a disabled button." });
-export const Secondary = createStory({ variant: "secondary", children: "I am a secondary button." });
-export const Outline = createStory({ variant: "outline", children: "I am an outline button." });
-export const OutlineDisabled = createStory({
-  variant: "disabled_outline",
-  children: "I am an outline disabled button.",
-});
-export const OutlineSecondary = createStory({
-  variant: "secondary_outline",
-  children: "I am an outline secondary button.",
-});
-export const Text = createStory({ variant: "text", children: "I am a text button." });
-export const TextDisabled = createStory({ variant: "text_disabled", children: "I am a text disabled button." });
-export const TextSecondary = createStory({ variant: "text_secondary", children: "I am a text secondary button." });
-export const TextConnected = createStory({ variant: "text_connected", children: "I am a text connected button." });
-export const Small = createStory({ size: "sm", children: "I am a small button." });
-export const SmallOutline = createStory({ size: "sm", variant: "outline", children: "I am a small outline button." });
-export const SmallDisabled = createStory({
-  size: "sm",
-  variant: "disabled",
-  children: "I am a small disabled button.",
-});
-export const Supporting = createStory({ size: "supporting", children: "I am a small supporting button." });
-export const SupportingOutline = createStory({
-  size: "supporting",
-  variant: "outline",
-  children: "I am a small supporting outline button.",
-});
-export const SupportingDisabled = createStory({
-  size: "supporting",
-  variant: "disabled",
-  children: "I am a small supporting disabled button.",
-});
-export const Full = createStory({ size: "full", children: "I am a full button." });
-// export const Period = createStory({ variant: "period", children: "I am a period button." });
-// export const Ghost = createStory({ variant: "ghost", children: "I am a ghost button." });
-// export const Link = createStory({ variant: "link", children: "I am a link button." });
-// export const Modal = createStory({ variant: "modal", children: "I am a modal button." });
+export const Variants: Story = {
+  render: (args) => (
+    <div className="bg-surface p-6 flex flex-col gap-4">
+      <Button {...args} variant="filled">
+        Filled
+      </Button>
+      <Button {...args} variant="outline">
+        Outline
+      </Button>
+      <Button {...args} variant="text_only">
+        Text Only
+      </Button>
+    </div>
+  ),
+  args: {
+    size: "default",
+  },
+};
+
+export const Sizes: Story = {
+  render: (args) => (
+    <div className="bg-surface p-6 flex flex-wrap gap-3 items-center">
+      <Button {...args} size="default">
+        Default
+      </Button>
+      <Button {...args} size="sm">
+        Small
+      </Button>
+      <Button {...args} size="supporting">
+        Supporting
+      </Button>
+      <Button {...args} size="full">
+        Full Width
+      </Button>
+    </div>
+  ),
+  args: {
+    variant: "filled",
+  },
+};
+
+export const WithSecondary: Story = {
+  render: (args) => (
+    <div className="bg-[#121212] p-6 flex flex-col gap-4">
+      <Button {...args} variant="filled" secondary>
+        Filled Secondary
+      </Button>
+      <Button {...args} variant="outline" secondary>
+        Outline Secondary
+      </Button>
+      <Button {...args} variant="text_only" secondary>
+        Text Only Secondary
+      </Button>
+    </div>
+  ),
+};
+
+export const DisabledStates: Story = {
+  render: (args) => (
+    <div className="bg-surface p-6 flex flex-col gap-4">
+      <Button {...args} variant="filled" disabled>
+        Filled Disabled
+      </Button>
+      <Button {...args} variant="outline" disabled>
+        Outline Disabled
+      </Button>
+      <Button {...args} variant="text_only" disabled>
+        Text Only Disabled
+      </Button>
+    </div>
+  ),
+};
+
+export const CustomColor: Story = {
+  render: (args) => (
+    <div className="bg-surface p-6 flex gap-4">
+      <Button {...args} color="#ff4d4f" backgroundColor="#fff0f0">
+        Custom Color
+      </Button>
+      <Button {...args} color="#1890ff" backgroundColor="#e6f7ff">
+        Another Custom
+      </Button>
+    </div>
+  ),
+  args: {
+    variant: "text_only",
+  },
+};
