@@ -128,14 +128,6 @@ export default function SignupScreen() {
                 )}
               </React.Fragment>
             ))}
-            {/* Button */}
-            <Button
-              className="typo-title2 fixed bottom-10 left-4 right-4"
-              variant={agreements.age && agreements.terms && agreements.privacy ? "default" : "disabled"}
-              onClick={handleNext}
-            >
-              확인
-            </Button>
           </div>
         </React.Fragment>
       )}
@@ -166,16 +158,18 @@ export default function SignupScreen() {
               랜덤닉네임 생성
             </button>
           </div>
-          {/* Button */}
-          <Button
-            className="typo-title2 fixed bottom-10 left-4 right-4"
-            variant={nickname.length !== 0 ? "default" : "disabled"}
-            onClick={handleNext}
-          >
-            입력완료
-          </Button>
         </React.Fragment>
       )}
+
+      {/* 하단 버튼 */}
+      <Button
+        className="typo-title2 fixed bottom-10 left-4 right-4"
+        variant="filled"
+        disabled={step === 1 ? !(agreements.age && agreements.terms && agreements.privacy) : nickname.length === 0}
+        onClick={handleNext}
+      >
+        확인
+      </Button>
     </div>
   );
 }

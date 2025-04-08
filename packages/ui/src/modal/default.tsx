@@ -41,10 +41,10 @@ const Modal: React.FC<ModalProps> = ({
               </>
             ) : (
               <div className="w-full px-5 flex flex-row items-center justify-center gap-5">
-                <Button variant="outline" size="full" onClick={onClose}>
+                <Button variant="filled" size="full" onClick={onClose}>
                   {cancelText}
                 </Button>
-                <Button variant="default" size="full" onClick={onConfirm}>
+                <Button variant="filled" size="full" onClick={onConfirm}>
                   {confirmText}
                 </Button>
               </div>
