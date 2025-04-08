@@ -6,7 +6,7 @@ import { Topbar } from "@readup/ui/topbar";
 import { useRouter } from "next/navigation";
 import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
 import { Divider } from "@readup/ui/divider";
-import { useAgreementStore } from "./_stores/useAgreementStore";
+import { useAgreementStore } from "./_stores/use-agreement-store";
 import { Button } from "@readup/ui/button";
 import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
