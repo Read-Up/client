@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 import { BackSVG, CloseSVG } from "@readup/icons";
 
-const topbarVariants = cva("flex w-full items-center px-4 py-[13px] bg-background text-white", {
+const topbarVariants = cva("flex w-full items-center px-4 bg-background text-white", {
   variants: {
     variant: {
       original: "justify-between gap-2 bg-[#d9d9d9]",
@@ -72,8 +72,6 @@ export function Topbar({
         )}
         {variant === "close" && <button onClick={onRightClick}>{rightSVG}</button>}
       </header>
-      {/* fixed topbar가 아래 콘텐츠를 가리지 않도록 동일한 높이의 spacer 적용 */}
-      <div className={heightClass} />
     </>
   );
 }

@@ -1,12 +1,12 @@
 export const color = {
   primary: "#4A90E2",
-  primary_variant: "#4A90E2",
-  secondary: "#2F7E79",
+  primary_variant: "#3a6f9c",
+  secondary: "#16ccc3",
   secondary_variant: "#2F7F79",
 
   background: "#0F1720",
   surface: "#1E2A38",
-  error: "#F65A5B",
+  error: "#ff7b7c",
   progress_background: "#888888",
   kakao: "#FEE500",
   naver: "#03C75A",

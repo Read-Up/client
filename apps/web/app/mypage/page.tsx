@@ -1,9 +1,5 @@
-import PageLayout from "@/_components/layout/PageLayout";
+import MyPageScreen from "./screen";
 
 export default function MyPage() {
-  return (
-    <PageLayout>
-      <h1 className="text-4xl font-bold text-white w-full">My Page</h1>
-    </PageLayout>
-  );
+  return <MyPageScreen />;
 }

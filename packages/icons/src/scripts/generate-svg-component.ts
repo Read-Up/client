@@ -80,7 +80,7 @@ const createComponentContent = (componentName: string, svgContent: string, svgFi
 
   return `
     import { forwardRef } from 'react';
- 
+
     import type { IconProps } from "../types/icon";
     import { ICON_SIZE_MAP } from "../types/icon";
 
@@ -90,7 +90,7 @@ const createComponentContent = (componentName: string, svgContent: string, svgFi
           ${modifiedSvgContent}
         );
       }
-    );    
+    );
 
     ${componentName}.displayName = '${componentName}';
     export default ${componentName};
@@ -101,7 +101,9 @@ const generateComponentFiles = async (svgComponentMap: SvgComponentMap) => {
   const components: string[] = [];
 
   for (const [componentName, svgFile] of Object.entries(svgComponentMap)) {
-    const componentFilePath = path.resolve(COMPONENT_DIR, `${componentName}.tsx`);
+    const baseName = path.basename(svgFile, ".svg");
+    const kebabName = `${baseName}.svg.tsx`;
+    const componentFilePath = path.resolve(COMPONENT_DIR, kebabName);
 
     if (existsSync(componentFilePath)) {
       components.push(componentName);
@@ -110,7 +112,6 @@ const generateComponentFiles = async (svgComponentMap: SvgComponentMap) => {
 
     const svgFilePath = path.resolve(SVG_DIR, svgFile);
     const svgContent = (await fs.readFile(svgFilePath)).toString();
-
     const componentContent = createComponentContent(componentName, svgContent, svgFile);
 
     await fs.writeFile(componentFilePath, componentContent);
@@ -120,10 +121,15 @@ const generateComponentFiles = async (svgComponentMap: SvgComponentMap) => {
   return components;
 };
 
-const generateExportFile = async (components: string[]) => {
+const generateExportFile = async (components: string[], svgComponentMap: SvgComponentMap) => {
   const EXPORT_FILE_PATH = "../icons/src/components/index.ts";
+
   const exportFileContent = components
-    .map((component) => `export { default as ${component} } from "./${component}";`)
+    .map((componentName) => {
+      const svgFile = svgComponentMap[componentName]; // ex: share-line-2.svg
+      const fileName = `${svgFile}.tsx`.replace(/\.svg\.tsx$/, ".svg"); // => share-line-2.svg
+      return `export { default as ${componentName} } from "./${fileName}";`;
+    })
     .join("\n");
 
   const resolvedExportFileContent = `export * from "../types/icon";\n${exportFileContent}`;
@@ -136,7 +142,7 @@ const generateExportFile = async (components: string[]) => {
     const svgComponentMap = await generateSvgComponentMap();
     await deleteUnusedComponentFiles(svgComponentMap);
     const components = await generateComponentFiles(svgComponentMap);
-    await generateExportFile(components);
+    await generateExportFile(components, svgComponentMap);
   } catch (error) {
     console.log("Error generating components:", error);
   }
