@@ -6,7 +6,7 @@
   "exports": "./src/components/index.ts",
   "scripts": {
     "build": "pnpm generate:icons && rm -rf dist && tsup src/components/index.ts --format esm,cjs --dts",
-    "generate:icons": "tsx ./src/scripts/generateSVGComponent.ts && pnpm format && pnpm lint",
+    "generate:icons": "tsx ./src/scripts/generate-svg-component.ts && pnpm format && pnpm lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint --fix ./src/components/**/*.tsx",
     "format": "prettier --write ./src/components/**/*.tsx"
