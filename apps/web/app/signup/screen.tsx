@@ -10,6 +10,7 @@ import { useAgreementStore } from "./_stores/use-agreement-store";
 import { Button } from "@readup/ui/button";
 import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
+import { PATH } from "@/_constant/routes";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function SignupScreen() {
       return;
     }
     clear();
-    router.push("/login");
+    router.push(PATH.LOGIN.ROOT);
   };
 
   const handleNext = () => {

@@ -1,15 +1,33 @@
-export const ROOTS = {
-  예시1: "/예시1",
-  예시2: "/예시2",
-  예시3: "/예시3",
+const ROOTS = {
+  HOME: "/",
+  LIBRARY: "/library",
+  LOGIN: "/login",
+  MYPAGE: "/mypage",
+  SIGNUP: "/signup",
+  QUIZ: "/quiz",
 };
 
-export const PATH = {
-  예시1: {
-    root: ROOTS.예시1,
-    login: "/login",
-    join: "/join",
-    find: "/find",
-    reset: "/reset",
+/**
+ * @this PATH
+ *
+ */
+export default Object.freeze({
+  HOME: {
+    ROOT: ROOTS.HOME,
   },
-};
+  LIBRARY: {
+    ROOT: ROOTS.LIBRARY,
+  },
+  MYPAGE: {
+    ROOT: ROOTS.MYPAGE,
+  },
+  LOGIN: {
+    ROOT: ROOTS.LOGIN,
+  },
+  SIGNUP: {
+    ROOT: ROOTS.SIGNUP,
+  },
+  QUIZ: {
+    ROOT: ROOTS.QUIZ,
+  },
+});
