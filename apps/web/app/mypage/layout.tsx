@@ -1,5 +1,14 @@
-import PageLayout from "@/_components/layout/PageLayout";
+import Layout from "@/_components/shared/layout";
 
 export default function MyPageLayout({ children }: { children: React.ReactNode }) {
-  return <PageLayout>{children}</PageLayout>;
+  return (
+    <Layout
+      pathname="/mypage"
+      topbarProps={{
+        text: "마이페이지",
+      }}
+    >
+      {children}
+    </Layout>
+  );
 }
