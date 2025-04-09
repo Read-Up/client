@@ -7,8 +7,8 @@ const KakaoSVG = forwardRef<SVGSVGElement, IconProps>(
   ({ className, size = "md", viewBox = "0 0 512 512", fill = "#FFF", ...rest }, ref) => {
     return (
       <svg
-        width={ICON_SIZE_MAP[size]}
-        height={ICON_SIZE_MAP[size]}
+        width="64px"
+        height="64px"
         viewBox={viewBox}
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
