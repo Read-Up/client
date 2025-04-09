@@ -1,20 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import { BottomNavigation } from "@readup/ui/bottom-navigation";
-import { Topbar } from "@readup/ui/topbar";
-import { BackSVG } from "@readup/icons";
-
+import { Topbar, TopbarProps } from "@readup/ui/topbar";
 interface LayoutProps {
   children: React.ReactNode;
   pathname?: string;
   topVariant?: "original" | "icon1" | "icon2" | "close";
   top?: boolean;
-  text?: string;
   bottom?: boolean;
-  leftSVG?: React.ReactNode;
-  rightSVG?: React.ReactNode;
-  onLeftClick?: () => void;
-  onRightClick?: () => void;
+  topbarProps?: TopbarProps;
 }
 
 export default function Layout({
@@ -22,13 +16,11 @@ export default function Layout({
   pathname = "",
   topVariant = "icon2",
   top = true,
-  text = "",
   bottom = true,
-  leftSVG = <BackSVG />,
-  rightSVG = <rightSVG />,
-  onLeftClick,
-  onRightClick,
+  topbarProps = {},
 }: LayoutProps) {
+  const { text, leftSVG, rightSVG, onLeftClick, onRightClick } = topbarProps;
+
   const getActiveTab = (): "home" | "library" | "mypage" | undefined => {
     if (pathname === "/" || pathname.startsWith("/home")) {
       return "home";
