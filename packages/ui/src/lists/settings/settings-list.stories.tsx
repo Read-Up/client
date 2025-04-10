@@ -5,7 +5,7 @@ import { Topbar } from "../../topbar";
 const DummyLink = ({ href, children }: { href: string; children: React.ReactNode }) => <a href={href}>{children}</a>;
 
 const meta = {
-  title: "List/Settings",
+  title: "Lists/Settings",
   component: SettingsList,
   tags: ["autodocs"],
   argTypes: {
