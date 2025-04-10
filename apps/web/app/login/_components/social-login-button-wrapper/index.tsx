@@ -1,4 +1,4 @@
-import { SocialLoginLink, SocialLoginLinkProps } from "@readup/ui/social-login-button";
+import { SocialLoginLink, SocialLoginLinkProps } from "@readup/ui/atoms";
 import Link from "next/link";
 
 export default function SocialLoginButtonWrapper({ href, ...props }: SocialLoginLinkProps & { href: string }) {
