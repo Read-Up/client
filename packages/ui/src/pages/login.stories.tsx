@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { SocialLoginLink } from "../social-login-button";
+import { SocialLoginLink } from "../atoms";
 
 const meta = {
   title: "Pages/Login",

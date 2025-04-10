@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { BottomNavigation } from "@readup/ui/bottom-navigation";
-import { Topbar, TopbarProps } from "@readup/ui/topbar";
+import { BottomNavigation, Topbar, TopbarProps } from "@readup/ui/molecules";
 interface LayoutProps {
   children: React.ReactNode;
   pathname?: string;
