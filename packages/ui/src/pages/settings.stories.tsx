@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Topbar } from "../topbar";
-import { SettingsList } from "../lists/settings/default";
+import { SettingsList } from "../organisms";
+import { Topbar } from "../molecules";
 
 const meta = {
   title: "Pages/Settings",

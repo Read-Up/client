@@ -4,7 +4,7 @@ import type { IconProps } from "../types/icon";
 import { ICON_SIZE_MAP } from "../types/icon";
 
 const KakaoSVG = forwardRef<SVGSVGElement, IconProps>(
-  ({ className, size = "3xl", viewBox = "0 0 512 512", fill = "#FFF", ...rest }, ref) => {
+  ({ className, size = "md", viewBox = "0 0 512 512", fill = "#FFF", ...rest }, ref) => {
     return (
       <svg
         width={ICON_SIZE_MAP[size]}

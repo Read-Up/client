@@ -1,11 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Topbar } from "../topbar";
-import { LinearProgress } from "../progress/linear";
 import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
-import { Divider } from "../divider";
 import React, { useState } from "react";
-import { TextBox } from "../textbox";
-import { Button } from "../button";
+import { LinearProgress } from "../organisms";
+import { Button, Divider, TextBox } from "../atoms";
+import { Topbar } from "../molecules";
 
 const AGREEMENT_ITEMS = [
   {

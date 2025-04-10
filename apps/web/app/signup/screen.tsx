@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import { LinearProgress } from "@readup/ui/progress/linear";
-import { Topbar } from "@readup/ui/topbar";
 import { useRouter } from "next/navigation";
 import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
-import { Divider } from "@readup/ui/divider";
 import { useAgreementStore } from "./_stores/use-agreement-store";
-import { Button } from "@readup/ui/button";
-import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
 import { PATH } from "@/_constant/routes";
+import { Topbar } from "@readup/ui/molecules";
+import { LinearProgress } from "@readup/ui/organisms";
+import { Button, Divider, TextBox } from "@readup/ui/atoms";
 
 export default function SignupScreen() {
   const router = useRouter();
