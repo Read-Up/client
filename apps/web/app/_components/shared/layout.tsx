@@ -32,7 +32,7 @@ export default function Layout({
   };
 
   return (
-    <div className="relative min-h-screen pb-[90px]">
+    <div className="relative h-screen pb-[90px]">
       {top && <Topbar variant={topVariant} {...topbarProps} />}
       {children}
       {bottom && (

@@ -67,7 +67,22 @@ export interface TextBoxProps
 }
 
 const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBoxProps>(
-  ({ className, value, onChange, onSubmit, placeholder, onClear, index, change, variant, rounded, ...props }, ref) => {
+  (
+    {
+      className,
+      value,
+      onChange,
+      onSubmit,
+      placeholder,
+      onClear,
+      index,
+      change,
+      variant = "searchbox",
+      rounded,
+      ...props
+    },
+    ref,
+  ) => {
     const closeVariants = ["textbox", "error", "chapterbox", "error_chapterbox"];
     return (
       <div className="w-full flex flex-center items-center gap-[10px]">
