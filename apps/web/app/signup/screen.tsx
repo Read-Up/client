@@ -10,6 +10,7 @@ import { useAgreementStore } from "./_stores/use-agreement-store";
 import { Button } from "@readup/ui/button";
 import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
+import { PATH } from "@/_constant/routes";
 
 // 닉네임 검증 정규식 (한글, 영어, 숫자만 가능하고 2자 이상 12자 이하
 const NICKNAME_REGEX = /^[a-zA-Z0-9가-힣]{2,12}$/;
@@ -62,8 +63,7 @@ export default function SignupScreen() {
       return;
     }
     clear();
-    // 추가적으로 로그아웃 처리 필요 (쿠키 삭제 등)
-    router.push("/login");
+    router.push(PATH.LOGIN.ROOT);
   };
 
   const handleChangeNickaname = (value: string) => {

@@ -24,7 +24,7 @@ export interface TopbarProps extends React.HTMLAttributes<HTMLElement>, VariantP
   rightSVG?: React.ReactNode;
   onLeftClick?: () => void;
   onRightClick?: () => void;
-  height?: number; // height prop 추가 (default: 50)
+  heightClass?: string;
 }
 
 // NOTE: height prop은 default로 50을 사용하도록 설정(px단위). 이후 필요에 따라 변경 가능
@@ -35,12 +35,11 @@ export function Topbar({
   rightSVG = <CloseSVG />,
   onLeftClick,
   onRightClick,
-  height = 50,
+  heightClass = "h-[50px]",
   className,
   ...props
 }: TopbarProps) {
   // TailwindCSS의 arbitrary class를 사용하여 동적 높이 클래스 생성
-  const heightClass = `h-[${height}px]`;
 
   return (
     <>
