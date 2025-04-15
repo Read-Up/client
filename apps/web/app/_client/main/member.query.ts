@@ -3,13 +3,13 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { MemberAPI } from "./member-api";
-import { END_POINT } from "@/_constant/end-point";
+import END_POINT from "@/_constant/end-point";
 
 export const useMemPointAllListQuery = (open: boolean) => {
   const queryFn = () => MemberAPI.getMainList();
 
   return useQuery({
-    queryKey: [END_POINT.MAIN.예시1],
+    queryKey: [END_POINT.BOOK.SEARCH.ISBN],
     queryFn,
     enabled: open,
   });
