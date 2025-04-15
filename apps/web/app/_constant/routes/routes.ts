@@ -1,60 +1,9 @@
-import PATH from "./path";
+import { PATH, ROOTS } from "./path";
 
-export default Object.freeze({
-  HOME: {
-    DEFAULT: {
-      name: "홈",
-      url: PATH.HOME.ROOT,
-    },
+export const ROUTER = {
+  예시1: {
+    name: "주문/배송",
+    url: ROOTS.예시1 + PATH.예시1,
+    icon: "아이콘 있으면 여기",
   },
-  BOOK: {
-    DEFAULT: {
-      name: "도서",
-      url: PATH.BOOK.ROOT,
-    },
-    SEARCH: {
-      name: "도서/검색",
-      url: PATH.BOOK.SEARCH,
-    },
-    DETAIL: {
-      name: "도서/상세",
-      url: PATH.BOOK.DETAIL,
-    },
-  },
-  LIBRARY: {
-    DEFAULT: {
-      name: "내 서재",
-      url: PATH.LIBRARY.ROOT,
-    },
-  },
-  MYPAGE: {
-    DEFAULT: {
-      name: "마이페이지",
-      url: PATH.MYPAGE.ROOT,
-    },
-  },
-  LOGIN: {
-    DEFAULT: {
-      name: "유저/로그인",
-      url: PATH.LOGIN.ROOT,
-    },
-  },
-  SIGNUP: {
-    DEFAULT: {
-      name: "유저/회원가입",
-      url: PATH.SIGNUP.ROOT,
-    },
-  },
-  QUIZ: {
-    DEFAULT: {
-      name: "퀴즈",
-      url: PATH.QUIZ.ROOT,
-    },
-  },
-  API: {
-    DEFAULT: {
-      name: "API",
-      url: PATH.API.ROOT,
-    },
-  },
-});
+};

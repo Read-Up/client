@@ -1,36 +1,13 @@
 "use client";
 
 import React from "react";
-import { LinearProgress } from "@readup/ui/progress/linear";
-import { Topbar } from "@readup/ui/topbar";
 import { useRouter } from "next/navigation";
 import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
-import { Divider } from "@readup/ui/divider";
 import { useAgreementStore } from "./_stores/use-agreement-store";
-import { Button } from "@readup/ui/button";
-import { TextBox } from "@readup/ui/textbox";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
-import { PATH } from "@/_constant/routes";
-
-// 닉네임 검증 정규식 (한글, 영어, 숫자만 가능하고 2자 이상 12자 이하
-const NICKNAME_REGEX = /^[a-zA-Z0-9가-힣]{2,12}$/;
-
-// 검증 정규식 외의 추가 검증은 서버로 이관
-const validateNickname = (nickname: string): [string, string] => {
-  if (nickname.length === 0) {
-    return ["닉네임을 입력해주세요.", "text-red-400"];
-  }
-  if (nickname.length > 12) {
-    return ["닉네임은 최대 12자까지 가능합니다.", "text-red-400"];
-  }
-  if (nickname.length < 2) {
-    return ["닉네임은 최소 2자 이상이어야 합니다.", "text-red-400"];
-  }
-  if (!NICKNAME_REGEX.test(nickname)) {
-    return ["닉네임은 한글, 영어, 숫자만 사용 가능합니다.", "text-red-400"];
-  }
-  return ["사용 가능한 닉네임입니다.", "text-primary"];
-};
+import { Topbar } from "@readup/ui/molecules";
+import { LinearProgress } from "@readup/ui/organisms";
+import { Button, Divider, TextBox } from "@readup/ui/atoms";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -38,24 +15,6 @@ export default function SignupScreen() {
   const { agreements, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = React.useState<Partial<Record<AgreementItem["key"], boolean>>>({});
   const [nickname, setNickname] = React.useState<string>("");
-  const [footnote, setFootnote] = React.useState<[string, string]>(["", "text-primary"]);
-
-  const getRandomNickname = async () => {
-    // 추후 서버 API로 교체 예정
-    const res = await fetch("https://www.rivestsoft.com/nickname/getRandomNickname.ajax", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ lang: "ko" }),
-    });
-    if (!res.ok) {
-      throw new Error("랜덤 닉네임 생성에 실패했습니다.");
-    }
-    const data = await res.json();
-    setFootnote(["사용 가능한 닉네임입니다.", "text-primary"]);
-    setNickname(data.data);
-  };
 
   const handleBack = () => {
     if (step > 1) {
@@ -63,37 +22,13 @@ export default function SignupScreen() {
       return;
     }
     clear();
-    router.push(PATH.LOGIN.ROOT);
-  };
-
-  const handleChangeNickaname = (value: string) => {
-    setNickname(value);
-    setFootnote(["", "text-primary"]);
-    // 향후 닉네임 검증 로직 추가 예정
-    // setFootnote(validateNickname(value));
+    router.push("/login");
   };
 
   const handleNext = () => {
     if (agreements.age && agreements.terms && agreements.privacy) {
       setStep(2);
     }
-  };
-
-  const handleFinish = () => {
-    // 닉네임 검증
-    const errorMessage = validateNickname(nickname);
-
-    if (errorMessage) {
-      setFootnote(errorMessage);
-      return;
-    }
-
-    // 서버로 닉네임 전송
-    // 예시: await fetch("/api/signup", { method: "POST", body: JSON.stringify({ nickname }) });
-
-    // 회원가입 완료 후 처리
-    alert("회원가입이 완료되었습니다.");
-    router.push("/home");
   };
 
   const handleToggleExpand = (key: keyof typeof expanded) => {
@@ -208,7 +143,7 @@ export default function SignupScreen() {
               <input
                 type="text"
                 value={nickname}
-                onChange={(e) => handleChangeNickaname(e.target.value)}
+                onChange={(e) => setNickname(e.target.value)}
                 placeholder="한글, 영어, 숫자만 사용가능"
                 className="bg-transparent outline-none text-white w-full placeholder:text-gray-400"
                 maxLength={12}
@@ -217,15 +152,9 @@ export default function SignupScreen() {
             </div>
 
             {/* 랜덤 닉네임 버튼 */}
-            <button
-              className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-[6px] whitespace-nowrap"
-              onClick={getRandomNickname}
-            >
+            <button className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-[6px] whitespace-nowrap">
               랜덤닉네임 생성
             </button>
-          </div>
-          <div className="flex flex-row w-full px-4 mt-2">
-            <p className={`typo-title3 ${footnote[1]}`}>{footnote[0]}</p>
           </div>
         </React.Fragment>
       )}
@@ -235,7 +164,7 @@ export default function SignupScreen() {
         className="typo-title2 fixed bottom-10 left-4 right-4"
         variant="filled"
         disabled={step === 1 ? !(agreements.age && agreements.terms && agreements.privacy) : nickname.length === 0}
-        onClick={step === 1 ? handleNext : handleFinish}
+        onClick={handleNext}
       >
         확인
       </Button>

@@ -1,11 +1,11 @@
 @theme {
   --color-primary: #4a90e2;
-  --color-primary_variant: #4a90e2;
-  --color-secondary: #2f7e79;
+  --color-primary_variant: #3a6f9c;
+  --color-secondary: #16ccc3;
   --color-secondary_variant: #2f7f79;
   --color-background: #0f1720;
   --color-surface: #1e2a38;
-  --color-error: #f65a5b;
+  --color-error: #ff7b7c;
   --color-kakao: #fee500;
   --color-naver: #03c75a;
   --color-on-primary: #ffffff;
