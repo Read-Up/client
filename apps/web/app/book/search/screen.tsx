@@ -12,7 +12,7 @@ export default function BookSearchScreen() {
       </div>
 
       <div className="flex-1 flex items-center justify-center">
-        <div className="flex flex-col gap-3.5 items-center text-gray-60">
+        <div className="flex flex-col gap-3.5 text-center items-center text-gray-60">
           <KeywordLineSVG stroke="#95999D" fill="#95999D" />
           <div>
             <p>원하는 책을 찾아드릴게요!</p>
