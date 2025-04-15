@@ -8,13 +8,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --max-warnings 0",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "storybook:dev": "storybook dev --ci -p 6007",
+    "storybook:build": "storybook build --docs --quiet",
+    "storybook:move": "mv storybook-static ../storybook/storybook-static/web",
+    "build-storybook": "pnpm storybook:build"
   },
   "dependencies": {
+    "@readup/font": "workspace:*",
+    "@readup/icons": "workspace:*",
     "@readup/ui": "workspace:*",
     "@readup/utils": "workspace:^",
-    "@readup/icons": "workspace:*",
-    "@readup/font": "workspace:*",
     "@tanstack/react-query": "^5.67.3",
     "ky": "^1.7.5",
     "next": "^15.2.1",
@@ -25,15 +29,32 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3",
     "@readup/eslint-config": "workspace:*",
     "@readup/typescript-config": "workspace:*",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/addon-viewport": "8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/nextjs": "8.6.12",
+    "@storybook/react": "^8.6.7",
+    "@storybook/test": "8.6.12",
     "@tailwindcss/postcss": "^4.0.14",
     "@types/node": "^22.13.9",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "eslint": "^9.22.0",
+    "eslint-plugin-storybook": "0.12.0",
     "postcss": "^8.5.3",
+    "storybook": "8.6.12",
     "tailwindcss": "^4.0.13",
     "typescript": "5.8.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

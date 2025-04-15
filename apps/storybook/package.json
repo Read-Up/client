@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "storybook dev -p 6006",
-    "build": "storybook build --docs",
-    "build-storybook": "pnpm build",
+    "storybook:dev": "pnpm wait-on http://localhost:6007 http://localhost:6008 && storybook dev -p 6006",
+    "storybook:build": "storybook build --docs",
+    "build-storybook": "pnpm turbo storybook:build && pnpm turbo storybook:move",
     "clean": "rm -rf .turbo && rm -rf node_modules"
   },
   "dependencies": {
@@ -16,9 +16,9 @@
   },
   "devDependencies": {
     "@readup/eslint-config": "workspace:*",
-    "@readup/typescript-config": "workspace:*",
     "@readup/tokens": "workspace:*",
-    "@storybook/addon-essentials": "^8.6.7",
+    "@readup/typescript-config": "workspace:*",
+    "@storybook/addon-docs": "8.6.12",
     "@storybook/blocks": "^8.6.7",
     "@storybook/react": "^8.6.7",
     "@storybook/react-vite": "^8.6.7",
@@ -27,7 +27,8 @@
     "storybook": "^8.6.7",
     "tailwindcss": "^4.0.13",
     "typescript": "5.8.2",
-    "vite": "6.2.3"
+    "vite": "6.2.3",
+    "wait-on": "8.0.3"
   },
   "eslintConfig": {
     "extends": [

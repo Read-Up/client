@@ -1,16 +1,16 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import BookSearchLayout from "./layout";
-import BookSearchPage from "./page";
+import Mypage from "./page";
+import MypageLayout from "./layout";
 
 const meta: Meta = {
-  title: "Pages/Book/Search",
-  component: BookSearchPage,
+  title: "Pages/Mypage",
+  component: Mypage,
   decorators: [
     (Story) => (
-      <BookSearchLayout>
+      <MypageLayout>
         <Story />
-      </BookSearchLayout>
+      </MypageLayout>
     ),
   ],
 };
@@ -19,5 +19,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <BookSearchPage />,
+  render: () => <Mypage />,
 };
