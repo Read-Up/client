@@ -51,4 +51,10 @@ export default Object.freeze({
       url: PATH.QUIZ.ROOT,
     },
   },
+  API: {
+    DEFAULT: {
+      name: "API",
+      url: PATH.API.ROOT,
+    },
+  },
 });
