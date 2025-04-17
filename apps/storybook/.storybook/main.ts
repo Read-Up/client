@@ -24,13 +24,13 @@ const config: StorybookConfig = {
     }
     return {
       web: {
-        title: "@eb",
-        url: "web/",
+        title: "web",
+        url: "https://main--6800ded28f2f8141486ec84a.chromatic.com",
         expanded: false,
       },
       ui: {
         title: "UI",
-        url: "ui/",
+        url: "https://main--6800e088b742033bb3f706a6.chromatic.com",
         expanded: false,
       },
     };

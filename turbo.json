@@ -31,9 +31,6 @@
         "storybook-static/**"
       ]
     },
-    "storybook:move": {
-      "cache": false
-    },
     "lint": {
       "dependsOn": [
         "^lint"

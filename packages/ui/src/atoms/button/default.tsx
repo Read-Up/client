@@ -34,7 +34,7 @@ const buttonVariants = cva(
       {
         variant: "filled",
         secondary: true,
-        class: "bg-on-background text-gray-30 hover:bg-on-background/90 active:bg-on-background/80",
+        class: "bg-on-background text-gray-50 hover:bg-on-background/90 active:bg-on-background/80",
       },
       {
         variant: "outline",

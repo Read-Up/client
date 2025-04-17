@@ -13,37 +13,59 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Common Setup
-        uses: ./.github/actions/common-steps
-
-      - name: run pre-commit
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/common-steps
+      - name: Run pre-commit
         if: ${{ !env.ACT }} # Skip during local actions testing
         run: pnpm pre-commit
 
-  chromatic:
-    if: ${{ !github.event.act }} # skip during local actions testing
+  chromatic-packages:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - name: ui
+            dir: packages/ui
+          - name: web
+            dir: apps/web
+
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: ./.github/actions/common-steps
+
+      - name: Build UI dependency
+        if: matrix.name == 'web'
+        run: pnpm ui build
+
+      - name: Run Chromatic (${{ matrix.name }})
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ matrix.name == 'ui' && secrets.CHROMATIC_PROJECT_TOKEN_UI || secrets.CHROMATIC_PROJECT_TOKEN_WEB }}
+          workingDir: ${{ matrix.dir }}
+
+  chromatic-storybook:
+    needs: chromatic-packages
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
 
-      - name: Common Setup
-        uses: ./.github/actions/common-steps
+      - uses: ./.github/actions/common-steps
 
-      - name: Run Chromatic
+      - run: pnpm ui build
+
+      - name: Run Chromatic (storybook)
         id: chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: apps/storybook
 
-      - name: Discord Webhook
+      - name: Notify Discord
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: "Storybook Link - ${{ steps.chromatic.outputs.storybookUrl }}"
+          content: "Storybook Link -${{ steps.chromatic.outputs.storybookUrl }}"

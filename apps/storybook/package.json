@@ -6,7 +6,7 @@
   "scripts": {
     "storybook:dev": "pnpm wait-on http://localhost:6007 http://localhost:6008 && storybook dev -p 6006",
     "storybook:build": "storybook build --docs",
-    "build-storybook": "pnpm turbo storybook:build && pnpm turbo storybook:move",
+    "build-storybook": "pnpm storybook:build",
     "clean": "rm -rf .turbo && rm -rf node_modules"
   },
   "dependencies": {
