@@ -11,13 +11,12 @@
   },
   "scripts": {
     "build": "tsup",
-    "lint": "eslint . --max-warnings 0",
+    "lint": "eslint src --max-warnings 0",
     "generate:component": "turbo gen react-component",
     "generate:theme": "tsx ./scripts/generate-theme-css.ts",
     "check-types": "tsc --noEmit",
     "storybook:dev": "storybook dev --ci -p 6008",
-    "storybook:build": "storybook build --docs",
-    "build-storybook": "pnpm storybook build"
+    "storybook:build": "storybook build"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3",

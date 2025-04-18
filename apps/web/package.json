@@ -10,8 +10,7 @@
     "lint": "next lint --max-warnings 0",
     "check-types": "tsc --noEmit",
     "storybook:dev": "storybook dev --ci -p 6007",
-    "storybook:build": "storybook build --docs",
-    "build-storybook": "pnpm storybook:build"
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@readup/font": "workspace:*",
@@ -32,11 +31,9 @@
     "@readup/eslint-config": "workspace:*",
     "@readup/typescript-config": "workspace:*",
     "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/addon-viewport": "8.6.12",
     "@storybook/nextjs": "8.6.12",
-    "@storybook/react": "^8.6.7",
+    "@storybook/react": "8.6.12",
     "@storybook/test": "8.6.12",
     "@tailwindcss/postcss": "^4.0.14",
     "@types/node": "^22.13.9",
@@ -44,7 +41,6 @@
     "@types/react-dom": "19.0.4",
     "chromatic": "11.28.0",
     "eslint": "^9.22.0",
-    "eslint-plugin-storybook": "0.12.0",
     "postcss": "^8.5.3",
     "storybook": "8.6.12",
     "tailwindcss": "^4.0.13",

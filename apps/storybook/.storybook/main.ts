@@ -6,7 +6,7 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
-  addons: ["@storybook/addon-docs"],
+  addons: ["@storybook/addon-essentials"],
   refs: (config, { configType }) => {
     if (configType === "DEVELOPMENT") {
       return {
@@ -25,12 +25,12 @@ const config: StorybookConfig = {
     return {
       web: {
         title: "web",
-        url: "https://main--6800ded28f2f8141486ec84a.chromatic.com",
+        url: "https://dev-storybook-ui-composition-jm--6800ded28f2f8141486ec84a.chromatic.com",
         expanded: false,
       },
       ui: {
         title: "UI",
-        url: "https://main--6800e088b742033bb3f706a6.chromatic.com",
+        url: "https://dev-storybook-ui-composition-jm--6800e088b742033bb3f706a6.chromatic.com",
         expanded: false,
       },
     };

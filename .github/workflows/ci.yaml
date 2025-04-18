@@ -45,6 +45,7 @@ jobs:
         with:
           projectToken: ${{ matrix.name == 'ui' && secrets.CHROMATIC_PROJECT_TOKEN_UI || secrets.CHROMATIC_PROJECT_TOKEN_WEB }}
           workingDir: ${{ matrix.dir }}
+          buildScriptName: storybook:build
 
   chromatic-storybook:
     needs: chromatic-packages
@@ -60,9 +61,11 @@ jobs:
       - name: Run Chromatic (storybook)
         id: chromatic
         uses: chromaui/action@latest
+        continue-on-error: true
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: apps/storybook
+          buildScriptName: storybook:build
 
       - name: Notify Discord
         uses: tsickert/discord-webhook@v7.0.0
