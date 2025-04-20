@@ -6,8 +6,8 @@
   "scripts": {
     "storybook:dev": "pnpm wait-on http://localhost:6007 http://localhost:6008 && storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "build-storybook": "pnpm storybook:build",
-    "clean": "rm -rf .turbo && rm -rf node_modules"
+    "clean": "rm -rf .turbo && rm -rf node_modules",
+    "dev": "pnpm storybook:dev"
   },
   "dependencies": {
     "@readup/ui": "workspace:*",
