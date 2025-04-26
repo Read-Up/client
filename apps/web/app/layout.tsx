@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head />
-      <body className={`bg-background ${Pretendard.className} overflow-y-scroll`}>
+      <body className={`bg-background ${Pretendard.className} text-white overflow-y-scroll`}>
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
