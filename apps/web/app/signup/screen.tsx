@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
 import { useAgreementStore } from "./_stores/use-agreement-store";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
+import { PATH } from "@/_constant/routes";
 import { Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
@@ -22,7 +23,7 @@ export default function SignupScreen() {
       return;
     }
     clear();
-    router.push("/login");
+    router.push(PATH.LOGIN.ROOT);
   };
 
   const handleNext = () => {

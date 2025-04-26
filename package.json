@@ -8,6 +8,8 @@
     "web": "pnpm -F web",
     "lint": "turbo run lint",
     "storybook": "pnpm -F storybook",
+    "storybook:dev": "turbo run storybook:dev --parallel",
+    "storybook:build": "turbo run storybook:build --parallel",
     "ui": "pnpm -F @readup/ui",
     "utils": "pnpm -F @readup/utils",
     "clean": "rm -rf .turbo && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' + && find . -name '.next' -type d -prune -exec rm -rf '{}' + && rm -f pnpm-lock.yaml + && pnpm install",

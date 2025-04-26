@@ -21,6 +21,7 @@ export { default as CloseSVG } from "./close.svg";
 export { default as HomeSVG } from "./home.svg";
 export { default as KakaoSVG } from "./kakao.svg";
 export { default as KeyLineSVG } from "./key-line.svg";
+export { default as KeywordLineSVG } from "./keyword-line.svg";
 export { default as MenuSVG } from "./menu.svg";
 export { default as ScanSVG } from "./scan.svg";
 export { default as SearchSVG } from "./search.svg";

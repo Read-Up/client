@@ -4,7 +4,7 @@ import type { KyInstance } from "ky";
 
 import { clientApi } from "@/_server/instance";
 import { revalidateCache } from "@/_server/helper";
-import { END_POINT } from "@/_constant/end-point";
+import END_POINT from "@/_constant/end-point";
 
 class API {
   API: KyInstance = clientApi;
@@ -20,7 +20,7 @@ class API {
   // ! 샘플
 
   async getMainList() {
-    const { data } = await this.API(END_POINT.MAIN.예시1, {
+    const { data } = await this.API(END_POINT.BOOK.SEARCH.ISBN, {
       method: "GET",
     }).json<ResJson<MemberDTO["member"]>>();
     // .catch(parseErrorData);
@@ -29,7 +29,7 @@ class API {
   }
 
   async createMain() {
-    const { statusCode, message } = await this.API(END_POINT.MAIN.예시1, {
+    const { statusCode, message } = await this.API(END_POINT.BOOK.SEARCH.ISBN, {
       method: "POST",
     }).json<ResJson<null>>();
     // .catch(parseErrorData);
@@ -37,7 +37,7 @@ class API {
     const isValid = statusCode === "OK";
 
     if (isValid) {
-      await revalidateCache({ key: END_POINT.MAIN.예시1 });
+      await revalidateCache({ key: END_POINT.BOOK.SEARCH.ISBN });
     }
 
     return { isValid, message };
