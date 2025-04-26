@@ -2,9 +2,9 @@
 
 import type { KyInstance } from "ky";
 
-import { clientApi } from "@/_server/instance";
+import { END_POINT } from "@/_constant/end-point";
 import { revalidateCache } from "@/_server/helper";
-import END_POINT from "@/_constant/end-point";
+import { clientApi } from "@/_server/instance";
 
 class API {
   API: KyInstance = clientApi;
