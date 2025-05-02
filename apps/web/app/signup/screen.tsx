@@ -9,6 +9,9 @@ import { PATH } from "@/_constant/routes";
 import { Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
+import { END_POINT } from "@/_constant/end-point";
+import ky from "ky";
+import { randomNicknameResponseSchema } from "./_types";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -42,6 +45,22 @@ export default function SignupScreen() {
         [key]: !isCurrentlyOpen,
       };
     });
+  };
+
+  const createRandomNickname = async () => {
+    const response = await ky
+      .get(`${END_POINT.BASE_URL}${END_POINT.USERS.RANDOM_NICKNAME}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .json();
+    const parsed = randomNicknameResponseSchema.parse(response);
+    if (!parsed.success) {
+      alert("닉네임 생성에 실패했습니다.");
+      return;
+    }
+    setNickname(parsed.data);
   };
 
   return (
@@ -153,7 +172,10 @@ export default function SignupScreen() {
             </div>
 
             {/* 랜덤 닉네임 버튼 */}
-            <button className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-[6px] whitespace-nowrap">
+            <button
+              className="bg-primary text-white text-sm font-semibold px-4 py-2 rounded-[6px] whitespace-nowrap"
+              onClick={createRandomNickname}
+            >
               랜덤닉네임 생성
             </button>
           </div>

@@ -5,4 +5,7 @@ export const END_POINT = {
     예시1: "/api/v1/예시1",
     예시2: "/api/v1/예시2",
   },
+  USERS: {
+    RANDOM_NICKNAME: "/api/public/users/random-nickname",
+  },
 };
