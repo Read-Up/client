@@ -1,10 +1,13 @@
 import { color } from "./color";
 import { zIndex } from "./zIndex";
 import { typography } from "./typography";
+import { shadow } from "./shadow";
+
 export const theme = {
   color,
   zIndex,
   typography,
+  shadow
 };
 
 export type KeyOfTheme = keyof typeof theme;
