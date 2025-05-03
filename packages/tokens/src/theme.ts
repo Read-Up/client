@@ -7,7 +7,7 @@ export const theme = {
   color,
   zIndex,
   typography,
-  shadow
+  shadow,
 };
 
 export type KeyOfTheme = keyof typeof theme;
