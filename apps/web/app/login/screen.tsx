@@ -1,7 +1,6 @@
-import { PATH } from "@/_constant/routes";
 import SocialLoginButtonWrapper from "./_components/social-login-button-wrapper";
 
-const getSocialHref = (provider: string) => `${PATH.SIGNUP.ROOT}?login=${provider}`; // `/api/auth/signin/${provider}`;
+const getSocialHref = (provider: string) => `/signup?login=${provider}`; // `/api/auth/signin/${provider}`;
 
 export default function LoginScreen() {
   return (
