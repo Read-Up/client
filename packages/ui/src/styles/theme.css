@@ -63,4 +63,5 @@
   --text-footnote: 12px;
   --leading-footnote: 140%;
   --font-weight-footnote: 400;
+  --shadow-bottom-nav: 0px -4px 10px 0px rgba(0, 0, 0, 0.2);
 }
