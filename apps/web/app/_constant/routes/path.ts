@@ -39,6 +39,11 @@ export default Object.freeze({
   },
   SETTINGS: {
     ROOT: ROOTS.SETTINGS,
-    PROFILE: `${ROOTS.SETTINGS}/profile`,
+    PROFILE: `${ROOTS.SETTINGS}/profile`, // 회원정보 수정
+    LOGOUT: `${ROOTS.SETTINGS}/logout`, // 로그아웃
+    WITHDRAWAL: `${ROOTS.SETTINGS}/withdrawal`, // 회원탈퇴
+    TERMS_OF_SERVICE: `${ROOTS.SETTINGS}/terms-of-service`, // 서비스 이용약관
+    PRIVACY_POLICY: `${ROOTS.SETTINGS}/privacy-policy`, // 개인정보 처리방침
+    NOTICE: `${ROOTS.SETTINGS}/notice`, // 공지사항
   },
 });
