@@ -64,6 +64,10 @@ export interface TextBoxProps
   rounded?: boolean; // 챕터박스에서 라운드 full 여부(default: false)
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear?: () => void;
+  icon?: React.ReactNode;
+  isButton?: boolean; // 챕터박스에서 버튼 여부
+  isBorder?: boolean; // 챕터박스에서 border 여부
+  onButtonClick?: () => void; // 챕터박스에서 버튼 클릭 시 이벤트
 }
 
 const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBoxProps>(
@@ -79,6 +83,10 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
       change,
       variant = "searchbox",
       rounded,
+      isButton = true,
+      icon,
+      isBorder = true,
+      onButtonClick,
       ...props
     },
     ref,
@@ -94,7 +102,16 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
             {variant === "chapterbox" && !change && <span>{index}</span>}
           </span>
         )}
-        <form onSubmit={onSubmit} className={cn(formVariants({ className, variant }), { "rounded-full": rounded })}>
+        <form
+          onSubmit={onSubmit}
+          className={cn(
+            formVariants({ className, variant }),
+            {
+              "rounded-full": rounded,
+            },
+            !isBorder && "!border-none !ring-0 !focus:ring-0 !focus:border-none",
+          )}
+        >
           {/* variant가 'questionbox'이면 textarea, 아니면 input */}
           {variant === "questionbox" ? (
             <textarea
@@ -118,7 +135,7 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
           )}
 
           {/* 'questionbox'에서는 버튼 없음 */}
-          {variant !== "questionbox" && (
+          {isButton && variant !== "questionbox" && (
             <button
               type="button"
               className="px-3 text-gray-400 cursor-pointer"
@@ -126,10 +143,13 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
                 if (variant && closeVariants.includes(variant)) {
                   onClear?.();
                 }
+                if (onButtonClick) {
+                  onButtonClick();
+                }
               }}
             >
-              {variant === "searchbox" && <CiSearch size={24} />}
-              {variant && closeVariants.includes(variant) && <IoIosCloseCircle size={24} />}
+              {variant === "searchbox" && (!icon ? <CiSearch size={24} /> : icon)}
+              {variant && closeVariants.includes(variant) && (icon ? icon : <IoIosCloseCircle size={24} />)}
             </button>
           )}
         </form>
