@@ -6,6 +6,7 @@ const ROOTS = {
   MYPAGE: "/mypage",
   SIGNUP: "/signup",
   QUIZ: "/quiz",
+  SETTINGS: "/settings",
 };
 
 /**
@@ -35,5 +36,9 @@ export default Object.freeze({
   },
   QUIZ: {
     ROOT: ROOTS.QUIZ,
+  },
+  SETTINGS: {
+    ROOT: ROOTS.SETTINGS,
+    PROFILE: `${ROOTS.SETTINGS}/profile`,
   },
 });

@@ -1,5 +1,6 @@
 import { SettingsList } from "@readup/ui/organisms";
 import LinkWrapper from "./_components/link-wrapper";
+import { PATH } from "@/_constant/routes";
 
 export default function SettingsScreen() {
   const serviceInfo = [
@@ -8,7 +9,7 @@ export default function SettingsScreen() {
     { label: "개인정보 처리방침", href: "/privacy-policy" },
   ];
   const userManagement = [
-    { label: "회원정보 수정", href: "/profile" },
+    { label: "회원정보 수정", href: PATH.SETTINGS.PROFILE },
     { label: "로그아웃", href: "/logout" },
     { label: "회원탈퇴", href: "/withdrawal" },
   ];

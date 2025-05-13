@@ -51,4 +51,14 @@ export default Object.freeze({
       url: PATH.QUIZ.ROOT,
     },
   },
+  SETTINGS: {
+    DEFAULT: {
+      name: "설정",
+      url: PATH.SETTINGS.ROOT,
+    },
+    PROFILE: {
+      name: "설정/프로필",
+      url: PATH.SETTINGS.PROFILE,
+    },
+  },
 });
