@@ -2,6 +2,7 @@
 
 import { PencilSVG } from "@readup/icons";
 import { Button, TextBox } from "@readup/ui/atoms";
+import { Drawer } from "@readup/ui/molecules";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -89,37 +90,39 @@ export default function ProfileScreen() {
       >
         수정하기
       </Button>
-      {isEditNickname && (
-        <div className="fixed inset-0 bg-black/60" onClick={closeEditNickname}>
-          <div className="absolute bottom-0 right-0 left-0" onClick={(e) => e.stopPropagation()}>
-            <div className="w-full h-[300px] bg-background rounded-t-2xl flex flex-col p-6 gap-2">
-              <p className="typo-title3 text-white mt-2">닉네임을 변경해주세요</p>
-              <p className="typo-body text-gray-70">공백없이 2~12글자로 입력해주세요</p>
-              <TextBox
-                className="mt-2"
-                variant="textbox"
-                placeholder="닉네임"
-                value={changedNickname}
-                onChange={(e) => {
-                  setChangedNickname(e.target.value);
-                }}
-                icon={<p className="typo-body text-gray-60 whitespace-nowrap">{`${changedNickname.length} / 12`}</p>}
-              />
-              <Button
-                className="typo-title2 fixed bottom-10 left-4 right-4"
-                variant="filled"
-                disabled={changedNickname === nickname || changedNickname.length < 2 || changedNickname.length > 12}
-                onClick={() => {
-                  setNickname(changedNickname);
-                  setIsEditNickname(false);
-                }}
-              >
-                완료
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Drawer
+        isOpen={isEditNickname}
+        onClose={closeEditNickname}
+        className="flex flex-col gap-2"
+        size="h-[300px]"
+        direction="bottom"
+      >
+        <>
+          <p className="typo-title3 text-white mt-2">닉네임을 변경해주세요</p>
+          <p className="typo-body text-gray-70">공백없이 2~12글자로 입력해주세요</p>
+          <TextBox
+            className="mt-2"
+            variant="textbox"
+            placeholder="닉네임"
+            value={changedNickname}
+            onChange={(e) => {
+              setChangedNickname(e.target.value);
+            }}
+            icon={<p className="typo-body text-gray-60 whitespace-nowrap">{`${changedNickname.length} / 12`}</p>}
+          />
+          <Button
+            className="typo-title2 fixed bottom-10 left-4 right-4"
+            variant="filled"
+            disabled={changedNickname === nickname || changedNickname.length < 2 || changedNickname.length > 12}
+            onClick={() => {
+              setNickname(changedNickname);
+              setIsEditNickname(false);
+            }}
+          >
+            완료
+          </Button>
+        </>
+      </Drawer>
     </div>
   );
 }
