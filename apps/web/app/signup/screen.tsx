@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLineUnderSVG, ArrowLineUpSVG, CheckedSVG, UncheckedSVG } from "@readup/icons";
+import { ArrowLineUnderSVG, ArrowLineUpSVG } from "@readup/icons";
 import { useAgreementStore } from "./_stores/use-agreement-store";
 import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
 import { PATH } from "@/_constant/routes";
@@ -12,6 +12,8 @@ import { Button, Divider, TextBox } from "@readup/ui/atoms";
 import { END_POINT } from "@/_constant/end-point";
 import ky from "ky";
 import { randomNicknameResponseSchema } from "./_types";
+// import { useAgreementsData } from "./_stores/use-agreement-data";
+import { CheckBox } from "@readup/ui/atoms/checkbox";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function SignupScreen() {
   const { agreements, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = React.useState<Partial<Record<AgreementItem["key"], boolean>>>({});
   const [nickname, setNickname] = React.useState<string>("");
+  // const { items: agreementsItems } = useAgreementsData();
 
   const handleBack = () => {
     if (step > 1) {
@@ -63,6 +66,31 @@ export default function SignupScreen() {
     setNickname(parsed.data);
   };
 
+  /**
+   * 회원가입 첫 렌더링 시 약관 정보 불러오기
+   */
+  // useEffect(() => {
+  //   const fetchAgreements = async () => {
+  //     try {
+  //       const response = await ky
+  //         .get(`${END_POINT.BASE_URL}${END_POINT.USERS.AGREEMENTS}`, {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         })
+  //         .json();
+  //       const parsed = randomNicknameResponseSchema.parse(response);
+  //       if (!parsed.success) {
+  //         throw new Error();
+  //       }
+  //       useAgreementsData.getState().setItems(parsed.data);
+  //     } catch (error) {
+  //       console.error("약관 정보 불러오기 실패", error);
+  //     }
+  //   };
+  //   fetchAgreements();
+  // }, []);
+
   return (
     <div className="flex flex-col items-center w-full h-screen text-on-primary relative">
       {/* Topbar */}
@@ -87,20 +115,12 @@ export default function SignupScreen() {
 
           <div className="flex flex-col w-full px-4 mt-[50px] gap-4">
             <div className="flex flex-row items-center gap-2">
-              {agreements.all ? (
-                <CheckedSVG
-                  size="md"
-                  className="overflow-visible cursor-pointer"
-                  fill="#4A90E2"
-                  onClick={() => setAll(!agreements.all)}
-                />
-              ) : (
-                <UncheckedSVG
-                  size="md"
-                  className="overflow-visible cursor-pointer"
-                  onClick={() => setAll(!agreements.all)}
-                />
-              )}
+              <CheckBox
+                size="md"
+                checked={agreements.all}
+                onChange={() => setAll(!agreements.all)}
+                className="overflow-visible cursor-pointer"
+              />
               <p className="typo-title3">전체 동의</p>
             </div>
             <Divider />
@@ -108,20 +128,12 @@ export default function SignupScreen() {
               <React.Fragment key={item.key}>
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex flex-row items-center gap-2">
-                    {agreements[item.key] ? (
-                      <CheckedSVG
-                        size="md"
-                        className="overflow-visible cursor-pointer"
-                        fill="#4A90E2"
-                        onClick={() => toggle(item.key)}
-                      />
-                    ) : (
-                      <UncheckedSVG
-                        size="md"
-                        className="overflow-visible cursor-pointer"
-                        onClick={() => toggle(item.key)}
-                      />
-                    )}
+                    <CheckBox
+                      size="md"
+                      checked={agreements[item.key]}
+                      onChange={() => toggle(item.key)}
+                      className="overflow-visible cursor-pointer"
+                    />
                     <p className="typo-title3">{item.label}</p>
                   </div>
                   {item.detail &&
