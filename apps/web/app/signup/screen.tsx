@@ -1,27 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLineUnderSVG, ArrowLineUpSVG } from "@readup/icons";
 import { useAgreementStore } from "./_stores/use-agreement-store";
-import AGREEMENT_ITEMS, { AgreementItem } from "./agreements";
 import { PATH } from "@/_constant/routes";
 import { Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
 import { END_POINT } from "@/_constant/end-point";
 import ky from "ky";
-import { randomNicknameResponseSchema } from "./_types";
-// import { useAgreementsData } from "./_stores/use-agreement-data";
+import { randomNicknameResponseSchema, agreementsResponseSchema } from "./_types";
+import { useAgreementsData, AgreementKey } from "./_stores/use-agreement-data";
 import { CheckBox } from "@readup/ui/atoms/checkbox";
 
 export default function SignupScreen() {
   const router = useRouter();
   const [step, setStep] = React.useState<number>(1);
   const { agreements, toggle, setAll, clear } = useAgreementStore();
-  const [expanded, setExpanded] = React.useState<Partial<Record<AgreementItem["key"], boolean>>>({});
+  const [expanded, setExpanded] = React.useState<Partial<Record<AgreementKey, boolean>>>({});
   const [nickname, setNickname] = React.useState<string>("");
-  // const { items: agreementsItems } = useAgreementsData();
+  const agreementsItems = useAgreementsData((state) => state.items);
 
   const handleBack = () => {
     if (step > 1) {
@@ -32,9 +31,35 @@ export default function SignupScreen() {
     router.push(PATH.LOGIN.ROOT);
   };
 
-  const handleNext = () => {
-    if (agreements.age && agreements.terms && agreements.privacy) {
+  const handleNext = async () => {
+    const isValid = agreements.AGE && agreements.SERVICE && agreements.PRIVACY;
+    if (step === 1 && isValid) {
       setStep(2);
+    } else if (step === 2 && isValid) {
+      try {
+        const termsConsentRequestList = agreementsItems.map((item) => ({
+          termsVersionId: item.termsVersionId,
+          code: item.code,
+          isConsent: agreements[item.code.toUpperCase() as keyof typeof agreements],
+        }));
+
+        const requestBody = {
+          termsConsentRequestList,
+          nickname,
+        };
+        const response = await ky
+          .post(`${END_POINT.BASE_URL}${END_POINT.USERS.SIGNUP}`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(requestBody),
+          })
+          .json();
+        console.log("response: ", response);
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -42,9 +67,9 @@ export default function SignupScreen() {
     setExpanded((prev) => {
       const isCurrentlyOpen = prev[key];
       return {
-        terms: false,
-        privacy: false,
-        marketing: false,
+        SERVICE: false,
+        PRIVACY: false,
+        MARKETING: false,
         [key]: !isCurrentlyOpen,
       };
     });
@@ -69,27 +94,33 @@ export default function SignupScreen() {
   /**
    * 회원가입 첫 렌더링 시 약관 정보 불러오기
    */
-  // useEffect(() => {
-  //   const fetchAgreements = async () => {
-  //     try {
-  //       const response = await ky
-  //         .get(`${END_POINT.BASE_URL}${END_POINT.USERS.AGREEMENTS}`, {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         })
-  //         .json();
-  //       const parsed = randomNicknameResponseSchema.parse(response);
-  //       if (!parsed.success) {
-  //         throw new Error();
-  //       }
-  //       useAgreementsData.getState().setItems(parsed.data);
-  //     } catch (error) {
-  //       console.error("약관 정보 불러오기 실패", error);
-  //     }
-  //   };
-  //   fetchAgreements();
-  // }, []);
+  useEffect(() => {
+    const fetchAgreements = async () => {
+      try {
+        const response = await ky
+          .get(`${END_POINT.BASE_URL}${END_POINT.SIGNUP.TERMS}`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .json();
+
+        const parsed = agreementsResponseSchema.parse(response);
+
+        if (!parsed.success) {
+          throw new Error("서버 응답 실패");
+        }
+        console.log("parsed.data", parsed.data);
+
+        // 상태 저장 (parsed.data는 약관 항목 배열)
+        useAgreementsData.getState().setItems(parsed.data);
+      } catch (error) {
+        console.error("약관 정보 불러오기 실패", error);
+      }
+    };
+
+    fetchAgreements();
+  }, []);
 
   return (
     <div className="flex flex-col items-center w-full h-screen text-on-primary relative">
@@ -117,43 +148,45 @@ export default function SignupScreen() {
             <div className="flex flex-row items-center gap-2">
               <CheckBox
                 size="md"
-                checked={agreements.all}
-                onChange={() => setAll(!agreements.all)}
+                checked={agreements.ALL}
+                onChange={() => setAll(!agreements.ALL)}
                 className="overflow-visible cursor-pointer"
               />
               <p className="typo-title3">전체 동의</p>
             </div>
             <Divider />
-            {AGREEMENT_ITEMS.map((item) => (
-              <React.Fragment key={item.key}>
+            {agreementsItems.map((item) => (
+              <React.Fragment key={item.code}>
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex flex-row items-center gap-2">
                     <CheckBox
                       size="md"
-                      checked={agreements[item.key]}
-                      onChange={() => toggle(item.key)}
+                      checked={agreements[item.code]}
+                      onChange={() => toggle(item.code)}
                       className="overflow-visible cursor-pointer"
                     />
-                    <p className="typo-title3">{item.label}</p>
+                    <p className="typo-title3">
+                      {item.code === "MARKETING" ? "(선택)" : "(필수)"} {item.title}
+                    </p>
                   </div>
-                  {item.detail &&
-                    (expanded[item.key] ? (
+                  {item.content &&
+                    (expanded[item.code] ? (
                       <ArrowLineUpSVG
                         size="lg"
                         className="overflow-visible cursor-pointer"
-                        onClick={() => handleToggleExpand(item.key)}
+                        onClick={() => handleToggleExpand(item.code)}
                       />
                     ) : (
                       <ArrowLineUnderSVG
                         size="lg"
                         className="overflow-visible cursor-pointer"
-                        onClick={() => handleToggleExpand(item.key)}
+                        onClick={() => handleToggleExpand(item.code)}
                       />
                     ))}
                 </div>
-                {expanded[item.key] && item.detail && (
+                {expanded[item.code] && item.content && (
                   <div className="w-full pl-6">
-                    <TextBox variant="questionbox" value={item.detail} readOnly className="text-[12px]" />
+                    <TextBox variant="questionbox" value={item.content} readOnly className="text-[12px]" />
                   </div>
                 )}
               </React.Fragment>
@@ -198,7 +231,7 @@ export default function SignupScreen() {
       <Button
         className="typo-title2 fixed bottom-10 left-4 right-4"
         variant="filled"
-        disabled={step === 1 ? !(agreements.age && agreements.terms && agreements.privacy) : nickname.length === 0}
+        disabled={step === 1 ? !(agreements.AGE && agreements.SERVICE && agreements.PRIVACY) : nickname.length === 0}
         onClick={handleNext}
       >
         확인

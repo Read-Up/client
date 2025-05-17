@@ -3,8 +3,10 @@
 import { useState } from "react";
 import SocialLoginButtonWrapper from "./_components/social-login-button-wrapper";
 import { Toast } from "@readup/ui/atoms/toast";
+import { END_POINT } from "@/_constant/end-point";
 
-const getSocialHref = (provider: string) => `/signup?login=${provider}`; // `/api/auth/signin/${provider}`;
+const getSocialHref = (provider: string) =>
+  `${END_POINT.BASE_URL}${END_POINT.LOGIN.OAUTH}/${provider}?redirect=${process.env.NEXT_PUBLIC_URL}`;
 
 export default function LoginScreen() {
   const [showToast, setShowToast] = useState(false);

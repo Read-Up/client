@@ -1,10 +1,12 @@
 import { create } from "zustand";
 
+export type AgreementKey = "AGE" | "SERVICE" | "PRIVACY" | "MARKETING";
+
 export interface AgreementItem {
-  key: "age" | "terms" | "privacy" | "marketing";
-  label: string;
-  required: boolean;
-  detail?: string;
+  code: AgreementKey;
+  termsVersionId: number;
+  title: string;
+  content: string;
 }
 
 interface AgreementsDataState {

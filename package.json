@@ -15,6 +15,7 @@
     "clean": "rm -rf .turbo && find . -name 'node_modules' -type d -prune -exec rm -rf '{}' + && find . -name '.next' -type d -prune -exec rm -rf '{}' + && rm -f pnpm-lock.yaml + && pnpm install",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postinstall": "./scripts/run-if-not-ci.sh git config --local commit.template .gitcommit-message",
+    "postinstall:window": "sh ./scripts/run-if-not-ci.sh git config --local commit.template .gitcommit-message",
     "re-build": "pnpm install && pnpm build",
     "check-types": "turbo run check-types",
     "prepare": "husky",
