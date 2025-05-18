@@ -1,7 +1,16 @@
 "use client";
 
-import { FormControl, FormField, FormItem } from "@readup/ui/form";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@readup/ui/select";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@readup/ui/atoms";
 import { useFormContext } from "react-hook-form";
 import { QuizCreateFormData } from "../_types/quiz-create";
 
@@ -12,14 +21,10 @@ export default function ChapterSelect() {
     <FormField
       control={form.control}
       name="chapterId"
-      render={({ field }) => (
+      render={({ field: { value, onChange, ...field } }) => (
         <FormItem>
           <FormControl>
-            <Select
-              defaultValue={field.value?.toString()}
-              onValueChange={(value) => field.onChange(parseInt(value))}
-              value={field.value?.toString()}
-            >
+            <Select {...field} value={value?.toString()} onValueChange={(value: string) => onChange(parseInt(value))}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="챕터를 선택해주세요" />
               </SelectTrigger>
