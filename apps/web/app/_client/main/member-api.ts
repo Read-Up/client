@@ -3,8 +3,8 @@
 import type { KyInstance } from "ky";
 
 import { END_POINT } from "@/_constant/end-point";
-import { revalidateCache } from "@/_server/helper";
-import { clientApi } from "@/_server/instance";
+import { revalidateCache } from "@/_server/main/helper";
+import { clientApi } from "@/_server/main/instance";
 
 class API {
   API: KyInstance = clientApi;
