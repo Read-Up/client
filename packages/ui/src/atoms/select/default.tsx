@@ -4,7 +4,7 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 import { ArrowFilledUnderSVG, ArrowFilledUpSVG, CheckedSVG } from "@readup/icons";
 import * as React from "react";
 
-import { cn } from "../lib";
+import { cn } from "../../lib";
 
 function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>) {
   return <SelectPrimitive.Root data-slot="select" {...props} />;
