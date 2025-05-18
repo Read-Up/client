@@ -1,7 +1,7 @@
 "use client";
 
 import { BackSVG } from "@readup/icons";
-import { Button } from "@readup/ui/button";
+import QuizSaveButton from "./quiz-save-button";
 
 export default function QuizNewHeader() {
   return (
@@ -10,9 +10,7 @@ export default function QuizNewHeader() {
         <BackSVG />
       </button>
       <h1 className="typo-title1">퀴즈 작성하기</h1>
-      <Button variant="filled" size="sm">
-        저장
-      </Button>
+      <QuizSaveButton />
     </header>
   );
 }
