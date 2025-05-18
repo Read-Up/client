@@ -1,8 +1,8 @@
 import ky from "ky";
 // package
 
-import { apiLogger, serverLogger, HttpError } from "@/_lib";
-import END_POINT from "@/_constant/end-point";
+import { END_POINT } from "@/_constant/end-point";
+import { apiLogger, HttpError, serverLogger } from "@/_lib";
 // import { getServerToken } from './helper';
 
 // ! direct backend api instance
