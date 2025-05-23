@@ -3,17 +3,16 @@ export default Object.freeze({
   BASE_URL: process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL,
   // 도메인 별로 API 경로를 정의합니다.
   BOOK: {
-    SEARCH: {
-      ISBN: "/api/public/external-books",
-    },
+    DEFAULT: "api/public/books",
+    DETAIL: (id: string | number) => `api/public/books/${id}`,
   },
   LOGIN: {
-    DEFAULT: "/api/login",
-    KAKAO: "/api/login/kakao",
-    NAVER: "/api/login/naver",
-    GOOGLE: "/api/login/google",
+    DEFAULT: "api/login",
+    KAKAO: "api/login/kakao",
+    NAVER: "api/login/naver",
+    GOOGLE: "api/login/google",
   },
   USER: {
-    DEFAULT: "/api/user",
+    DEFAULT: "api/user",
   },
 });

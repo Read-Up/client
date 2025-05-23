@@ -9,7 +9,7 @@ export const useMemPointAllListQuery = (open: boolean) => {
   const queryFn = () => MemberAPI.getMainList();
 
   return useQuery({
-    queryKey: [END_POINT.BOOK.SEARCH.ISBN],
+    queryKey: [END_POINT.BOOK.DEFAULT],
     queryFn,
     enabled: open,
   });

@@ -12,14 +12,6 @@ export default Object.freeze({
       name: "도서",
       url: PATH.BOOK.ROOT,
     },
-    SEARCH: {
-      name: "도서/검색",
-      url: PATH.BOOK.SEARCH,
-    },
-    DETAIL: {
-      name: "도서/상세",
-      url: PATH.BOOK.DETAIL,
-    },
   },
   LIBRARY: {
     DEFAULT: {

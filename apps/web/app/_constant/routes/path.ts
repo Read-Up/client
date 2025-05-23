@@ -18,8 +18,6 @@ export default Object.freeze({
   },
   BOOK: {
     ROOT: ROOTS.BOOK,
-    SEARCH: `${ROOTS.BOOK}/search`,
-    DETAIL: `${ROOTS.BOOK}/detail`,
   },
   LIBRARY: {
     ROOT: ROOTS.LIBRARY,

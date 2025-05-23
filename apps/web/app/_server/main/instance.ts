@@ -6,7 +6,6 @@ import END_POINT from "@/_constant/end-point";
 // import { getServerToken } from './helper';
 
 // ! direct backend api instance
-
 export const BaseApi = ky.create({
   prefixUrl: END_POINT.BASE_URL,
   timeout: false,
@@ -44,7 +43,6 @@ export const BaseApi = ky.create({
 });
 
 // ! client api instance
-
 export const clientApi = ky.create({
   prefixUrl: END_POINT.BASE_URL,
   timeout: false,

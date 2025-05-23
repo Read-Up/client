@@ -20,7 +20,7 @@ class API {
   // ! 샘플
 
   async getMainList() {
-    const { data } = await this.API(END_POINT.BOOK.SEARCH.ISBN, {
+    const { data } = await this.API(END_POINT.BOOK.DEFAULT, {
       method: "GET",
     }).json<ResJson<MemberDTO["member"]>>();
     // .catch(parseErrorData);
@@ -29,7 +29,7 @@ class API {
   }
 
   async createMain() {
-    const { statusCode, message } = await this.API(END_POINT.BOOK.SEARCH.ISBN, {
+    const { statusCode, message } = await this.API(END_POINT.BOOK.DEFAULT, {
       method: "POST",
     }).json<ResJson<null>>();
     // .catch(parseErrorData);
@@ -37,7 +37,7 @@ class API {
     const isValid = statusCode === "OK";
 
     if (isValid) {
-      await revalidateCache({ key: END_POINT.BOOK.SEARCH.ISBN });
+      await revalidateCache({ key: END_POINT.BOOK.DEFAULT });
     }
 
     return { isValid, message };
