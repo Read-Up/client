@@ -1,15 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // transpilePackages: ["@readup/ui", 'lucide-react', 'framer-motion', 'xlsx', 'react-quill'],
-  // images: {
-  //   remotePatterns: [
-  //     { protocol: 'https', hostname: "*", },
-  //     { protocol: 'https', hostname: "ss1.gcloud.kt.com" },
-  //     { protocol: 'http', hostname: "*", }
-  //   ],
-  //   formats: ['image/avif', 'image/webp'],
-  //   minimumCacheTTL: 86400,
-  // },
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: "contents.kyobobook.co.kr", },
+    ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,
+  },
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   cleanDistDir: true,
