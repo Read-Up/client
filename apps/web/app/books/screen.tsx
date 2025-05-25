@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BookItem } from "@/_types/books/schema";
 import type { BooksResponse } from "@/_types/books/schema";
 import { BaseApi } from "@/_server/main/instance";
-import END_POINT from "@/_constant/end-point";
+import { END_POINT } from "@/_constant/end-point";
 
 export default function BookSearchScreen({ initialBooks }: { initialBooks: BookItem[] }) {
   const [searchQuery, setSearchQuery] = useState("");

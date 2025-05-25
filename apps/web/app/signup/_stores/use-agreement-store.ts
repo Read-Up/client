@@ -1,56 +1,56 @@
 import { create } from "zustand";
 
-type AgreementKey = "all" | "age" | "terms" | "privacy" | "marketing";
+type AgreementKey = "ALL" | "AGE" | "SERVICE" | "PRIVACY" | "MARKETING";
 
 interface AgreementState {
-  agreements: Record<AgreementKey, boolean>;
+  state: Record<AgreementKey, boolean>;
   toggle: (key: AgreementKey) => void;
   setAll: (value: boolean) => void;
   clear: () => void;
 }
 
 export const useAgreementStore = create<AgreementState>((set) => ({
-  agreements: {
-    all: false,
-    age: false,
-    terms: false,
-    privacy: false,
-    marketing: false,
+  state: {
+    ALL: false,
+    AGE: false,
+    SERVICE: false,
+    PRIVACY: false,
+    MARKETING: false,
   },
   toggle: (key) =>
-    set((state) => {
+    set((prev) => {
       const updated = {
-        ...state.agreements,
-        [key]: !state.agreements[key],
+        ...prev.state,
+        [key]: !prev.state[key],
       };
 
-      const allChecked = ["age", "terms", "privacy", "marketing"].every((k) => updated[k as AgreementKey]);
+      const allChecked = ["AGE", "SERVICE", "PRIVACY", "MARKETING"].every((k) => updated[k as AgreementKey]);
 
       return {
-        agreements: {
+        state: {
           ...updated,
-          all: allChecked,
+          ALL: allChecked,
         },
       };
     }),
   setAll: (value) =>
     set(() => ({
-      agreements: {
-        all: value,
-        age: value,
-        terms: value,
-        privacy: value,
-        marketing: value,
+      state: {
+        ALL: value,
+        AGE: value,
+        SERVICE: value,
+        PRIVACY: value,
+        MARKETING: value,
       },
     })),
   clear: () => {
     set(() => ({
-      agreements: {
-        all: false,
-        age: false,
-        terms: false,
-        privacy: false,
-        marketing: false,
+      state: {
+        ALL: false,
+        AGE: false,
+        SERVICE: false,
+        PRIVACY: false,
+        MARKETING: false,
       },
     }));
   },

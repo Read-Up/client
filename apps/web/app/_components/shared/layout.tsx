@@ -18,6 +18,8 @@ export default function Layout({
   bottom = true,
   topbarProps = {},
 }: LayoutProps) {
+  // const { text, leftSVG, rightSVG, onLeftClick, onRightClick } = topbarProps;
+
   const getActiveTab = (): "home" | "library" | "mypage" | undefined => {
     if (pathname === "/" || pathname.startsWith("/home")) {
       return "home";

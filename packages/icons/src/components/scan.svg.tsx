@@ -42,8 +42,8 @@ const ScanSVG = forwardRef<SVGSVGElement, IconProps>(
           fill={fill}
         />
         <rect x="6" y="8" width={12} height={1} fill={fill} />
-        <rect x="4" y="12" width={16} height={1} fill={fill} />
-        <rect x="6" y="16" width={12} height={1} fill={fill} />
+        <rect x="4" y="16" width={16} height={1} fill={fill} />
+        <rect x="6" y="12" width={12} height={1} fill={fill} />
       </svg>
     );
   },
