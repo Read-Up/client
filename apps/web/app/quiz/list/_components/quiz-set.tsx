@@ -8,6 +8,7 @@ import type { QuizCardProps } from "./quiz-card";
 type QuizSetProps = {
   username: string;
   isCreator?: boolean;
+  profileImage: string;
   totalAccuracy: number;
   likeCount: number;
   setNumber: number;
@@ -22,6 +23,8 @@ type QuizSetProps = {
 export function QuizSet({
   username,
   isCreator = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  profileImage,
   totalAccuracy,
   likeCount,
   setNumber,
@@ -49,7 +52,7 @@ export function QuizSet({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="relative rounded-full">
-            {/* <Image src={profileImage} alt={username} fill className="object-cover" /> */}
+            {/* Image component will be used here later */}
             <span className="typo-body">{username}</span>
           </div>
           <div className="flex items-center">{isCreator && <span className=" bg-blue-500 rounded-full">me</span>}</div>
