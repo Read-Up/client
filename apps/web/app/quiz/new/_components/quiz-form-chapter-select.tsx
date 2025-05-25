@@ -1,20 +1,11 @@
 "use client";
 
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@readup/ui/atoms";
+import { FormControl, FormField, FormItem } from "@readup/ui/atoms/form";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@readup/ui/atoms/select";
 import { useFormContext } from "react-hook-form";
 import { QuizCreateFormData } from "../_types/quiz-create";
 
-export default function ChapterSelect() {
+export default function QuizFormChapterSelect() {
   const form = useFormContext<QuizCreateFormData>();
 
   return (
