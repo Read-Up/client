@@ -4,7 +4,7 @@ import { Button } from "@readup/ui/atoms/button";
 import { useFormContext } from "react-hook-form";
 import { QuizCreateFormData } from "../_types/quiz-create";
 
-export default function QuizSaveButton() {
+export default function QuizFormSaveButton() {
   const { handleSubmit } = useFormContext<QuizCreateFormData>();
 
   const onSubmit = async (data: QuizCreateFormData) => {
