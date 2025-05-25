@@ -1,7 +1,9 @@
-import * as React from "react";
-import { cva, VariantProps } from "class-variance-authority";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./shadcn";
+"use client";
+
 import { ArrowFilledUnderSVG } from "@readup/icons";
+import { cva, VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./shadcn";
 
 const dropdownVariants = cva(
   "flex text-gray-99 justify-center items-center gap-[2px] px-[3px] py-[8px] w-[80px] h-[30px] rounded-md border border-gray-60",
