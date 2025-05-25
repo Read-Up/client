@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "icon:build": "pnpm -F @readup/icons build",
     "dev": "turbo run dev",
     "start": "turbo start",
     "web": "pnpm -F web",
