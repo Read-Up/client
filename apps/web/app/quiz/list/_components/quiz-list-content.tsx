@@ -1,8 +1,8 @@
 "use client";
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@readup/ui/atoms";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@readup/ui/atoms/select";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { QuizSet } from "./quiz-set";
 import { QuizTabs } from "./quiz-tabs";
 
@@ -60,7 +60,8 @@ export default function QuizListContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentType = searchParams.get("type") || "all";
+  // Memoize the current type value to avoid unnecessary re-renders
+  const currentType = useMemo(() => searchParams.get("type") || "all", [searchParams]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -71,9 +72,12 @@ export default function QuizListContent() {
     [searchParams],
   );
 
-  const handleTypeChange = (type: string) => {
-    router.push(`${pathname}?${createQueryString("type", type)}`);
-  };
+  const handleTypeChange = useCallback(
+    (type: string) => {
+      router.push(`${pathname}?${createQueryString("type", type)}`);
+    },
+    [router, pathname, createQueryString],
+  );
 
   return (
     <section className="flex flex-col gap-3 px-4">
