@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { QuizCreateFormData, quizCreateFormSchema } from "../_types/quiz-create";
 import QuizFormContent from "./quiz-form-content";
-import QuizNewHeader from "./quiz-new-header";
+import QuizFormHeader from "./quiz-form-header";
 
 export default function QuizForm() {
   const form = useForm<QuizCreateFormData>({
@@ -29,7 +29,7 @@ export default function QuizForm() {
   return (
     <FormProvider {...form}>
       <div className="flex flex-col gap-1">
-        <QuizNewHeader />
+        <QuizFormHeader />
         <section className="flex flex-col gap-1 px-4">
           <QuizFormContent />
         </section>
