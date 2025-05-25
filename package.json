@@ -4,6 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "icon:build": "pnpm -F @readup/icons build",
+    "dev:web": "pnpm -F web dev",
     "dev": "turbo run dev",
     "start": "turbo start",
     "web": "pnpm -F web",
