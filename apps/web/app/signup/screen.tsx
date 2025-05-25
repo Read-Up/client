@@ -234,7 +234,7 @@ export default function SignupScreen() {
         disabled={step === 1 ? !(agreements.AGE && agreements.SERVICE && agreements.PRIVACY) : nickname.length === 0}
         onClick={handleNext}
       >
-        확인
+        {step === 1 ? "확인" : "입력완료"}
       </Button>
     </div>
   );
