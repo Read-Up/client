@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@readup/ui/atoms";
+import { Button } from "@readup/ui/atoms/button";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { QuizCreateFormData } from "../_types/quiz-create";
-import QuizCreateCard from "./quiz-create-card";
+import QuizFormCard from "./quiz-form-card";
 
-export default function QuizCreateList() {
+export default function QuizFormList() {
   const { control } = useFormContext<QuizCreateFormData>();
   const { fields, append } = useFieldArray({
     control,
@@ -27,7 +27,7 @@ export default function QuizCreateList() {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-4">
         {fields.map((field, index) => (
-          <QuizCreateCard key={field.id} index={index + 1} />
+          <QuizFormCard key={field.id} index={index + 1} />
         ))}
       </div>
       <div className="fw-[98px] mx-auto">
