@@ -1,8 +1,9 @@
 "use client";
 
 import { CloseSVG } from "@readup/icons";
-import { FormControl, FormField, FormItem, FormLabel, TextBox } from "@readup/ui/atoms";
 import { Checkbox } from "@readup/ui/atoms/checkbox";
+import { FormControl, FormField, FormItem, FormLabel } from "@readup/ui/atoms/form";
+import { TextBox } from "@readup/ui/atoms/textbox";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { QuizCreateFormData } from "../_types/quiz-create";
 
@@ -10,7 +11,7 @@ interface QuizCreateCardProps {
   index: number;
 }
 
-export default function QuizCreateCard({ index }: QuizCreateCardProps) {
+export default function QuizFormCard({ index }: QuizCreateCardProps) {
   const {
     control,
     watch,
@@ -87,7 +88,7 @@ export default function QuizCreateCard({ index }: QuizCreateCardProps) {
                       <FormControl>
                         <Checkbox
                           checked={checkboxField.value}
-                          onCheckedChange={(checked) => handleCheckChange(checked as boolean, optionIndex)}
+                          onChange={(checked) => handleCheckChange(checked, optionIndex)}
                           className={shouldShowError ? "rounded-full border border-error " : ""}
                         />
                       </FormControl>
