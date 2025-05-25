@@ -1,4 +1,4 @@
-import { Topbar } from "@readup/ui/molecules";
+import { Topbar } from "@readup/ui/molecules/topbar";
 import { Suspense } from "react";
 import QuizListContent from "./_components/quiz-list-content";
 
