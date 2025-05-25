@@ -4,7 +4,6 @@ import React from "react";
 
 export interface BookSearchResultProps {
   id: number;
-  isbn: number;
   image: string;
   bookmark: boolean;
   title: string;

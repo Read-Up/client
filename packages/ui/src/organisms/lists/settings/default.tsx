@@ -49,4 +49,4 @@ function SettingsList({ title, lists, linkComponent: LinkComponent }: SettingsLi
 }
 
 export { SettingsList };
-export type { SettingsListProps, SettingsItem };
+export type { SettingsListProps, SettingsItem, LinkComponentType };

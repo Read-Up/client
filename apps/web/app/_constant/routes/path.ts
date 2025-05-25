@@ -6,6 +6,7 @@ const ROOTS = {
   MYPAGE: "/mypage",
   SIGNUP: "/signup",
   QUIZ: "/quiz",
+  SETTINGS: "/settings",
 };
 
 /**
@@ -18,8 +19,6 @@ export default Object.freeze({
   },
   BOOK: {
     ROOT: ROOTS.BOOK,
-    SEARCH: `${ROOTS.BOOK}/search`,
-    DETAIL: `${ROOTS.BOOK}/detail`,
   },
   LIBRARY: {
     ROOT: ROOTS.LIBRARY,
@@ -35,5 +34,14 @@ export default Object.freeze({
   },
   QUIZ: {
     ROOT: ROOTS.QUIZ,
+  },
+  SETTINGS: {
+    ROOT: ROOTS.SETTINGS,
+    PROFILE: `${ROOTS.SETTINGS}/profile`, // 회원정보 수정
+    LOGOUT: `${ROOTS.SETTINGS}/logout`, // 로그아웃
+    WITHDRAWAL: `${ROOTS.SETTINGS}/withdrawal`, // 회원탈퇴
+    TERMS_OF_SERVICE: `${ROOTS.SETTINGS}/terms-of-service`, // 서비스 이용약관
+    PRIVACY_POLICY: `${ROOTS.SETTINGS}/privacy-policy`, // 개인정보 처리방침
+    NOTICE: `${ROOTS.SETTINGS}/notice`, // 공지사항
   },
 });

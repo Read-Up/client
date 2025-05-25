@@ -1,10 +1,12 @@
 import { SocialLoginLink, SocialLoginLinkProps } from "@readup/ui/atoms";
-import Link from "next/link";
 
-export default function SocialLoginButtonWrapper({ href, ...props }: SocialLoginLinkProps & { href: string }) {
+export default function SocialLoginButtonWrapper({
+  onClick,
+  ...props
+}: SocialLoginLinkProps & { onClick: () => void }) {
   return (
-    <Link href={href} className="w-full">
+    <button className="w-full mt-2.5" onClick={onClick}>
       <SocialLoginLink {...props} />
-    </Link>
+    </button>
   );
 }

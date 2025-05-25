@@ -16,10 +16,6 @@ const meta: Meta<typeof BookSearchResult> = {
       control: "number",
       description: "서버 ID",
     },
-    isbn: {
-      control: "number",
-      description: "ISBN",
-    },
     image: {
       control: "text",
       description: "책 이미지 URL",
@@ -39,7 +35,6 @@ const meta: Meta<typeof BookSearchResult> = {
   },
   args: {
     id: 1,
-    isbn: 9788931476804,
     bookmark: false,
     image: "https://image.yes24.com/goods/139798289/XL",
     title: "2025 이기적 라눅스마스터 1급 (1·2차)",

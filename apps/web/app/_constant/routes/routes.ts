@@ -12,14 +12,6 @@ export default Object.freeze({
       name: "도서",
       url: PATH.BOOK.ROOT,
     },
-    SEARCH: {
-      name: "도서/검색",
-      url: PATH.BOOK.SEARCH,
-    },
-    DETAIL: {
-      name: "도서/상세",
-      url: PATH.BOOK.DETAIL,
-    },
   },
   LIBRARY: {
     DEFAULT: {
@@ -49,6 +41,16 @@ export default Object.freeze({
     DEFAULT: {
       name: "퀴즈",
       url: PATH.QUIZ.ROOT,
+    },
+  },
+  SETTINGS: {
+    DEFAULT: {
+      name: "설정",
+      url: PATH.SETTINGS.ROOT,
+    },
+    PROFILE: {
+      name: "설정/프로필",
+      url: PATH.SETTINGS.PROFILE,
     },
   },
 });

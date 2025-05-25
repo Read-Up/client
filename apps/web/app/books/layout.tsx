@@ -5,7 +5,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
   return (
     <Layout
       top={false}
-      pathname={PATH.BOOK.SEARCH}
+      pathname={PATH.BOOK.ROOT}
       topbarProps={{
         text: "마이페이지",
       }}

@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 
 const CONFIG = {
-  includeKeys: ["color", "typography", "zIndex"],
+  includeKeys: ["color", "typography", "zIndex", "shadow"],
   outputDir: "src/styles",
   outputFile: "theme.css",
 };

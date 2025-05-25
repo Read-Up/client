@@ -2,11 +2,9 @@ import ky from "ky";
 // package
 
 import { apiLogger, serverLogger, HttpError } from "@/_lib";
-import END_POINT from "@/_constant/end-point";
-// import { getServerToken } from './helper';
+import { END_POINT } from "@/_constant/end-point";
 
 // ! direct backend api instance
-
 export const BaseApi = ky.create({
   prefixUrl: END_POINT.BASE_URL,
   timeout: false,
@@ -44,7 +42,6 @@ export const BaseApi = ky.create({
 });
 
 // ! client api instance
-
 export const clientApi = ky.create({
   prefixUrl: END_POINT.BASE_URL,
   timeout: false,
