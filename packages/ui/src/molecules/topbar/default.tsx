@@ -1,5 +1,7 @@
-import * as React from "react";
+"use client";
+
 import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
 
 import { BackSVG, CloseSVG } from "@readup/icons";
 import { cn } from "../../lib";

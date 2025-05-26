@@ -1,9 +1,11 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../lib";
-import { CheckedSVG } from "@readup/icons";
+"use client";
 
-const checkBoxVariants = cva("flex items-center justify-center rounded-full cursor-pointer transition-colors", {
+import { CheckedSVG } from "@readup/icons";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+import { cn } from "../../lib";
+
+const checkboxVariants = cva("flex items-center justify-center rounded-full cursor-pointer transition-colors", {
   variants: {
     size: {
       xs: "w-3 h-3",
@@ -35,9 +37,9 @@ const checkBoxVariants = cva("flex items-center justify-center rounded-full curs
   },
 });
 
-export interface CheckBoxProps
+export interface CheckboxProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
-    VariantProps<typeof checkBoxVariants> {
+    VariantProps<typeof checkboxVariants> {
   color?: string;
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
   className?: string;
@@ -45,12 +47,12 @@ export interface CheckBoxProps
   onChange?: (checked: boolean) => void;
 }
 
-export const CheckBox = React.forwardRef<HTMLDivElement, CheckBoxProps>(
+export const Checkbox = React.forwardRef<HTMLDivElement, CheckboxProps>(
   ({ checked = false, size, color = "#4A90E2", className, onChange, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={cn(checkBoxVariants({ size, checked }), className)}
+        className={cn(checkboxVariants({ size, checked }), className)}
         onClick={() => onChange?.(!checked)}
         {...props}
       >
@@ -60,4 +62,4 @@ export const CheckBox = React.forwardRef<HTMLDivElement, CheckBoxProps>(
   },
 );
 
-CheckBox.displayName = "CheckBox";
+Checkbox.displayName = "Checkbox";

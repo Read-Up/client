@@ -1,9 +1,11 @@
-import * as React from "react";
+"use client";
+
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "../../lib";
+import * as React from "react";
 import { CiSearch } from "react-icons/ci";
 import { IoIosCloseCircle } from "react-icons/io";
 import { PiCaretUpDownBold } from "react-icons/pi";
+import { cn } from "../../lib";
 
 const textBoxVariants = cva("w-full p-2 text-on-primary transition focus:outline-none focus:ring-none", {
   variants: {

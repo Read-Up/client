@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
-import { CheckBox, CheckBoxProps } from "./default";
+import { Checkbox, CheckboxProps } from "./default";
 
-const meta: Meta<typeof CheckBox> = {
+const meta: Meta<typeof Checkbox> = {
   title: "Atoms/CheckBox",
-  component: CheckBox,
+  component: Checkbox,
   tags: ["autodocs"],
   argTypes: {
     size: {
@@ -33,14 +33,14 @@ const meta: Meta<typeof CheckBox> = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const ControlledCheckBox = (args: CheckBoxProps) => {
+const ControlledCheckBox = (args: CheckboxProps) => {
   const [checked, setChecked] = useState(args.checked || false);
 
   React.useEffect(() => {
     setChecked(args.checked || false);
   }, [args.checked]);
 
-  return <CheckBox {...args} checked={checked} onChange={setChecked} />;
+  return <Checkbox {...args} checked={checked} onChange={setChecked} />;
 };
 
 export const Playground: Story = {
