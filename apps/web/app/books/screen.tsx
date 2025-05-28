@@ -10,11 +10,19 @@ import { BookItem } from "@/_types/books/schema";
 import type { BooksResponse } from "@/_types/books/schema";
 import { BaseApi } from "@/_server/main/instance";
 import { END_POINT } from "@/_constant/end-point";
+import { useRouter } from "next/navigation";
+import { PATH } from "@/_constant/routes";
 
 export default function BookSearchScreen({ initialBooks }: { initialBooks: BookItem[] }) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+
+  const handleAddBookClick = () => {
+    // Navigate to the book addition page
+    router.push(PATH.BOOKS.ADD);
+  };
 
   const {
     data: books = [],
@@ -23,7 +31,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
   } = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
-      const data = await BaseApi.get(END_POINT.BOOK.DEFAULT).json<BooksResponse>();
+      const data = await BaseApi.get(END_POINT.BOOKS.DEFAULT).json<BooksResponse>();
       return data.data.content ?? [];
     },
     initialData: initialBooks,
@@ -32,20 +40,20 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
   const fuzzyFiltered = searchQuery.trim()
     ? books.filter(
-        (book) =>
-          book.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-          book.author.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-          book.publisher.toLowerCase().includes(searchQuery.trim().toLowerCase()),
-      )
+      (book) =>
+        book.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+        book.author.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+        book.publisher.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+    )
     : books;
 
   const submittedFiltered = submittedQuery.trim()
     ? books.filter(
-        (book) =>
-          book.title.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
-          book.author.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
-          book.publisher.toLowerCase().includes(submittedQuery.trim().toLowerCase()),
-      )
+      (book) =>
+        book.title.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
+        book.author.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
+        book.publisher.toLowerCase().includes(submittedQuery.trim().toLowerCase()),
+    )
     : books;
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -100,7 +108,14 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
           {/* 실시간 fuzzy 검색 결과 */}
           {showFuzzy && (
-            <div className="flex flex-col gap-2 w-full max-w-md">
+            <div className="flex flex-col gap-4 w-full max-w-md">
+              <div className="flex gap-2 items-center mt-4">
+                <p className="text-title3 flex-1">찾는 책이 없으신가요?</p>
+                <Button variant="filled" onClick={handleAddBookClick}>
+                  책 추가
+                </Button>
+              </div>
+              <Divider />
               {fuzzyFiltered.length === 0 && <div className="text-center">검색 결과가 없습니다.</div>}
               {fuzzyFiltered.map((book) => (
                 <Link href={`/books/${book.bookId}`} key={book.bookId}>
@@ -120,12 +135,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
                 <>
                   <div className="flex gap-2 items-center p-3">
                     <p className="text-title3 flex-1">찾는 책이 없으신가요?</p>
-                    <Button
-                      variant="filled"
-                      onClick={() => {
-                        alert("책 추가");
-                      }}
-                    >
+                    <Button variant="filled" onClick={handleAddBookClick}>
                       책 추가
                     </Button>
                   </div>

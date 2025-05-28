@@ -1,7 +1,7 @@
 export const END_POINT = {
   BASE_URL: process.env.BACKEND_URL ?? process.env.NEXT_PUBLIC_BACKEND_URL,
   // 도메인 별로 API 경로를 정의합니다.
-  BOOK: {
+  BOOKS: {
     DEFAULT: "api/public/books",
     DETAIL: (id: string | number) => `api/public/books/${id}`,
   },
