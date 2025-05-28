@@ -21,7 +21,7 @@ export default function BookDetailScreen() {
       if (!id) {
         return null;
       }
-      const res = await BaseApi.get(END_POINT.BOOK.DETAIL(id)).json<{ data: BookItem }>();
+      const res = await BaseApi.get(END_POINT.BOOKS.DETAIL(id)).json<{ data: BookItem }>();
       return res.data;
     },
     enabled: !!id,

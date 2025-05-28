@@ -7,10 +7,10 @@ export default Object.freeze({
       url: PATH.HOME.ROOT,
     },
   },
-  BOOK: {
+  BOOKS: {
     DEFAULT: {
       name: "도서",
-      url: PATH.BOOK.ROOT,
+      url: PATH.BOOKS.ROOT,
     },
   },
   LIBRARY: {
