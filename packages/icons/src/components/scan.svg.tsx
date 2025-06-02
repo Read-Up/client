@@ -41,9 +41,9 @@ const ScanSVG = forwardRef<SVGSVGElement, IconProps>(
           d="M22 20.6364C22 21.3895 21.3895 22 20.6364 22H17V21.0909H20.6364C20.8874 21.0909 21.0909 20.8874 21.0909 20.6364V17H22V20.6364Z"
           fill={fill}
         />
-        <rect x="6" y="8" width={ICON_SIZE_MAP[size]} height={ICON_SIZE_MAP[size]} fill={fill} />
-        <rect x="4" y="12" width={ICON_SIZE_MAP[size]} height={ICON_SIZE_MAP[size]} fill={fill} />
-        <rect x="6" y="16" width={ICON_SIZE_MAP[size]} height={ICON_SIZE_MAP[size]} fill={fill} />
+        <rect x="6" y="8" width={12} height={1} fill={fill} />
+        <rect x="4" y="16" width={16} height={1} fill={fill} />
+        <rect x="6" y="12" width={12} height={1} fill={fill} />
       </svg>
     );
   },
