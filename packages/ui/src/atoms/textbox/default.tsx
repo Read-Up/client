@@ -62,12 +62,12 @@ export interface TextBoxProps
   index?: number; // 챕터박스의 인덱스
   change?: boolean; // 챕터박스에서 순서 변경 가능 여부
   rounded?: boolean; // 챕터박스에서 라운드 full 여부(default: false)
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear?: () => void;
   icon?: React.ReactNode;
   isButton?: boolean; // 챕터박스에서 버튼 여부
   isBorder?: boolean; // 챕터박스에서 border 여부
   onButtonClick?: () => void; // 챕터박스에서 버튼 클릭 시 이벤트
+  buttonTabIndex?: number; // 챕터박스에서 버튼의 tabIndex
 }
 
 const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBoxProps>(
@@ -76,7 +76,6 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
       className,
       value,
       onChange,
-      onSubmit,
       placeholder,
       onClear,
       index,
@@ -87,6 +86,7 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
       icon,
       isBorder = true,
       onButtonClick,
+      buttonTabIndex = -1,
       ...props
     },
     ref,
@@ -102,8 +102,7 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
             {variant === "chapterbox" && !change && <span>{index}</span>}
           </span>
         )}
-        <form
-          onSubmit={onSubmit}
+        <div
           className={cn(
             formVariants({ className, variant }),
             {
@@ -147,12 +146,13 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
                   onButtonClick();
                 }
               }}
+              tabIndex={buttonTabIndex}
             >
               {variant === "searchbox" && (!icon ? <CiSearch size={24} /> : icon)}
               {variant && closeVariants.includes(variant) && (icon ? icon : <IoIosCloseCircle size={24} />)}
             </button>
           )}
-        </form>
+        </div>
       </div>
     );
   },
