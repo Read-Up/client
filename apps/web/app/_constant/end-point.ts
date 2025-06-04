@@ -3,6 +3,7 @@ export const END_POINT = {
   // 도메인 별로 API 경로를 정의합니다.
   BOOKS: {
     DEFAULT: "api/public/books",
+    DEFAULT_ISBN: (isbn: string | number) => `api/public/books?isbn=${isbn}`,
     DETAIL: (id: string | number) => `api/public/books/${id}`,
   },
   SIGNUP: {

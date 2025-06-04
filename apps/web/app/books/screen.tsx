@@ -40,20 +40,20 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
   const fuzzyFiltered = searchQuery.trim()
     ? books.filter(
-      (book) =>
-        book.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-        book.author.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
-        book.publisher.toLowerCase().includes(searchQuery.trim().toLowerCase()),
-    )
+        (book) =>
+          book.title.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+          book.author.toLowerCase().includes(searchQuery.trim().toLowerCase()) ||
+          book.publisher.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+      )
     : books;
 
   const submittedFiltered = submittedQuery.trim()
     ? books.filter(
-      (book) =>
-        book.title.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
-        book.author.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
-        book.publisher.toLowerCase().includes(submittedQuery.trim().toLowerCase()),
-    )
+        (book) =>
+          book.title.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
+          book.author.toLowerCase().includes(submittedQuery.trim().toLowerCase()) ||
+          book.publisher.toLowerCase().includes(submittedQuery.trim().toLowerCase()),
+      )
     : books;
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

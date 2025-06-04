@@ -11,6 +11,18 @@ export const BookItemSchema = z.object({
 });
 export type BookItem = z.infer<typeof BookItemSchema>;
 
+// --- 1-1) 책 한 권의 상세 정보 스키마 ---
+export const BookDetailSchema = BookItemSchema.extend({
+  chapterList: z.array(
+    z.object({
+      chapterId: z.number(),
+      chapterOrder: z.number(),
+      chapterName: z.string(),
+    }),
+  ),
+});
+export type BookDetail = z.infer<typeof BookDetailSchema>;
+
 // --- 2) 페이징 정보 스키마 ---
 export const PageInfoSchema = z.object({
   size: z.number(),
@@ -34,3 +46,11 @@ export const BooksResponseSchema = z.object({
   message: z.string(),
 });
 export type BooksResponse = z.infer<typeof BooksResponseSchema>;
+
+// --- 5) 책 상세 정보 응답 스키마 ---
+export const BookDetailResponseSchema = z.object({
+  success: z.boolean(),
+  data: BookDetailSchema,
+  message: z.string(),
+});
+export type BookDetailResponse = z.infer<typeof BookDetailResponseSchema>;
