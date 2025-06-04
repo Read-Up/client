@@ -1,5 +1,3 @@
-"use client";
-
 import { BooksSVG, HomeSVG, UserCircleSVG } from "@readup/icons";
 
 export interface BottomNavigationProps {

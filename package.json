@@ -3,8 +3,6 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "icon:build": "pnpm -F @readup/icons build",
-    "dev:web": "pnpm -F web dev",
     "dev": "turbo run dev",
     "start": "turbo start",
     "web": "pnpm -F web",
@@ -34,12 +32,5 @@
     "node": ">=18",
     "npm": "pnpm only",
     "yarn": "pnpm only"
-  },
-  "dependencies": {
-    "@hookform/resolvers": "5.0.1",
-    "@radix-ui/react-label": "2.1.4",
-    "@radix-ui/react-select": "2.2.2",
-    "@radix-ui/react-slot": "1.2.0",
-    "react-hook-form": "^7.54.2"
   }
 }

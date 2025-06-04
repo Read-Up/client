@@ -19,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <Head />
-      <body className={`bg-white ${Pretendard.className} text-white overflow-y-scroll`}>
-        <div className="min-w-[375px] max-w-[430px] mx-auto bg-background min-h-[100dvh]">
-          <QueryProvider>{children}</QueryProvider>
-        </div>
+      <body className={`bg-background ${Pretendard.className} overflow-y-scroll`}>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

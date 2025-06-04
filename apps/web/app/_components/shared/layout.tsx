@@ -1,8 +1,6 @@
-"use client";
-
-import { BottomNavigation, Topbar, TopbarProps } from "@readup/ui/molecules";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import { BottomNavigation, Topbar, TopbarProps } from "@readup/ui/molecules";
 interface LayoutProps {
   children: React.ReactNode;
   pathname?: string;
