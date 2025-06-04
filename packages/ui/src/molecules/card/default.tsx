@@ -1,5 +1,3 @@
-"use client";
-
 import { cva, VariantProps } from "class-variance-authority";
 
 import { KeyLineSVG, ShareLine2SVG } from "@readup/icons";

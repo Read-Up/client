@@ -1,17 +1,17 @@
 "use client";
 
-import { BaseApi } from "@/_client/main/instance";
-import { END_POINT } from "@/_constant/end-point";
-import { PATH } from "@/_constant/routes";
 import { ArrowLineUnderSVG, ArrowLineUpSVG } from "@readup/icons";
-import { Button, Divider, TextBox } from "@readup/ui/atoms";
-import { Checkbox } from "@readup/ui/atoms/checkbox";
+import { useAgreementStore } from "./_stores/use-agreement-store";
+import { PATH } from "@/_constant/routes";
 import { Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
+import { Button, Divider, TextBox } from "@readup/ui/atoms";
+import { END_POINT } from "@/_constant/end-point";
+import { randomNicknameResponseSchema, AgreementItem, AgreementKey } from "./_types";
+import { CheckBox } from "@readup/ui/atoms/checkbox";
+import { BaseApi } from "@/_client/main/instance";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
-import { useAgreementStore } from "./_stores/use-agreement-store";
-import { AgreementItem, AgreementKey, randomNicknameResponseSchema } from "./_types";
 
 export default function SignupScreen({ agreements }: { agreements: AgreementItem[] }) {
   const router = useRouter();
@@ -103,7 +103,7 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
 
           <div className="flex flex-col w-full px-4 mt-[50px] gap-4">
             <div className="flex flex-row items-center gap-2">
-              <Checkbox
+              <CheckBox
                 size="md"
                 checked={state.ALL}
                 onChange={() => setAll(!state.ALL)}
@@ -116,7 +116,7 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
               <Fragment key={item.code}>
                 <div className="flex flex-row items-center justify-between">
                   <div className="flex flex-row items-center gap-2">
-                    <Checkbox
+                    <CheckBox
                       size="md"
                       checked={state[item.code]}
                       onChange={() => toggle(item.code)}
