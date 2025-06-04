@@ -18,6 +18,7 @@ export { default as BooksSVG } from "./books.svg";
 export { default as CheckedDisabledSVG } from "./checked-disabled.svg";
 export { default as CheckedSVG } from "./checked.svg";
 export { default as CloseSVG } from "./close.svg";
+export { default as CompleteCheckSVG } from "./complete-check.svg";
 export { default as HomeSVG } from "./home.svg";
 export { default as KakaoSVG } from "./kakao.svg";
 export { default as KeyLineSVG } from "./key-line.svg";
