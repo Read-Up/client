@@ -20,6 +20,7 @@ export default Object.freeze({
   BOOKS: {
     ROOT: ROOTS.BOOKS,
     ADD: `${ROOTS.BOOKS}/add`, // 책 추가
+    ADD_COMPLETE: `${ROOTS.BOOKS}/add/complete`, // 책 추가 완료
   },
   LIBRARY: {
     ROOT: ROOTS.LIBRARY,
