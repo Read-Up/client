@@ -60,7 +60,6 @@ export interface TextBoxProps
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   index?: number; // 챕터박스의 인덱스
-  change?: boolean; // 챕터박스에서 순서 변경 가능 여부
   rounded?: boolean; // 챕터박스에서 라운드 full 여부(default: false)
   onClear?: () => void;
   icon?: React.ReactNode;
@@ -79,7 +78,6 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
       placeholder,
       onClear,
       index,
-      change,
       variant = "searchbox",
       rounded,
       isButton = true,
@@ -92,14 +90,35 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
     ref,
   ) => {
     const closeVariants = ["textbox", "error", "chapterbox", "error_chapterbox"];
+    const [isPressing, setIsPressing] = React.useState(false);
+    const pressTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const handlePressStart = () => {
+      pressTimer.current = setTimeout(() => {
+        setIsPressing(true);
+      }, 500); // 500ms 후에 isPressing을 true로 설정
+    };
+    const handlePressEnd = () => {
+      if (pressTimer.current) {
+        clearTimeout(pressTimer.current);
+      }
+      setIsPressing(false);
+    };
+
     return (
-      <div className="w-full flex flex-center items-center gap-[10px]">
+      <div
+        className="w-full flex flex-center items-center gap-[10px]"
+        onMouseDown={handlePressStart}
+        onMouseUp={handlePressEnd}
+        onTouchStart={handlePressStart}
+        onTouchEnd={handlePressEnd}
+        onMouseLeave={handlePressEnd}
+      >
         {(variant === "chapterbox" || variant === "error_chapterbox") && (
-          <span className={cn(indexVariants({ className, variant }))}>
+          <span className={cn(indexVariants({ variant }))}>
             {/* {error ? '!' : index} */}
-            {variant === "error_chapterbox" && !change && "!"}
-            {change && <PiCaretUpDownBold size={20} />}
-            {variant === "chapterbox" && !change && <span>{index}</span>}
+            {variant === "error_chapterbox" && !isPressing && "!"}
+            {isPressing && <PiCaretUpDownBold size={20} />}
+            {variant === "chapterbox" && !isPressing && <span>{index}</span>}
           </span>
         )}
         <div
