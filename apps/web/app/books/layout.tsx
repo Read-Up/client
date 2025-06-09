@@ -9,6 +9,7 @@ type LayoutLabel = {
   top: boolean;
   bottom: boolean;
   onLeftClick: () => void;
+  topVariant?: "icon1" | "icon2" | "original" | "close" | undefined;
 };
 
 export default function BookSearchLayout({ children }: { children: React.ReactNode }) {
@@ -27,7 +28,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
       bottom: true,
       onLeftClick: () => {},
     },
-    [PATH.BOOKS.ADD]: {
+    [PATH.BOOKS.ADD.ROOT]: {
       title: "",
       top: true,
       bottom: false,
@@ -35,11 +36,20 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
         router.push(PATH.BOOKS.ROOT);
       },
     },
-    [PATH.BOOKS.ADD_COMPLETE]: {
+    [PATH.BOOKS.ADD.COMPLETE]: {
       title: "",
       top: false,
       bottom: false,
       onLeftClick: () => {},
+    },
+    [PATH.BOOKS.ADD.CHAPTER]: {
+      title: "",
+      top: true,
+      bottom: false,
+      topVariant: "close",
+      onLeftClick: () => {
+        router.push(PATH.BOOKS.ROOT);
+      },
     },
   };
 
@@ -54,7 +64,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
           text: info.title,
           onLeftClick: info.onLeftClick,
         }}
-        topVariant="icon1"
+        topVariant={info.topVariant || "icon1"}
         bottom={info.bottom}
       >
         {children}

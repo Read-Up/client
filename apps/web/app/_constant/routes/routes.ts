@@ -12,6 +12,20 @@ export default Object.freeze({
       name: "도서",
       url: PATH.BOOKS.ROOT,
     },
+    ADD: {
+      DEFAULT: {
+        name: "도서/추가",
+        url: PATH.BOOKS.ADD.ROOT,
+      },
+      COMPLETE: {
+        name: "도서/추가 완료",
+        url: PATH.BOOKS.ADD.COMPLETE,
+      },
+      CHAPTER: {
+        name: "도서/목차 추가",
+        url: PATH.BOOKS.ADD.CHAPTER,
+      },
+    },
   },
   LIBRARY: {
     DEFAULT: {
