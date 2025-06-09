@@ -30,10 +30,6 @@ const meta: Meta<typeof TextBox> = {
       description: "챕터 또는 에러 챕터 박스에서 인덱스를 표시할 때 사용",
       if: { arg: "variant", eq: "chapterbox" },
     },
-    change: {
-      control: "boolean",
-      description: "순서 변경 가능 여부 (챕터 박스에서만 사용)",
-    },
     rounded: {
       control: "boolean",
       description: "입력 필드의 모서리를 둥글게 처리할지 여부 (default: false)",
@@ -45,10 +41,6 @@ const meta: Meta<typeof TextBox> = {
     onClear: {
       action: "cleared",
       description: "입력 필드 초기화 버튼 클릭 시 호출되는 함수",
-    },
-    onSubmit: {
-      action: "submitted",
-      description: "폼이 제출되었을 때 호출되는 함수",
     },
   },
 };
