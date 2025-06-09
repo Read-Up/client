@@ -19,8 +19,11 @@ export default Object.freeze({
   },
   BOOKS: {
     ROOT: ROOTS.BOOKS,
-    ADD: `${ROOTS.BOOKS}/add`, // 책 추가
-    ADD_COMPLETE: `${ROOTS.BOOKS}/add/complete`, // 책 추가 완료
+    ADD: {
+      ROOT: `${ROOTS.BOOKS}/add`, // 책 추가 페이지
+      COMPLETE: `${ROOTS.BOOKS}/add/complete`, // 책 추가 완료 페이지
+      CHAPTER: `${ROOTS.BOOKS}/add/chapter`, // 책 목차 추가 페이지
+    },
   },
   LIBRARY: {
     ROOT: ROOTS.LIBRARY,
