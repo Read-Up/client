@@ -52,9 +52,8 @@ export default function BookAddChapterScreen() {
   };
 
   const handleComplete = () => {
-    console.log("입력 완료", bookChapter);
     validateChapters();
-    const hasError = bookChapter.some((chapter) => chapter.error);
+    const hasError = bookChapter.some((chapter) => chapter.error || !chapter.chapterName.trim());
     if (!hasError) {
       router.push(`${PATH.BOOKS.ADD.ROOT}`);
     }
