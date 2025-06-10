@@ -1,28 +1,38 @@
 "use client";
 
+import { PATH } from "@/_constant/routes";
 import { CompleteCheckSVG } from "@readup/icons";
 import { CircularProgress } from "@readup/ui/organisms";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookAddCompleteScreen() {
   const [value, setValue] = useState(0);
+  const router = useRouter();
+
   // query params로 isbn 받기
   const searchParams = new URLSearchParams(window.location.search);
   const isbn = searchParams.get("isbn");
-  if (!isbn) {
-    // isbn이 없으면 다시 책 추가 페이지로 리다이렉트
-    window.location.href = "/books/add";
-  }
-
-  // isbn이 있으면 책 추가 요청 API 호출
-  if (isbn) {
-    console.log("책 추가 요청 API 호출", isbn);
-  }
 
   useEffect(() => {
+    if (!isbn) {
+      // isbn이 없으면 다시 책 추가 페이지로 리다이렉트
+      router.push(PATH.BOOKS.ADD.ROOT);
+      return;
+    }
+
+    // isbn이 있으면 책 추가 요청 API 호출
+    console.log("책 추가 요청 API 호출", isbn);
+  }, [isbn, router]);
+
+  useEffect(() => {
+    if (!isbn) {
+      return;
+    }
+
     if (value >= 100) {
       // 100%에 도달하면 /books 로 리다이렉트
-      window.location.href = "/books";
+      router.push(`${PATH.BOOKS.ROOT}?query=${isbn}`);
       return;
     }
 
@@ -35,7 +45,12 @@ export default function BookAddCompleteScreen() {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, router, isbn]);
+
+  if (!isbn) {
+    // 렌더링을 막기 위해 null 반환
+    return null;
+  }
 
   return (
     <div className="text-white flex flex-col items-center justify-center h-screen">
