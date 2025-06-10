@@ -2,7 +2,7 @@
 
 import { ScanSVG } from "@readup/icons";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import { BookSearchResult } from "@readup/ui/organisms";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ import { BookItem } from "@/_types/books/schema";
 import type { BooksResponse } from "@/_types/books/schema";
 import { BaseApi } from "@/_server/main/instance";
 import { END_POINT } from "@/_constant/end-point";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PATH } from "@/_constant/routes";
 
 export default function BookSearchScreen({ initialBooks }: { initialBooks: BookItem[] }) {
@@ -18,10 +18,12 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const searchParams = useSearchParams();
+  const initialSearchQuery = searchParams.get("query");
 
   const handleAddBookClick = () => {
     // Navigate to the book addition page
-    router.push(PATH.BOOKS.ADD);
+    router.push(PATH.BOOKS.ADD.ROOT);
   };
 
   const {
@@ -32,6 +34,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
     queryKey: ["books"],
     queryFn: async () => {
       const data = await BaseApi.get(END_POINT.BOOKS.DEFAULT).json<BooksResponse>();
+      console.error("Fetched books:", data.data.content);
       return data.data.content ?? [];
     },
     initialData: initialBooks,
@@ -81,6 +84,13 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
   const showFuzzy = isTyping && searchQuery.trim();
   const showSubmitted = !isTyping && submittedQuery.trim();
+
+  useEffect(() => {
+    console.log("Initial search query:", initialSearchQuery);
+    if (initialSearchQuery) {
+      setSearchQuery(initialSearchQuery); // 초기 검색어 설정
+    }
+  }, [initialSearchQuery, setSearchQuery, setSubmittedQuery]);
 
   return (
     <main className="h-screen overflow-y-auto flex flex-col mx-4">

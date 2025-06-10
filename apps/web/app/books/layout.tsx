@@ -8,7 +8,8 @@ type LayoutLabel = {
   title: string;
   top: boolean;
   bottom: boolean;
-  onLeftClick: () => void;
+  onLeftClick?: () => void;
+  onRightClick?: () => void;
   topVariant?: "icon1" | "icon2" | "original" | "close" | undefined;
 };
 
@@ -47,7 +48,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
       top: true,
       bottom: false,
       topVariant: "close",
-      onLeftClick: () => {
+      onRightClick: () => {
         router.push(PATH.BOOKS.ROOT);
       },
     },
@@ -63,6 +64,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
         topbarProps={{
           text: info.title,
           onLeftClick: info.onLeftClick,
+          onRightClick: info.onRightClick,
         }}
         topVariant={info.topVariant || "icon1"}
         bottom={info.bottom}

@@ -1,6 +1,6 @@
 "use client";
 
-import { BookDetail, BookDetailResponse, BooksResponse } from "@/_types/books/schema";
+import { BookDetail, ExternalBook } from "@/_types/books/schema";
 import { ISBNFormValues } from "@/_types/books/types";
 import { Button, TextBox } from "@readup/ui/atoms";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,14 +14,29 @@ import { BookSearchResult } from "@readup/ui/organisms";
 import { Toast } from "@readup/ui/atoms/toast";
 import BookAddRequestDrawer from "./_components/request-drawer";
 import BookAddNotIncludeChapterModal from "./_components/add-not-include-chapter-modal";
+import { useAddBookChapterStore } from "./_stores/add-book-chapter";
+import { useRouter } from "next/navigation";
+import { PATH } from "@/_constant/routes";
+import { HTTPError } from "ky";
+
+class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
 
 export default function BookAddScreen() {
+  const router = useRouter();
   const { register, handleSubmit, watch } = useForm<ISBNFormValues>();
   const queryClient = useQueryClient();
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [requestDrawerOpen, setRequestDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string | null>(null);
+  const { isbn, resetBookChapter, setIsbn } = useAddBookChapterStore();
 
   /**
    * useQuery 훅을 사용하여 책 상세 정보를 가져옵니다.
@@ -34,35 +49,41 @@ export default function BookAddScreen() {
     isLoading,
     isError,
     isSuccess,
-  } = useQuery<BookDetail>({
+    error: queryError,
+  } = useQuery<BookDetail, ApiError>({
     queryKey: ["book", searchQuery],
     queryFn: async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1초 딜레이 추가 (로딩 효과를 위해)
 
       // searchQuery를 Number로 변환하여 API 호출
       if (!searchQuery || isNaN(Number(searchQuery))) {
-        throw new Error("Invalid ISBN format");
+        throw new ApiError("올바르지 않은 ISBN 형식입니다.", 400);
       }
-      // API 호출
-      const data = await BaseApi.get(
-        END_POINT.BOOKS.DEFAULT_ISBN(searchQuery ? Number(searchQuery) : 0),
-      ).json<BooksResponse>();
-      console.log("Fetched books:", data.data);
-      if (!data.data || data.data.content.length === 0) {
-        throw new Error("No book found for the given ISBN");
-      }
+      try {
+        // API 호출
+        const data = await BaseApi.post(
+          END_POINT.BOOKINFO.EXTERNAL_BOOKS(searchQuery ? Number(searchQuery) : 0),
+        ).json<ExternalBook>();
+        console.log("Fetched books:", data);
 
-      const bookId = data.data.content[0]?.bookId;
-      if (!bookId) {
-        throw new Error("No book found for the given ISBN");
-      }
+        if (!data.success) {
+          throw new ApiError(data.message || "도서 검색 실패", 422);
+        }
 
-      const bookDetailData = await BaseApi.get(END_POINT.BOOKS.DETAIL(bookId)).json<BookDetailResponse>();
-      console.log("Fetched book detail:", bookDetailData.data);
-      if (!bookDetailData.data) {
-        throw new Error("No book detail found for the given book ID");
+        const bookDetail: BookDetail = data.data as BookDetail;
+        setIsbn(bookDetail.isbn); // ISBN 상태 설정
+        return bookDetail; // BookDetail 타입으로 반환
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        setIsbn(null); // ISBN 상태 초기화
+        if (err instanceof HTTPError && err.response) {
+          const errorJson = await err.response.json().catch(() => null);
+          const msg = errorJson?.message || "서버 오류 발생";
+          throw new ApiError(msg, err.response.status);
+        } else {
+          throw new ApiError(err.message || "알 수 없는 오류 발생", 0);
+        }
       }
-      return bookDetailData.data;
     },
     enabled: !!searchQuery, // searchQuery가 설정될 때만 실행
     retry: false,
@@ -100,8 +121,7 @@ export default function BookAddScreen() {
    */
   const closeRequestDrawer = () => {
     setRequestDrawerOpen(false);
-    // /books로 이동
-    window.location.href = "/books";
+    router.push(PATH.BOOKS.ROOT); // /books로 이동
   };
 
   /**
@@ -110,6 +130,10 @@ export default function BookAddScreen() {
    */
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const handleConfirmBook = () => {
+    router.push(`${PATH.BOOKS.ROOT}?query=${isbnValue}`);
   };
 
   /**
@@ -149,8 +173,18 @@ export default function BookAddScreen() {
       setModalOpen(true);
     } else {
       // /book/add/complete?isbn={isbn}으로 이동
-      window.location.href = `/books/add/complete?isbn=${isbn}`;
+      router.push(`${PATH.BOOKS.ADD.COMPLETE}?isbn=${isbn}`);
     }
+  };
+
+  /**
+   * 목차 직접 입력 페이지로 이동하는 함수: 챕터 목록을 초기화하고 목차 추가 페이지로 이동합니다.
+   * @returns {void}
+   */
+  const handleSelfAddBookChapter = () => {
+    resetBookChapter(); // 챕터 목록 초기화
+    setIsbn(isbnValue); // ISBN 상태 설정
+    router.push(PATH.BOOKS.ADD.CHAPTER); // 책 목차 추가 페이지로 이동
   };
 
   // ISBN을 모두 지웠을 때 상태 초기화
@@ -160,6 +194,13 @@ export default function BookAddScreen() {
       setSearchQuery(null); // 상태도 같이 초기화
     }
   }, [isbnValue, queryClient]);
+
+  // useAddBookChapterStore의 isbn이 있을 경우 자동 검색
+  useEffect(() => {
+    if (isbn && !searchQuery) {
+      setSearchQuery(isbn);
+    }
+  }, [isbn, searchQuery]);
 
   return (
     <Fragment>
@@ -217,7 +258,7 @@ export default function BookAddScreen() {
                 <div className="typo-body text-gray-90 bg-surface w-full h-[200px] p-4 rounded-lg flex flex-col gap-1 justify-center text-center">
                   <p>목차 정보가 제공되지 않는 책이에요.</p>
                   <p>목차를 직접 입력하도록 할까요?</p>
-                  <p className="underline cursor-pointer mt-5" onClick={() => {}}>
+                  <p className="underline cursor-pointer mt-5" onClick={handleSelfAddBookChapter}>
                     목차 직접 입력하기
                   </p>
                 </div>
@@ -248,17 +289,30 @@ export default function BookAddScreen() {
         )}
         {isError && (
           <>
-            <p className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
-              아쉽지만, 검색하신 책 정보가 없어요.
-            </p>
+            {queryError.status === 404 ? (
+              <p className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
+                검색하신 책 정보가 없어요.
+              </p>
+            ) : (
+              <div className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
+                <p>이미 추가된 책이예요.</p>
+                <p>다른 ISBN을 입력하거나 현재 책을 확인해보세요.</p>
+              </div>
+            )}
             {/* 하단 고정 영역 */}
-            <Toast
-              isOpen={true}
-              className="text-secondary bottom-25 whitespace-nowrap"
-              text="대신에, 저희에게 요청해주세요!"
-            />
-            <Button variant="filled" className="fixed bottom-10 left-4 right-4" onClick={openRequestDrawer}>
-              요청하기
+            {queryError.status === 404 && (
+              <Toast
+                isOpen={true}
+                className="text-secondary bottom-25 whitespace-nowrap"
+                text="대신에, 저희에게 요청해주세요!"
+              />
+            )}
+            <Button
+              variant="filled"
+              className="fixed bottom-10 left-4 right-4"
+              onClick={queryError.status === 404 ? openRequestDrawer : handleConfirmBook}
+            >
+              {queryError.status === 404 ? "요청하기" : "책 확인하기"}
             </Button>
             <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
           </>
