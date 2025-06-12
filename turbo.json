@@ -1,47 +1,31 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": [
-    "BACKEND_URL",
-    "NEXT_PUBLIC_BACKEND_URL",
-    "NODE_ENV",
-    "NEXT_PUBLIC_API_URL"
-  ],
+  "globalEnv": ["BACKEND_URL", "NEXT_PUBLIC_BACKEND_URL", "NODE_ENV", "NEXT_PUBLIC_API_URL"],
   "tasks": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*",
-        "!**/*.stories.{tsx,jsx,mdx}"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*", "!**/*.stories.{tsx,jsx,mdx}"],
+      "outputs": [".next/**", "!.next/cache/**", "dist"]
     },
     "storybook:dev": {
       "cache": false
     },
     "storybook:build": {
-      "outputs": [
-        "storybook-static/**"
-      ]
+      "outputs": ["storybook-static/**"]
     },
     "lint": {
-      "dependsOn": [
-        "^lint"
-      ]
+      "dependsOn": ["^lint"]
     },
     "check-types": {
-      "dependsOn": [
-        "^check-types"
-      ]
+      "dependsOn": ["^check-types"]
     },
     "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {},
+    "test:watch": {
       "cache": false,
       "persistent": true
     }
