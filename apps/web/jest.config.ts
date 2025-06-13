@@ -17,6 +17,9 @@ const config: Config = {
     "^.+\\.ts?$": "ts-jest",
   },
   transformIgnorePatterns: ["/node_modules/(?!(ky|@readup|@tanstack|react|react-dom)/)"],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/app/$1",
+  },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
