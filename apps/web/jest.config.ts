@@ -1,25 +1,23 @@
 import type { Config } from "jest";
+import nextJest from "next/jest.js";
 
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: "./",
+});
+
+// Add any custom config to be passed to Jest
 const config: Config = {
-  preset: "ts-jest",
+  coverageProvider: "v8",
   testEnvironment: "jsdom",
-
-  // TypeScript 파일(.ts, .tsx)을 Jest에서 변환 가능하게 설정
-  transform: {
-    "^.+\\.tsx?$": "ts-jest",
-  },
-
-  // Jest가 테스트할 파일 확장자 지정
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json"],
-
-  // Jest가 테스트할 파일명 패턴
-  testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
-
-  // E2E 테스트 디렉토리는 Jest에서 제외
-  testPathIgnorePatterns: ["<rootDir>/app/__tests__/e2e/"],
-
-  // Testing Library의 matcher(`toBeInTheDocument` 등) 확장
+  // Add more setup options before each test is run
   setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  preset: "ts-jest",
+  transform: {
+    "^.+\\.ts?$": "ts-jest",
+  },
+  transformIgnorePatterns: ["/node_modules/(?!(ky|@readup|@tanstack|react|react-dom)/)"],
 };
 
-export default config;
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config);

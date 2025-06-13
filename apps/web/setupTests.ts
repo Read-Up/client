@@ -4,13 +4,32 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 
-// prettier-ignore
-// beforeAll(() => {
-//   jest.spyOn(console, "error").mockImplementation(() => { });
-//   jest.spyOn(console, "warn").mockImplementation(() => { });
-// });
+jest.mock("ky", () => {
+  const create = jest.fn(() => ({
+    get: jest.fn(() => ({
+      json: jest.fn().mockResolvedValue({ success: true, data: {} }),
+    })),
+    post: jest.fn(() => ({
+      json: jest.fn().mockResolvedValue({ success: true, data: {} }),
+    })),
+  }));
 
-// afterAll(() => {
-//   (console.error as jest.Mock).mockRestore();
-//   (console.warn as jest.Mock).mockRestore();
-// });
+  return {
+    __esModule: true,
+    default: {
+      get: jest.fn(),
+      post: jest.fn(),
+    },
+    create,
+  };
+});
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+  }),
+}));
