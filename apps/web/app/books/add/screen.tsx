@@ -8,7 +8,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import BookFindDrawer from "./_components/find-drawer";
 import BookSearchLoadingSkeleton from "./_components/search-loading-skeleton";
-import { BaseApi } from "@/_client/main";
+// import { BaseApi } from "@/_client/main";
 import { END_POINT } from "@/_constant/end-point";
 import { BookSearchResult } from "@readup/ui/organisms";
 import { Toast } from "@readup/ui/atoms/toast";
@@ -18,6 +18,7 @@ import { useAddBookChapterStore } from "./_stores/add-book-chapter";
 import { useRouter } from "next/navigation";
 import { PATH } from "@/_constant/routes";
 import { HTTPError } from "ky";
+import { getClientApi } from "@/_server/main/get-instance";
 
 class ApiError extends Error {
   status: number;
@@ -61,9 +62,9 @@ export default function BookAddScreen() {
       }
       try {
         // API 호출
-        const data = await BaseApi.post(
-          END_POINT.BOOKINFO.EXTERNAL_BOOKS(searchQuery ? Number(searchQuery) : 0),
-        ).json<ExternalBook>();
+        const data = await getClientApi()
+          .post(END_POINT.BOOKINFO.EXTERNAL_BOOKS(searchQuery ? Number(searchQuery) : 0))
+          .json<ExternalBook>();
         console.log("Fetched books:", data);
 
         if (!data.success) {
