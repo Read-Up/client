@@ -9,8 +9,8 @@ const CompleteCheckSVG = forwardRef<SVGSVGElement, IconProps>(
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox={viewBox}
-        width="48px"
-        height="48px"
+        width={ICON_SIZE_MAP[size]}
+        height={ICON_SIZE_MAP[size]}
         fillRule="nonzero"
         aria-label="complete-check icon"
         fill="none"
