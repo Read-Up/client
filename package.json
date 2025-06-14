@@ -32,5 +32,17 @@
     "node": ">=18",
     "npm": "pnpm only",
     "yarn": "pnpm only"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "5.0.1",
+    "@radix-ui/react-label": "2.1.4",
+    "@radix-ui/react-select": "2.2.2",
+    "@radix-ui/react-slot": "1.2.0",
+    "react-hook-form": "^7.54.2"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
