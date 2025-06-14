@@ -5,7 +5,8 @@
   "exports": {
     "./*": {
       "types": "./dist/*/index.d.mts",
-      "default": "./dist/*/index.mjs"
+      "default": "./dist/*/index.mjs",
+      "require": "./dist/*/index.js"
     },
     "./styles.css": "./src/styles/styles.css"
   },
@@ -18,7 +19,9 @@
     "generate:theme": "tsx ./scripts/generate-theme-css.ts",
     "check-types": "tsc --noEmit",
     "storybook:dev": "storybook dev --ci -p 6008",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3",
@@ -33,7 +36,11 @@
     "@storybook/react-vite": "^8.6.12",
     "@storybook/test": "^8.6.12",
     "@tailwindcss/postcss": "^4.0.14",
+    "@testing-library/jest-dom": "6.6.3",
+    "@testing-library/react": "16.3.0",
+    "@testing-library/user-event": "14.6.1",
     "@turbo/gen": "^2.4.4",
+    "@types/jest": "29.5.14",
     "@types/node": "^22.13.9",
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
@@ -42,10 +49,14 @@
     "clsx": "^2.1.1",
     "eslint": "^9.22.0",
     "eslint-plugin-storybook": "0.12.0",
+    "jest": "30.0.0",
+    "jest-environment-jsdom": "30.0.0",
+    "jsdom": "26.1.0",
     "postcss": "^8.5.3",
     "storybook": "8.6.12",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.13",
+    "ts-jest": "29.4.0",
     "tsup": "^8.0.2",
     "tsx": "^4.19.3",
     "typescript": "5.8.2"
