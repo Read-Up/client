@@ -19,7 +19,8 @@
     "re-build": "pnpm install && pnpm build",
     "check-types": "turbo run check-types",
     "prepare": "husky",
-    "pre-commit": "pnpm lint && pnpm format"
+    "pre-commit": "pnpm lint && pnpm format",
+    "test": "turbo run test"
   },
   "devDependencies": {
     "husky": "^9.1.7",

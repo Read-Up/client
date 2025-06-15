@@ -60,14 +60,13 @@ export interface TextBoxProps
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   placeholder?: string;
   index?: number; // 챕터박스의 인덱스
-  change?: boolean; // 챕터박스에서 순서 변경 가능 여부
   rounded?: boolean; // 챕터박스에서 라운드 full 여부(default: false)
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   onClear?: () => void;
   icon?: React.ReactNode;
   isButton?: boolean; // 챕터박스에서 버튼 여부
   isBorder?: boolean; // 챕터박스에서 border 여부
   onButtonClick?: () => void; // 챕터박스에서 버튼 클릭 시 이벤트
+  buttonTabIndex?: number; // 챕터박스에서 버튼의 tabIndex
 }
 
 const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBoxProps>(
@@ -76,34 +75,53 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
       className,
       value,
       onChange,
-      onSubmit,
       placeholder,
       onClear,
       index,
-      change,
       variant = "searchbox",
       rounded,
       isButton = true,
       icon,
       isBorder = true,
       onButtonClick,
+      buttonTabIndex = -1,
       ...props
     },
     ref,
   ) => {
     const closeVariants = ["textbox", "error", "chapterbox", "error_chapterbox"];
+    const [isPressing, setIsPressing] = React.useState(false);
+    const pressTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const handlePressStart = () => {
+      pressTimer.current = setTimeout(() => {
+        setIsPressing(true);
+      }, 500); // 500ms 후에 isPressing을 true로 설정
+    };
+    const handlePressEnd = () => {
+      if (pressTimer.current) {
+        clearTimeout(pressTimer.current);
+      }
+      setIsPressing(false);
+    };
+
     return (
-      <div className="w-full flex flex-center items-center gap-[10px]">
+      <div
+        className="w-full flex flex-center items-center gap-[10px]"
+        onMouseDown={handlePressStart}
+        onMouseUp={handlePressEnd}
+        onTouchStart={handlePressStart}
+        onTouchEnd={handlePressEnd}
+        onMouseLeave={handlePressEnd}
+      >
         {(variant === "chapterbox" || variant === "error_chapterbox") && (
-          <span className={cn(indexVariants({ className, variant }))}>
+          <span className={cn(indexVariants({ variant }))}>
             {/* {error ? '!' : index} */}
-            {variant === "error_chapterbox" && !change && "!"}
-            {change && <PiCaretUpDownBold size={20} />}
-            {variant === "chapterbox" && !change && <span>{index}</span>}
+            {variant === "error_chapterbox" && !isPressing && "!"}
+            {isPressing && <PiCaretUpDownBold size={20} />}
+            {variant === "chapterbox" && !isPressing && <span>{index}</span>}
           </span>
         )}
-        <form
-          onSubmit={onSubmit}
+        <div
           className={cn(
             formVariants({ className, variant }),
             {
@@ -147,12 +165,13 @@ const TextBox = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextBox
                   onButtonClick();
                 }
               }}
+              tabIndex={buttonTabIndex}
             >
               {variant === "searchbox" && (!icon ? <CiSearch size={24} /> : icon)}
               {variant && closeVariants.includes(variant) && (icon ? icon : <IoIosCloseCircle size={24} />)}
             </button>
           )}
-        </form>
+        </div>
       </div>
     );
   },

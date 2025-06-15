@@ -13,7 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "target": "esnext",
-    "types": ["react", "react-dom"]
+    "types": ["react", "react-dom", "jest", "node"]
   },
   "include": ["src", "**/*.ts"],
   "exclude": ["node_modules", "dist"]

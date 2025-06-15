@@ -6,7 +6,17 @@ import { cn } from "../../lib";
 
 type Direction = "top" | "bottom" | "left" | "right";
 
-type OverlayOpacity = "bg-black/50" | "bg-black/60" | "bg-black/70" | "bg-black/80" | "bg-black/90";
+type OverlayOpacity =
+  | "bg-black/0"
+  | "bg-black/10"
+  | "bg-black/20"
+  | "bg-black/30"
+  | "bg-black/40"
+  | "bg-black/50"
+  | "bg-black/60"
+  | "bg-black/70"
+  | "bg-black/80"
+  | "bg-black/90";
 
 interface DrawerProps {
   isOpen: boolean;

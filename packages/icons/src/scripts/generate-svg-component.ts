@@ -1,12 +1,25 @@
 import { existsSync, promises as fs } from "fs";
 import path from "path";
 
-const SVG_DIR = "../icons/src/svg";
-const COMPONENT_DIR = "../icons/src/components";
+const SCRIPT_DIR = __dirname;
+const SVG_DIR = path.resolve(SCRIPT_DIR, "../svg");
+const COMPONENT_DIR = path.resolve(SCRIPT_DIR, "../components");
 
 type SvgComponentMap = { [key: string]: string };
 
+/**
+ * SVG 디렉토리에서 SVG 파일을 읽어 컴포넌트 이름과 파일 경로를 매핑하는 객체를 생성합니다.
+ * @returns {Promise<SvgComponentMap>} 컴포넌트 이름과 SVG 파일 경로를 매핑한 객체
+ */
 const generateSvgComponentMap = async () => {
+  // SVG 디렉토리가 존재하지 않으면 예외 발생
+  if (!existsSync(SVG_DIR)) {
+    throw new Error(`SVG directory does not exist: ${SVG_DIR}`);
+  }
+
+  // SVG 디렉토리에서 .svg 파일을 읽어 컴포넌트 이름과 파일 경로를 매핑하는 객체 생성
+  // 파일 이름에서 하이픈(-)을 제거하고 첫 글자를 대문자로 변환하여 컴포넌트 이름 생성
+  // 예: share-line-2.svg -> ShareLine2SVG
   const svgFiles = (await fs.readdir(SVG_DIR)).reduce<SvgComponentMap>((map, svgFile) => {
     const componentName =
       path.basename(svgFile, ".svg").replace(/(^\w|-\w)/g, (match) => match.replace("-", "").toUpperCase()) + "SVG";
@@ -18,19 +31,32 @@ const generateSvgComponentMap = async () => {
   return svgFiles;
 };
 
+/**
+ * 컴포넌트 디렉토리에서 사용되지 않는 컴포넌트 파일을 삭제합니다.
+ * @param svgComponentMap - SVG 파일과 컴포넌트 이름을 매핑한 객체
+ */
 const deleteUnusedComponentFiles = async (svgComponentMap: SvgComponentMap) => {
+  // 컴포넌트 디렉토리가 존재하지 않으면 생성하고 종료
   if (!existsSync(COMPONENT_DIR)) {
     fs.mkdir(COMPONENT_DIR);
     return;
   }
 
+  // 컴포넌트 디렉토리에서 .tsx 파일만 필터링
   const componentFiles = await fs.readdir(COMPONENT_DIR);
+
+  // svgComponentMap에서 value 값들을 추출하여 컴포넌트 이름과 비교
+  const usedSvgFileNames = new Set(Object.values(svgComponentMap));
+
+  // 사용되지 않는 컴포넌트 파일을 필터링
   const componentFilesToDelete = componentFiles.filter((componentFile) => {
     const componentName = path.basename(componentFile, ".tsx");
-    return !(componentName in svgComponentMap);
+    return !usedSvgFileNames.has(componentName);
   });
 
+  // 삭제할 컴포넌트 파일 경로를 생성
   await Promise.all(
+    // componentFilesToDelete를 순회하며 파일 삭제
     componentFilesToDelete.map((file) => {
       const componentFilePath = path.resolve(COMPONENT_DIR, file);
       return fs.unlink(componentFilePath);
@@ -57,6 +83,13 @@ const transformAttributeNames = (content: string) => {
   });
 };
 
+/**
+ * SVG 파일 내용을 읽어 컴포넌트 내용을 생성합니다.
+ * @param componentName - 생성할 컴포넌트 이름
+ * @param svgContent - SVG 파일 내용
+ * @param svgFile - SVG 파일 경로
+ * @returns {string} - 생성된 컴포넌트 내용
+ */
 const createComponentContent = (componentName: string, svgContent: string, svgFile: string): string => {
   const iconName = path.basename(svgFile, ".svg");
   const hasStroke = svgContent.includes("stroke=");
@@ -97,19 +130,26 @@ const createComponentContent = (componentName: string, svgContent: string, svgFi
   `;
 };
 
+/**
+ * SVG 파일을 읽어 컴포넌트 이름과 파일 경로를 매핑하는 객체를 생성합니다.
+ * @returns {Promise<SvgComponentMap>} 컴포넌트 이름과 SVG 파일 경로를 매핑한 객체
+ */
 const generateComponentFiles = async (svgComponentMap: SvgComponentMap) => {
   const components: string[] = [];
 
+  // svgComponentMap을 순회하며 컴포넌트 파일 생성
   for (const [componentName, svgFile] of Object.entries(svgComponentMap)) {
-    const baseName = path.basename(svgFile, ".svg");
-    const kebabName = `${baseName}.svg.tsx`;
+    // 컴포넌트 파일 경로 생성
+    const kebabName = `${svgFile}.tsx`;
     const componentFilePath = path.resolve(COMPONENT_DIR, kebabName);
 
+    // 컴포넌트 파일이 이미 존재하면 생성하지 않고 다음 파일로 넘어감
     if (existsSync(componentFilePath)) {
       components.push(componentName);
       continue;
     }
 
+    // SVG 파일을 읽어 컴포넌트 내용 생성
     const svgFilePath = path.resolve(SVG_DIR, svgFile);
     const svgContent = (await fs.readFile(svgFilePath)).toString();
     const componentContent = createComponentContent(componentName, svgContent, svgFile);
@@ -121,6 +161,11 @@ const generateComponentFiles = async (svgComponentMap: SvgComponentMap) => {
   return components;
 };
 
+/**
+ * 컴포넌트 파일들을 export하는 파일을 생성합니다.
+ * @param components - 생성된 컴포넌트 이름 목록
+ * @param svgComponentMap - SVG 파일과 컴포넌트 이름을 매핑한 객체
+ */
 const generateExportFile = async (components: string[], svgComponentMap: SvgComponentMap) => {
   const EXPORT_FILE_PATH = "../icons/src/components/index.ts";
 
