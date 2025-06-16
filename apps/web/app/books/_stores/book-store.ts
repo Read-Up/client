@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { BookItem, BooksResponseSchema, PageInfo } from "@/_types/books/schema";
 import { BaseApi } from "@/_server/main/instance";
+import { END_POINT } from "@/_constant/end-point";
 
 interface BookState {
   // --- 상태 ---
@@ -31,7 +32,7 @@ export const useBookStore = create<BookState>((set) => ({
   fetchBooks: async (page = 0) => {
     set({ loading: true, error: null });
     try {
-      const raw = await BaseApi.get("api/public/books", { searchParams: { page } }).json();
+      const raw = await BaseApi.get(END_POINT.BOOKS.DEFAULT, { searchParams: { page } }).json();
       // 런타임 검증
       const parsed = BooksResponseSchema.parse(raw);
       set({

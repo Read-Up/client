@@ -2,7 +2,7 @@
 
 import { ScanSVG } from "@readup/icons";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import { BookSearchResult } from "@readup/ui/organisms";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
@@ -10,11 +10,21 @@ import { BookItem } from "@/_types/books/schema";
 import type { BooksResponse } from "@/_types/books/schema";
 import { BaseApi } from "@/_server/main/instance";
 import { END_POINT } from "@/_constant/end-point";
+import { useRouter, useSearchParams } from "next/navigation";
+import { PATH } from "@/_constant/routes";
 
 export default function BookSearchScreen({ initialBooks }: { initialBooks: BookItem[] }) {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const searchParams = useSearchParams();
+  const initialSearchQuery = searchParams.get("query");
+
+  const handleAddBookClick = () => {
+    // Navigate to the book addition page
+    router.push(PATH.BOOKS.ADD.ROOT);
+  };
 
   const {
     data: books = [],
@@ -23,7 +33,8 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
   } = useQuery({
     queryKey: ["books"],
     queryFn: async () => {
-      const data = await BaseApi.get(END_POINT.BOOK.DEFAULT).json<BooksResponse>();
+      const data = await BaseApi.get(END_POINT.BOOKS.DEFAULT).json<BooksResponse>();
+      console.error("Fetched books:", data.data.content);
       return data.data.content ?? [];
     },
     initialData: initialBooks,
@@ -74,6 +85,13 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
   const showFuzzy = isTyping && searchQuery.trim();
   const showSubmitted = !isTyping && submittedQuery.trim();
 
+  useEffect(() => {
+    console.log("Initial search query:", initialSearchQuery);
+    if (initialSearchQuery) {
+      setSearchQuery(initialSearchQuery); // 초기 검색어 설정
+    }
+  }, [initialSearchQuery, setSearchQuery, setSubmittedQuery]);
+
   return (
     <main className="h-screen overflow-y-auto flex flex-col mx-4">
       <div className="flex mt-7 items-center justify-center gap-3.5">
@@ -100,7 +118,14 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
           {/* 실시간 fuzzy 검색 결과 */}
           {showFuzzy && (
-            <div className="flex flex-col gap-2 w-full max-w-md">
+            <div className="flex flex-col gap-4 w-full max-w-md">
+              <div className="flex gap-2 items-center mt-4">
+                <p className="text-title3 flex-1">찾는 책이 없으신가요?</p>
+                <Button variant="filled" onClick={handleAddBookClick}>
+                  책 추가
+                </Button>
+              </div>
+              <Divider />
               {fuzzyFiltered.length === 0 && <div className="text-center">검색 결과가 없습니다.</div>}
               {fuzzyFiltered.map((book) => (
                 <Link href={`/books/${book.bookId}`} key={book.bookId}>
@@ -120,12 +145,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
                 <>
                   <div className="flex gap-2 items-center p-3">
                     <p className="text-title3 flex-1">찾는 책이 없으신가요?</p>
-                    <Button
-                      variant="filled"
-                      onClick={() => {
-                        alert("책 추가");
-                      }}
-                    >
+                    <Button variant="filled" onClick={handleAddBookClick}>
                       책 추가
                     </Button>
                   </div>

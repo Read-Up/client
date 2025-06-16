@@ -1,6 +1,6 @@
 const ROOTS = {
   HOME: "/",
-  BOOK: "/book",
+  BOOKS: "/books",
   LIBRARY: "/library",
   LOGIN: "/login",
   MYPAGE: "/mypage",
@@ -17,8 +17,13 @@ export default Object.freeze({
   HOME: {
     ROOT: ROOTS.HOME,
   },
-  BOOK: {
-    ROOT: ROOTS.BOOK,
+  BOOKS: {
+    ROOT: ROOTS.BOOKS,
+    ADD: {
+      ROOT: `${ROOTS.BOOKS}/add`, // 책 추가 페이지
+      COMPLETE: `${ROOTS.BOOKS}/add/complete`, // 책 추가 완료 페이지
+      CHAPTER: `${ROOTS.BOOKS}/add/chapter`, // 책 목차 추가 페이지
+    },
   },
   LIBRARY: {
     ROOT: ROOTS.LIBRARY,

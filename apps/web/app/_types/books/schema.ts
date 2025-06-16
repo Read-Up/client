@@ -7,9 +7,23 @@ export const BookItemSchema = z.object({
   author: z.string(),
   publisher: z.string(),
   isbn: z.string(),
-  titleUrl: z.string().url().or(z.literal("")), // 빈 문자열도 허용
+  titleUrl: z.string().url().or(z.literal("")).optional(), // 빈 문자열도 허용 및 선택적 필드
 });
 export type BookItem = z.infer<typeof BookItemSchema>;
+
+// --- 1-1) 책 한 권의 상세 정보 스키마 ---
+export const BookChapterSchema = z.object({
+  chapterId: z.number(),
+  chapterOrder: z.number(),
+  chapterName: z.string(),
+});
+export type BookChapter = z.infer<typeof BookChapterSchema>;
+
+export const BookDetailSchema = BookItemSchema.extend({
+  chapterList: z.array(BookChapterSchema),
+});
+
+export type BookDetail = z.infer<typeof BookDetailSchema>;
 
 // --- 2) 페이징 정보 스키마 ---
 export const PageInfoSchema = z.object({
@@ -34,3 +48,20 @@ export const BooksResponseSchema = z.object({
   message: z.string(),
 });
 export type BooksResponse = z.infer<typeof BooksResponseSchema>;
+
+// --- 5) 책 상세 정보 응답 스키마 ---
+export const BookDetailResponseSchema = z.object({
+  success: z.boolean(),
+  data: BookDetailSchema,
+  message: z.string(),
+});
+export type BookDetailResponse = z.infer<typeof BookDetailResponseSchema>;
+
+// --- 6) 외부 책 응답 스키마 ---
+export const ExternalBookSchema = z.object({
+  success: z.boolean(),
+  status: z.number().optional(),
+  data: BookDetailSchema.optional(),
+  message: z.string(),
+});
+export type ExternalBook = z.infer<typeof ExternalBookSchema>;
