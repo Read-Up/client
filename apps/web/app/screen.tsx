@@ -5,7 +5,9 @@ import initMocks from "./_mocks";
 import { useEffect } from "react";
 export default function HomeScreen() {
   useEffect(() => {
-    initMocks();
+    if (process.env.NODE_ENV === "development") {
+      initMocks();
+    }
   }, []);
 
   return (

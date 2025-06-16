@@ -3,10 +3,12 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 
 describe("Page", () => {
-  it("renders a heading", () => {
+  it("renders a heading", async () => {
     render(<HomeScreen />);
-
-    const heading = screen.getByRole("heading", { level: 1 });
+    const heading = await screen.findByRole("heading", {
+      level: 1,
+      name: "Home",
+    });
 
     expect(heading).toBeInTheDocument();
   });
