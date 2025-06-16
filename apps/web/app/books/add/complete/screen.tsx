@@ -3,7 +3,7 @@
 import { PATH } from "@/_constant/routes";
 import { CompleteCheckSVG } from "@readup/icons";
 import { CircularProgress } from "@readup/ui/organisms";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function BookAddCompleteScreen() {
@@ -11,7 +11,7 @@ export default function BookAddCompleteScreen() {
   const router = useRouter();
 
   // query params로 isbn 받기
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const isbn = searchParams.get("isbn");
 
   useEffect(() => {

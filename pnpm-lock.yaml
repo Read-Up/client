@@ -206,6 +206,9 @@ importers:
       eslint:
         specifier: ^9.27.0
         version: 9.29.0(jiti@2.4.2)
+      framer-motion:
+        specifier: 12.11.3
+        version: 12.11.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       jest:
         specifier: 30.0.0
         version: 30.0.0(@types/node@22.15.32)(esbuild-register@3.6.0(esbuild@0.25.5))(ts-node@10.9.2(@types/node@22.15.32)(typescript@5.8.2))

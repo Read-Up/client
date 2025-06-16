@@ -52,6 +52,7 @@
     "@types/react-dom": "19.0.4",
     "chromatic": "11.28.0",
     "eslint": "^9.27.0",
+    "framer-motion": "12.11.3",
     "jest": "30.0.0",
     "jest-environment-jsdom": "30.0.0",
     "jsdom": "26.1.0",
