@@ -39,6 +39,9 @@ export default Object.freeze({
   },
   QUIZ: {
     ROOT: ROOTS.QUIZ,
+    SOLVE: {
+      ROOT: `${ROOTS.QUIZ}/solve`, // 퀴즈 풀기 페이지
+    },
   },
   SETTINGS: {
     ROOT: ROOTS.SETTINGS,

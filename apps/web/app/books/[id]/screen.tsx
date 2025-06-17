@@ -1,14 +1,17 @@
 "use client";
 
 import React from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { BaseApi } from "@/_server/main/instance";
 import { BookItem } from "@/_types/books/schema";
 import { END_POINT } from "@/_constant/end-point";
 import Image from "next/image";
+import { Button } from "@readup/ui/atoms";
+import { PATH } from "@/_constant/routes";
 
 export default function BookDetailScreen() {
+  const router = useRouter();
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -27,6 +30,10 @@ export default function BookDetailScreen() {
     enabled: !!id,
   });
 
+  const handleSolveQuiz = () => {
+    router.push(`${PATH.QUIZ.SOLVE.ROOT}/${id}`);
+  };
+
   if (isLoading) {
     return <div style={{ color: "#fff", padding: 32 }}>로딩중...</div>;
   }
@@ -38,27 +45,15 @@ export default function BookDetailScreen() {
   }
 
   return (
-    <div style={{ background: "#0f1720", minHeight: "100vh", color: "#fff" }}>
-      {/* 상단 바 */}
-      <header
-        style={{
-          height: 50,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderBottom: "1px solid #222",
-        }}
-      >
-        <span style={{ fontWeight: 600, fontSize: 20 }}>책 정보</span>
-      </header>
+    <div className="bg-background min-h-screen text-white">
       {/* 표지 및 기본 정보 */}
-      <section style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 24 }}>
+      <section className="flex flex-col w-full items-center p-4 gap-2">
         <Image
           src={`https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/${book.isbn}.jpg`}
           alt="책 표지"
           width={181}
           height={275}
-          style={{ borderRadius: 8, objectFit: "cover" }}
+          className="rounded-lg object-cover"
         />
         <h1 style={{ margin: "24px 0 8px 0", fontSize: 20, fontWeight: 600, textAlign: "center" }}>{book.title}</h1>
         <div style={{ fontSize: 12, color: "#95999d", marginBottom: 2 }}>
@@ -70,34 +65,16 @@ export default function BookDetailScreen() {
         <div style={{ fontSize: 12, color: "#95999d", marginBottom: 2 }}>
           ISBN <span style={{ color: "#fff" }}>{book.isbn}</span>
         </div>
+        <Button variant="filled" className="w-full" onClick={handleSolveQuiz}>
+          퀴즈 풀어보기
+        </Button>
+        <Button variant="filled" className="w-full">
+          퀴즈 작성하기
+        </Button>
+        <Button variant="filled" className="w-full">
+          퀴즈 더 보기
+        </Button>
       </section>
-      {/* 하단 네비게이션 바 (샘플) */}
-      <footer
-        style={{
-          position: "fixed",
-          left: 0,
-          bottom: 0,
-          width: "100%",
-          background: "#1e2a38",
-          height: 90,
-          display: "flex",
-          justifyContent: "space-around",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ color: "#fff", textAlign: "center" }}>
-          <div>📚</div>
-          <div style={{ fontSize: 14 }}>내 서재</div>
-        </div>
-        <div style={{ color: "#fff", textAlign: "center" }}>
-          <div>🏠</div>
-          <div style={{ fontSize: 14 }}>홈</div>
-        </div>
-        <div style={{ color: "#fff", textAlign: "center" }}>
-          <div>👤</div>
-          <div style={{ fontSize: 14 }}>마이페이지</div>
-        </div>
-      </footer>
     </div>
   );
 }
