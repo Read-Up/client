@@ -25,6 +25,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^3",
     "@emotion/is-prop-valid": "1.3.1",
+    "@radix-ui/react-select": "2.2.5",
     "@readup/eslint-config": "workspace:*",
     "@readup/icons": "workspace:*",
     "@readup/tokens": "workspace:*",
