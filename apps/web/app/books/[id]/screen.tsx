@@ -34,6 +34,14 @@ export default function BookDetailScreen() {
     router.push(`${PATH.QUIZ.SOLVE.ROOT}/${id}`);
   };
 
+  const handleSeeMoreQuizzes = () => {
+    // 해당 책의 퀴즈를 작성 했는지 안했는지 확인하는 로직 필요
+    // 작성하지 않았다면 퀴즈 작성 모달 표시
+    // 작성했다면 퀴즈 목록 페이지로 이동
+    // if (!book?.hasQuiz) {}
+    router.push(`${PATH.QUIZ.LIST.ROOT}/${id}`);
+  };
+
   if (isLoading) {
     return <div style={{ color: "#fff", padding: 32 }}>로딩중...</div>;
   }
@@ -71,7 +79,7 @@ export default function BookDetailScreen() {
         <Button variant="filled" className="w-full">
           퀴즈 작성하기
         </Button>
-        <Button variant="filled" className="w-full">
+        <Button variant="filled" className="w-full" onClick={handleSeeMoreQuizzes}>
           퀴즈 더 보기
         </Button>
       </section>

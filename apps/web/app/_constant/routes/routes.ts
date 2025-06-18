@@ -62,6 +62,12 @@ export default Object.freeze({
         url: PATH.QUIZ.SOLVE.ROOT,
       },
     },
+    LIST: {
+      DEFAULT: {
+        name: "퀴즈/목록",
+        url: PATH.QUIZ.LIST.ROOT,
+      },
+    },
   },
   SETTINGS: {
     DEFAULT: {

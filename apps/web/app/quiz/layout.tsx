@@ -50,16 +50,6 @@ export default function QuizLayout({ children }: { children: React.ReactNode }) 
     //     onLeftClick: () => { },
     //   },
     // },
-    // {
-    //   match: (path) => path === PATH.BOOKS.ADD.CHAPTER,
-    //   info: {
-    //     title: "",
-    //     top: true,
-    //     bottom: false,
-    //     topVariant: "close",
-    //     onRightClick: () => router.push(PATH.BOOKS.ROOT),
-    //   },
-    // },
     {
       match: (path) => path.startsWith(PATH.QUIZ.SOLVE.ROOT), // 동적 라우트 처리
       info: {
@@ -74,21 +64,21 @@ export default function QuizLayout({ children }: { children: React.ReactNode }) 
   const matchedLayout = LAYOUT_INFOS.find(({ match }) => match(pathname));
   const info = matchedLayout?.info;
 
-  return (
-    info && (
-      <Layout
-        top={info.top}
-        pathname={PATH.BOOKS.ROOT}
-        topbarProps={{
-          text: info.title,
-          onLeftClick: info.onLeftClick,
-          onRightClick: info.onRightClick,
-        }}
-        topVariant={info.topVariant || "icon1"}
-        bottom={info.bottom}
-      >
-        {children}
-      </Layout>
-    )
+  return info ? (
+    <Layout
+      top={info.top}
+      pathname={PATH.QUIZ.ROOT}
+      topbarProps={{
+        text: info.title,
+        onLeftClick: info.onLeftClick,
+        onRightClick: info.onRightClick,
+      }}
+      topVariant={info.topVariant || "icon1"}
+      bottom={info.bottom}
+    >
+      {children}
+    </Layout>
+  ) : (
+    <>{children}</>
   );
 }

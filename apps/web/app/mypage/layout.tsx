@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/_components/shared/layout";
 
 export default function MyPageLayout({ children }: { children: React.ReactNode }) {

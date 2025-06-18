@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/_components/shared/layout";
 
 export default function LibraryLayout({ children }: { children: React.ReactNode }) {
