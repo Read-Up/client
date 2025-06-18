@@ -9,6 +9,18 @@ export const END_POINT = {
   BOOKINFO: {
     EXTERNAL_BOOKS: (isbn: string | number) => `api/public/external-books/${isbn}`,
   },
+  QUIZ: {
+    SETS: {
+      DEFAULT: "api/public/quiz-sets",
+      BY_BOOK_ID: (bookId: string | number) => `api/public/quiz-sets?bookId=${bookId}`,
+      BY_ID: (id: string | number) => `api/public/quiz-sets/${id}`,
+    },
+    QUIZZES: {
+      DEFAULT: "api/public/quizzes",
+      BY_SET_ID: (setId: string | number) => `api/public/quizzes?setId=${setId}`,
+      BY_ID: (id: string | number) => `api/public/quizzes/${id}`,
+    },
+  },
   SIGNUP: {
     TERMS: "api/public/terms",
   },

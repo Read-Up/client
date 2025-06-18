@@ -139,6 +139,9 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^3.2.6
         version: 3.2.6(react@19.1.0)(storybook@8.6.12(prettier@3.5.3))
+      '@faker-js/faker':
+        specifier: 9.8.0
+        version: 9.8.0
       '@readup/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -1420,6 +1423,10 @@ packages:
   '@eslint/plugin-kit@0.3.2':
     resolution: {integrity: sha512-4SaFZCNfJqvk/kenHpI8xvN42DMaoycy4PzKc5otHxRswww1kAt82OlBuwRVLofCACCTZEcla2Ydxv8scMXaTg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@faker-js/faker@9.8.0':
+    resolution: {integrity: sha512-U9wpuSrJC93jZBxx/Qq2wPjCuYISBueyVUGK7qqdmj7r/nxaxwW8AQDCLeRO7wZnjj94sh3p246cAYjUKuqgfg==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@floating-ui/core@1.7.1':
     resolution: {integrity: sha512-azI0DrjMMfIug/ExbBaeDVJXcY0a7EPvPjb2xAJPa4HeimBX+Z18HK8QQR3jb6356SnDDdxx+hinMLcJEDdOjw==}
@@ -8437,6 +8444,8 @@ snapshots:
     dependencies:
       '@eslint/core': 0.15.0
       levn: 0.4.1
+
+  '@faker-js/faker@9.8.0': {}
 
   '@floating-ui/core@1.7.1':
     dependencies:
