@@ -9,11 +9,13 @@ const dropdownVariants = cva(
 
 export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof dropdownVariants> {
   children: React.ReactNode;
+  className?: string;
+  backgroundColor?: string;
 }
 
-const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(({ children }, ref) => {
+const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(({ children, className, backgroundColor }, ref) => {
   return (
-    <div ref={ref} className={dropdownVariants()}>
+    <div ref={ref} className={dropdownVariants() + " " + className}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="flex items-center gap-[2px]">
@@ -21,7 +23,14 @@ const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(({ children }, 
             <ArrowFilledUnderSVG />
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-[80px] w-[80px] text-gray-99 border-gray-60">
+        <DropdownMenuContent
+          className={
+            (backgroundColor ? `bg-${backgroundColor} ` : "") +
+            "min-w-[80px] w-[80px] text-gray-99 border-gray-60" +
+            " " +
+            className
+          }
+        >
           {children}
         </DropdownMenuContent>
       </DropdownMenu>

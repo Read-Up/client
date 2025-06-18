@@ -81,10 +81,10 @@ thead {
     font-weight: var(--font-weight-footnote);
   }
 
-  .typo-bedge {
-    font-size: var(--text-bedge);
-    line-height: var(--leading-bedge);
-    font-weight: var(--font-weight-bedge);
+  .typo-badge {
+    font-size: var(--text-badge);
+    line-height: var(--leading-badge);
+    font-weight: var(--font-weight-badge);
   }
 
   .z-modal {
