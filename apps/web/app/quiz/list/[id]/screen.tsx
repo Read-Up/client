@@ -8,9 +8,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getClientApi } from "@/_server/main/get-instance";
 import { END_POINT } from "@/_constant/end-point";
 import { QuizSetListResponseSchema } from "@/_types/quiz/schema";
-import { HeartFilledSVG } from "@readup/icons";
-import Image from "next/image";
 import { Dropdown, DropdownMenuItem } from "@readup/ui/atoms/dropdown";
+import QuizSetItem from "./_components/quiz-set-item";
 
 interface QuizListScreenProps {
   book: BookDetail;
@@ -98,35 +97,10 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
         ))}
       </Dropdown>
       <div className="flex flex-col gap-2 w-full flex-grow overflow-y-auto">
+        {/* 퀴즈 목록 */}
         {data?.pages.flatMap((page) =>
           page.quizSets.map((quiz) => (
-            <div key={quiz.id} className="px-3 py-4 flex flex-col gap-3 bg-surface">
-              <div className="flex flex-row items-center justify-between typo-badge text-gray-60">
-                <div className="flex flex-row items-center gap-1">
-                  <HeartFilledSVG fill="#95999d" size="xs" />
-                  <p>{quiz.averageScore}</p>
-                </div>
-                <p>{quiz.createdAt}</p>
-              </div>
-              <p className="typo-title3 text-white">{quiz.numberOfQuizzes}개의 퀴즈를 풀 수 있어요</p>
-              <div className="flex flex-row items-center gap-2 typo-badge text-black">
-                <p className="bg-secondary px-2 py-1 rounded-full">정답률 {quiz.correctRate}%</p>
-                <p className="bg-primary px-2 py-1 rounded-full">평균 {quiz.averageTime}분</p>
-              </div>
-              <div className="flex flex-row items-center justify-between">
-                <div className="flex flex-row items-center gap-2">
-                  <Image
-                    src={quiz.userProfileImageUrl || "/default-profile.png"}
-                    alt={quiz.userNickname}
-                    width={24}
-                    height={24}
-                    className="rounded-full object-cover"
-                  />
-                  <p className="typo-body text-white">{quiz.userNickname}</p>
-                </div>
-                <p className="typo-badge text-white">{quiz.numberOfParticipants}명이 이 퀴즈를 풀었어요</p>
-              </div>
-            </div>
+            <QuizSetItem key={quiz.id} quiz={quiz} />
           )),
         )}
         {/* 무한스크롤 로더 영역 */}
