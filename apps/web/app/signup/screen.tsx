@@ -12,6 +12,8 @@ import { CheckBox } from "@readup/ui/atoms/checkbox";
 import { BaseApi } from "@/_client/main/instance";
 import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
+import { getBaseApi } from "@/_server/main/get-instance";
+import { SignupResponse } from "@/_types/signup/schema";
 
 export default function SignupScreen({ agreements }: { agreements: AgreementItem[] }) {
   const router = useRouter();
@@ -45,11 +47,19 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
           termsConsentRequestList,
           nickname,
         };
-        const response = await BaseApi.post(END_POINT.USERS.SIGNUP, {
-          body: JSON.stringify(requestBody),
-        }).json();
+        const response = await getBaseApi()
+          .post(END_POINT.USERS.SIGNUP, {
+            body: JSON.stringify(requestBody),
+            credentials: "include",
+          })
+          .json<SignupResponse>();
 
-        console.log("response: ", response);
+        if (response.success) {
+          alert("회원가입이 완료되었습니다.");
+          router.push(PATH.HOME.ROOT);
+        } else {
+          alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+        }
       } catch (e) {
         console.error(e);
       }
