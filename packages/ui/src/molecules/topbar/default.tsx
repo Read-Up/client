@@ -46,8 +46,8 @@ export interface TopbarProps extends React.HTMLAttributes<HTMLElement>, VariantP
 export function Topbar({
   variant,
   text,
-  leftSVG = <BackSVG />,
-  rightSVG = <CloseSVG />,
+  leftSVG = <BackSVG className="cursor-pointer" />,
+  rightSVG = <CloseSVG className="cursor-pointer" />,
   onLeftClick,
   onRightClick,
   leftHref,
