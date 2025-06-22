@@ -6,11 +6,12 @@ import { QuizSet } from "@/_types/quiz/schema";
 
 interface QuizSetItemProps {
   quiz: QuizSet;
+  onClickAction: (quiz: QuizSet) => void;
 }
 
-export default function QuizSetItem({ quiz }: QuizSetItemProps) {
+export default function QuizSetItem({ quiz, onClickAction }: QuizSetItemProps) {
   return (
-    <div className="px-3 py-4 flex flex-col gap-3 bg-surface">
+    <div className="px-3 py-4 flex flex-col gap-3 bg-surface" onClick={() => onClickAction(quiz)}>
       <div className="flex flex-row items-center justify-between typo-badge text-gray-60">
         <div className="flex flex-row items-center gap-1">
           <HeartFilledSVG fill="#95999d" size="xs" />
