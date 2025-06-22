@@ -34,6 +34,10 @@ export default function BookDetailScreen() {
     router.push(`${PATH.QUIZ.SOLVE.ROOT}/${id}`);
   };
 
+  const handleCreateQuiz = () => {
+    router.push(`${PATH.QUIZ.CREATE.ROOT}/${id}`);
+  };
+
   const handleSeeMoreQuizzes = () => {
     // 해당 책의 퀴즈를 작성 했는지 안했는지 확인하는 로직 필요
     // 작성하지 않았다면 퀴즈 작성 모달 표시
@@ -76,7 +80,7 @@ export default function BookDetailScreen() {
         <Button variant="filled" className="w-full" onClick={handleSolveQuiz}>
           퀴즈 풀어보기
         </Button>
-        <Button variant="filled" className="w-full">
+        <Button variant="filled" className="w-full" onClick={handleCreateQuiz}>
           퀴즈 작성하기
         </Button>
         <Button variant="filled" className="w-full" onClick={handleSeeMoreQuizzes}>

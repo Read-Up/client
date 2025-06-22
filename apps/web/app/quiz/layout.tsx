@@ -41,15 +41,6 @@ export default function QuizLayout({ children }: { children: React.ReactNode }) 
     //     onLeftClick: () => router.push(PATH.BOOKS.ROOT),
     //   },
     // },
-    // {
-    //   match: (path) => path === PATH.BOOKS.ADD.COMPLETE,
-    //   info: {
-    //     title: "",
-    //     top: false,
-    //     bottom: false,
-    //     onLeftClick: () => { },
-    //   },
-    // },
     {
       match: (path) => path.startsWith(PATH.QUIZ.SOLVE.ROOT), // 동적 라우트 처리
       info: {

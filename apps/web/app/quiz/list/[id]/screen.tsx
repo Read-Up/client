@@ -98,11 +98,7 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
       </Dropdown>
       <div className="flex flex-col gap-2 w-full flex-grow overflow-y-auto">
         {/* 퀴즈 목록 */}
-        {data?.pages.flatMap((page) =>
-          page.quizSets.map((quiz) => (
-            <QuizSetItem key={quiz.id} quiz={quiz} />
-          )),
-        )}
+        {data?.pages.flatMap((page) => page.quizSets.map((quiz) => <QuizSetItem key={quiz.id} quiz={quiz} />))}
         {/* 무한스크롤 로더 영역 */}
         <div ref={loaderRef} className="py-4 text-center text-gray-400">
           {isFetchingNextPage ? "불러오는 중..." : hasNextPage ? "스크롤을 내려 더보기" : "마지막 퀴즈입니다"}

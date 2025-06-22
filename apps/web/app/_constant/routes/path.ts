@@ -45,6 +45,10 @@ export default Object.freeze({
     LIST: {
       ROOT: `${ROOTS.QUIZ}/list`, // 퀴즈 목록 페이지
     },
+    CREATE: {
+      ROOT: `${ROOTS.QUIZ}/create`, // 퀴즈 생성 페이지
+      SAVE: `${ROOTS.QUIZ}/create/save`, // 퀴즈 저장 페이지
+    },
   },
   SETTINGS: {
     ROOT: ROOTS.SETTINGS,
