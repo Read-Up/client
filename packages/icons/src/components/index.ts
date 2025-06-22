@@ -27,6 +27,7 @@ export { default as KeyLineSVG } from "./key-line.svg";
 export { default as KeywordLineSVG } from "./keyword-line.svg";
 export { default as MenuSVG } from "./menu.svg";
 export { default as PencilSVG } from "./pencil.svg";
+export { default as SaveSVG } from "./save.svg";
 export { default as ScanSVG } from "./scan.svg";
 export { default as SearchSVG } from "./search.svg";
 export { default as ShareFilledSVG } from "./share-filled.svg";
