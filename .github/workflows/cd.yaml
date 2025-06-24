@@ -1,0 +1,29 @@
+name: Continuous Deployment
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      - completed
+
+jobs:
+  sync:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch from Organization Repo
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.VERCEL_DEPLOY_KEY }}
+
+      - name: Push to Forked Personal Repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.VERCEL_DEPLOY_KEY }}
+        with:
+          source-directory: './apps/web'
+          destination-github-username: 'read-up-user'
+          destination-repository-name: 'client'
+          user-email: ${{ secrets.VERCEL_DEPLOY_EMAIL }}
+          target-branch: main
