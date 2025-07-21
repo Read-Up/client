@@ -6,7 +6,7 @@ import { Toast } from "@readup/ui/atoms/toast";
 import { END_POINT } from "@/_constant/end-point";
 import { useCookie } from "@/_hooks";
 
-const getSocialHref = (provider: string) => `${END_POINT.BASE_URL}${END_POINT.LOGIN.OAUTH}/${provider}`;
+const getSocialHref = (provider: string) => `${END_POINT.BASE_URL}/${END_POINT.LOGIN.OAUTH}/${provider}`;
 
 // ?redirect=${process.env.NEXT_PUBLIC_URL}`;
 

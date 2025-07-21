@@ -56,6 +56,28 @@ export default Object.freeze({
       name: "퀴즈",
       url: PATH.QUIZ.ROOT,
     },
+    SOLVE: {
+      DEFAULT: {
+        name: "퀴즈/풀기",
+        url: PATH.QUIZ.SOLVE.ROOT,
+      },
+    },
+    LIST: {
+      DEFAULT: {
+        name: "퀴즈/목록",
+        url: PATH.QUIZ.LIST.ROOT,
+      },
+    },
+    CREATE: {
+      DEFAULT: {
+        name: "퀴즈/생성",
+        url: PATH.QUIZ.CREATE.ROOT,
+      },
+      SAVE: {
+        name: "퀴즈/저장",
+        url: PATH.QUIZ.CREATE.SAVE,
+      },
+    },
   },
   SETTINGS: {
     DEFAULT: {

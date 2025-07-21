@@ -81,6 +81,12 @@ thead {
     font-weight: var(--font-weight-footnote);
   }
 
+  .typo-badge {
+    font-size: var(--text-badge);
+    line-height: var(--leading-badge);
+    font-weight: var(--font-weight-badge);
+  }
+
   .z-modal {
   }
 }
@@ -92,7 +98,7 @@ details > summary {
 details>summary::marker,
  /* Latest Chrome, Edge, Firefox */
  details>summary::-webkit-details-marker
- 
+
  /* Safari */ {
   display: none;
 }

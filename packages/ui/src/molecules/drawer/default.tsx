@@ -1,6 +1,6 @@
 "use client";
 
-// import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import React, { ReactNode } from "react";
 import { cn } from "../../lib";
 
@@ -33,34 +33,34 @@ interface DrawerProps {
   children?: ReactNode;
 }
 
-// const getAnimation = (direction: Direction) => {
-//   const variants = {
-//     initial: {},
-//     animate: { x: 0, y: 0 },
-//     exit: {},
-//   };
+const getAnimation = (direction: Direction) => {
+  const variants = {
+    initial: {},
+    animate: { x: 0, y: 0 },
+    exit: {},
+  };
 
-//   switch (direction) {
-//     case "top":
-//       variants.initial = { y: "-100%" };
-//       variants.exit = { y: "-100%" };
-//       break;
-//     case "bottom":
-//       variants.initial = { y: "100%" };
-//       variants.exit = { y: "100%" };
-//       break;
-//     case "left":
-//       variants.initial = { x: "-100%" };
-//       variants.exit = { x: "-100%" };
-//       break;
-//     case "right":
-//       variants.initial = { x: "100%" };
-//       variants.exit = { x: "100%" };
-//       break;
-//   }
+  switch (direction) {
+    case "top":
+      variants.initial = { y: "-100%" };
+      variants.exit = { y: "-100%" };
+      break;
+    case "bottom":
+      variants.initial = { y: "100%" };
+      variants.exit = { y: "100%" };
+      break;
+    case "left":
+      variants.initial = { x: "-100%" };
+      variants.exit = { x: "-100%" };
+      break;
+    case "right":
+      variants.initial = { x: "100%" };
+      variants.exit = { x: "100%" };
+      break;
+  }
 
-//   return variants;
-// };
+  return variants;
+};
 
 export const Drawer: React.FC<DrawerProps> = ({
   isOpen,
@@ -71,11 +71,10 @@ export const Drawer: React.FC<DrawerProps> = ({
   className = "",
   children,
 }) => (
-  // <AnimatePresence>
-  <>
+  <AnimatePresence>
     {isOpen && (
       <div className={cn("fixed inset-0 z-50 flex items-center justify-center", overlayOpacity)} onClick={onClose}>
-        <div
+        <motion.div
           className={cn(
             "absolute bg-background flex flex-col p-6",
             direction === "bottom" || direction === "top" ? "left-0 right-0" : "top-0 bottom-0",
@@ -86,17 +85,17 @@ export const Drawer: React.FC<DrawerProps> = ({
             direction === "left" ? "rounded-r-2xl" : "",
             direction === "right" ? "rounded-l-2xl" : "",
           )}
-          // initial="initial"
-          // animate="animate"
-          // exit="exit"
-          // variants={getAnimation(direction)}
-          // transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={getAnimation(direction)}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           onClick={(e) => e.stopPropagation()}
           style={{ [direction]: 0 }}
         >
           {children}
-        </div>
+        </motion.div>
       </div>
     )}
-  </>
+  </AnimatePresence>
 );

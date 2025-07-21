@@ -6,6 +6,12 @@ const nextConfig = {
       { protocol: 'https', hostname: "contents.kyobobook.co.kr", },
     ],
     formats: ['image/avif', 'image/webp'],
+    domains: [
+      'contents.kyobobook.co.kr',
+      'read-up.kr',
+      'avatars.githubusercontent.com', // GitHub avatars(msw mock)
+      'cdn.jsdelivr.net', // jsdelivr for icons(msw mock)
+    ],
     minimumCacheTTL: 86400,
   },
   reactStrictMode: true,
