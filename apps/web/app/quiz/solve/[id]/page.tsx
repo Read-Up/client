@@ -1,20 +1,14 @@
 import { notFound } from "next/navigation";
 import QuizSolveScreen from "./screen";
-import { END_POINT } from "@/_constant/end-point";
-import { BookDetail } from "@/_types/books/schema";
-import { getBaseApi } from "@/_server/main/get-instance";
 
 type PageParams = Promise<{ id: string }>;
 
 export default async function QuizSolvePage({ params }: { params: PageParams }) {
   const { id } = await params;
+  // const lastQuizId = "0"; // 추후 lastQuizId를 받아올 수 있도록 수정 필요
 
   try {
-    const res = await getBaseApi().get(END_POINT.BOOKS.DETAIL(id)).json<{ data: BookDetail }>();
-    const book = res.data;
-    console.log("Fetched book:", book);
-
-    return <QuizSolveScreen book={book} />;
+    return <QuizSolveScreen quizSetId={id} />;
   } catch {
     // 서버에서 에러가 발생했거나 book을 찾을 수 없을 경우
     return notFound();

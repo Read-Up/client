@@ -85,7 +85,19 @@ export function Topbar({
             {renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}
           </>
         )}
-        {variant === "close" && renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}
+        {variant === "close" && (
+          <>
+            {text ? (
+              <div className="relative flex w-full items-center justify-center">
+                <div className="absolute left-0" />
+                <div className="typo-title1">{text}</div>
+                <div className="absolute right-0">{renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}</div>
+              </div>
+            ) : (
+              renderButton(rightSVG, onRightClick, rightHref, LinkComponent)
+            )}
+          </>
+        )}
       </header>
     </>
   );

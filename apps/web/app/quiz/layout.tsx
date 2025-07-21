@@ -42,7 +42,7 @@ export default function QuizLayout({ children }: { children: React.ReactNode }) 
     //   },
     // },
     {
-      match: (path) => path.startsWith(PATH.QUIZ.SOLVE.ROOT), // 동적 라우트 처리
+      match: (path) => path.startsWith(PATH.QUIZ.CHOICE.ROOT), // 동적 라우트 처리
       info: {
         title: "퀴즈 풀기",
         top: true,

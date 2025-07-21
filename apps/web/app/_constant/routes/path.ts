@@ -41,6 +41,7 @@ export default Object.freeze({
     ROOT: ROOTS.QUIZ,
     SOLVE: {
       ROOT: `${ROOTS.QUIZ}/solve`, // 퀴즈 풀기 페이지
+      RESULT: `${ROOTS.QUIZ}/solve/result`, // 퀴즈 결과 페이지
     },
     LIST: {
       ROOT: `${ROOTS.QUIZ}/list`, // 퀴즈 목록 페이지
@@ -48,6 +49,9 @@ export default Object.freeze({
     CREATE: {
       ROOT: `${ROOTS.QUIZ}/create`, // 퀴즈 생성 페이지
       SAVE: `${ROOTS.QUIZ}/create/save`, // 퀴즈 저장 페이지
+    },
+    CHOICE: {
+      ROOT: `${ROOTS.QUIZ}/choice`, // 퀴즈 선택 페이지
     },
   },
   SETTINGS: {

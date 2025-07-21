@@ -30,8 +30,8 @@ export default function BookDetailScreen() {
     enabled: !!id,
   });
 
-  const handleSolveQuiz = () => {
-    router.push(`${PATH.QUIZ.SOLVE.ROOT}/${id}`);
+  const handleChoiceQuiz = () => {
+    router.push(`${PATH.QUIZ.CHOICE.ROOT}/${id}`);
   };
 
   const handleCreateQuiz = () => {
@@ -77,7 +77,7 @@ export default function BookDetailScreen() {
         <div style={{ fontSize: 12, color: "#95999d", marginBottom: 2 }}>
           ISBN <span style={{ color: "#fff" }}>{book.isbn}</span>
         </div>
-        <Button variant="filled" className="w-full" onClick={handleSolveQuiz}>
+        <Button variant="filled" className="w-full" onClick={handleChoiceQuiz}>
           퀴즈 풀어보기
         </Button>
         <Button variant="filled" className="w-full" onClick={handleCreateQuiz}>

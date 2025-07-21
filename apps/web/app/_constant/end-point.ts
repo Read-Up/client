@@ -14,6 +14,12 @@ export const END_POINT = {
       DEFAULT: "api/public/quiz-sets",
       BY_BOOK_ID: (bookId: string | number) => `api/public/quiz-sets?bookId=${bookId}`,
       BY_ID: (id: string | number) => `api/public/quiz-sets/${id}`,
+      MY_PROGRESS: (quizSetId: string | number) => `api/private/quiz-sets/${quizSetId}/my-progress`,
+      BY_LAST_QUIZ_ID: (quizSetId: string | number, lastQuizId: string | number) =>
+        `api/private/quiz-sets/${quizSetId}?lastQuizId=${lastQuizId}`,
+      ANSWER: (quizSetId: string | number, quizId: string | number) =>
+        `api/private/quiz-sets/${quizSetId}/quizzes/${quizId}/answer`,
+      RESULT: (quizSetId: string | number) => `api/private/quiz-sets/${quizSetId}/result`,
     },
     QUIZZES: {
       DEFAULT: "api/public/quizzes",

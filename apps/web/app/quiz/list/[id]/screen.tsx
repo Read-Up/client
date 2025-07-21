@@ -4,10 +4,6 @@ import { BookDetail } from "@/_types/books/schema";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@readup/ui/atoms/select";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { QuizTabs } from "./_components/quiz-tabs";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getClientApi } from "@/_server/main/get-instance";
-import { END_POINT } from "@/_constant/end-point";
-import { QuizSet, QuizSetListResponseSchema } from "@/_types/quiz/schema";
 import { Dropdown, DropdownMenuItem } from "@readup/ui/atoms/dropdown";
 import QuizSetItem from "./_components/quiz-set-item";
 import { Drawer } from "@readup/ui/molecules";
@@ -15,35 +11,47 @@ import { Button, Divider } from "@readup/ui/atoms";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PATH } from "@/_constant/routes";
+import { QuizSetListItem } from "@/_schemas/quiz/quiz-set";
+import { useInfiniteQuizSets } from "@/_hooks/use-infinite-quiz-sets";
 
 interface QuizListScreenProps {
   book: BookDetail;
 }
 
+const SORT_OPTIONS = [
+  { label: "인기순", value: "like" },
+  { label: "최신순", value: "createdAt" },
+  { label: "난이도순", value: "difficulty" },
+];
+
+const DIRECTION_OPTIONS = [
+  { label: "높은순", value: "DESC" },
+  { label: "낮은순", value: "ASC" },
+];
+
 export default function QuizListScreen({ book }: QuizListScreenProps) {
   const router = useRouter();
   const [currentType, setCurrentType] = useState("all");
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const [selectedQuizSet, setSelectedQuizSet] = useState<QuizSet | null>(null);
+  const quizListRef = useRef<HTMLDivElement | null>(null);
+  const [selectedQuizSet, setSelectedQuizSet] = useState<QuizSetListItem | null>(null);
+  const [sort, setSort] = useState<string>("like");
+  const [direction, setDirection] = useState<string>("DESC");
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["quizSets", book.bookId, currentType],
-    queryFn: async ({ pageParam = 0 }) => {
-      const res = await getClientApi()
-        .get(`${END_POINT.QUIZ.SETS.BY_BOOK_ID(book.bookId)}&page=${pageParam}`)
-        .json();
-
-      console.log("Fetched quiz sets:", res);
-      const parsed = QuizSetListResponseSchema.parse(res);
-      return parsed;
-    },
-    getNextPageParam: (lastPage) => {
-      const currentPage = lastPage.page.number;
-      const totalPages = lastPage.page.totalPages;
-      return currentPage + 1 < totalPages ? currentPage + 1 : undefined;
-    },
-    initialPageParam: 0,
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuizSets({
+    bookId: book.bookId,
+    filterType: currentType,
+    sortOption: sort,
+    direction: direction,
   });
+
+  // 정렬/방향 변경 시 퀴즈 목록 스크롤 초기화
+  useEffect(() => {
+    // 퀴즈 목록 영역의 스크롤을 맨 위로 이동
+    if (quizListRef.current) {
+      quizListRef.current.scrollTop = 0;
+    }
+  }, [sort, direction]);
 
   const handleTypeChange = useCallback(
     (type: string) => {
@@ -52,24 +60,37 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
     [setCurrentType],
   );
 
-  const handleClickQuiz = (quiz: QuizSet) => {
+  const handleClickQuiz = async (quiz: QuizSetListItem) => {
     setSelectedQuizSet(quiz);
+  };
+
+  const handleCloseDrawer = () => {
+    setSelectedQuizSet(null);
   };
 
   const handleStartQuiz = (quizSetId: number) => {
     router.push(`${PATH.QUIZ.SOLVE.ROOT}/${quizSetId}`);
-    setSelectedQuizSet(null);
   };
 
+  // IntersectionObserver 콜백을 useCallback으로 최적화
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      if (entries[0] && entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0] && entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1.0 },
-    );
+    if (!quizListRef.current) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.1,
+      root: quizListRef.current, // 스크롤 컨테이너를 root로 설정
+    });
 
     const target = loaderRef.current;
     if (target) {
@@ -81,10 +102,10 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
         observer.unobserve(target);
       }
     };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [handleIntersection]);
 
   return (
-    <section className="flex flex-col w-full min-h-screen text-white p-4 gap-4">
+    <section className="flex flex-col w-full h-[calc(100vh-50px)] text-white p-4 gap-4">
       <h1 className="typo-title2">{book.title}</h1>
       <Select>
         <SelectTrigger className="w-full">
@@ -101,21 +122,44 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
         </SelectContent>
       </Select>
       <QuizTabs currentType={currentType} onTypeChange={handleTypeChange} />
-      <Dropdown className="bg-background">
-        {["인기순", "최신순", "난이도상", "난이도하"].map((option) => (
-          <DropdownMenuItem
-            key={option}
-            onClick={() => console.log(`Selected: ${option}`)}
-            className="bg-background typo-title3 text-white hover:text-white"
+      {currentType !== "participated" && (
+        <div className="flex flex-row items-center gap-2">
+          <Dropdown
+            className="bg-background"
+            triggerLabel={SORT_OPTIONS.find((opt) => opt.value === sort)?.label ?? "정렬"}
           >
-            {option}
-          </DropdownMenuItem>
-        ))}
-      </Dropdown>
-      <div className="flex flex-col gap-2 w-full flex-grow overflow-y-auto">
+            {SORT_OPTIONS.map((opt) => (
+              <DropdownMenuItem
+                key={opt.value}
+                onClick={() => setSort(opt.value)}
+                className={sort === opt.value ? "text-primary" : ""}
+              >
+                {opt.label}
+              </DropdownMenuItem>
+            ))}
+          </Dropdown>
+          <Dropdown
+            className="bg-background"
+            triggerLabel={DIRECTION_OPTIONS.find((opt) => opt.value === direction)?.label ?? "정렬"}
+          >
+            {DIRECTION_OPTIONS.map((opt) => (
+              <DropdownMenuItem
+                key={opt.value}
+                onClick={() => setDirection(opt.value)}
+                className={direction === opt.value ? "text-primary" : ""}
+              >
+                {opt.label}
+              </DropdownMenuItem>
+            ))}
+          </Dropdown>
+        </div>
+      )}
+      <div ref={quizListRef} className="flex flex-col gap-2 w-full flex-1 overflow-y-auto">
         {/* 퀴즈 목록 */}
         {data?.pages.flatMap((page) =>
-          page.quizSets.map((quiz) => <QuizSetItem key={quiz.id} quiz={quiz} onClickAction={handleClickQuiz} />),
+          page.data.content.map((quiz) => (
+            <QuizSetItem key={quiz.quizSetId} quiz={quiz} onClickAction={handleClickQuiz} />
+          )),
         )}
         {/* 무한스크롤 로더 영역 */}
         <div ref={loaderRef} className="py-4 text-center text-gray-400">
@@ -127,7 +171,7 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
       {selectedQuizSet && (
         <Drawer
           isOpen={!!selectedQuizSet}
-          onClose={() => setSelectedQuizSet(null)}
+          onClose={handleCloseDrawer}
           direction="right"
           size="w-full"
           overlayOpacity="bg-black/30"
@@ -142,35 +186,31 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
               <p className="typo-title3">{book.chapterList[0]?.chapterName}</p>
               <div className="flex flex-row items-center gap-2 justify-end">
                 <Image
-                  src={selectedQuizSet.userProfileImageUrl || "/default-profile.png"}
-                  alt={selectedQuizSet.userNickname}
+                  src={selectedQuizSet.profileImageUrl || "/default-profile.png"}
+                  alt={selectedQuizSet.nickname}
                   width={24}
                   height={24}
                   className="rounded-full object-cover"
                 />
-                <p className="typo-body text-white">{selectedQuizSet.userNickname}</p>
+                <p className="typo-body text-white">{selectedQuizSet.nickname}</p>
               </div>
               <Divider className="bg-overlay-16dp" />
               <div className="flex flex-row items-center typo-title3">
                 <div className="w-[50%] flex flex-row items-center gap-2">
-                  📝 총 {selectedQuizSet.numberOfQuizzes}문제
+                  📝 총 {selectedQuizSet.totalQuizCount}문제
                 </div>
                 <div className="w-[50%] flex flex-row items-center gap-2">
-                  ⏰ 약 {selectedQuizSet.averageTime}분 소요
+                  ⏰ 약 {Math.round(selectedQuizSet.estimatedTime / 60)}분 소요
                 </div>
               </div>
             </div>
 
             {/* 하단 고정 영역 */}
-            <Button
-              onClick={() => setSelectedQuizSet(null)}
-              variant="outline"
-              className="fixed bottom-25 left-4 right-4"
-            >
+            <Button onClick={handleCloseDrawer} variant="outline" className="fixed bottom-25 left-4 right-4">
               돌아가기
             </Button>
             <Button
-              onClick={() => handleStartQuiz(selectedQuizSet.id)}
+              onClick={() => handleStartQuiz(selectedQuizSet.quizSetId)}
               variant="filled"
               className="fixed bottom-10 left-4 right-4"
             >
