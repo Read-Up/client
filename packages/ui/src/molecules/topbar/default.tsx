@@ -46,8 +46,8 @@ export interface TopbarProps extends React.HTMLAttributes<HTMLElement>, VariantP
 export function Topbar({
   variant,
   text,
-  leftSVG = <BackSVG />,
-  rightSVG = <CloseSVG />,
+  leftSVG = <BackSVG className="cursor-pointer" />,
+  rightSVG = <CloseSVG className="cursor-pointer" />,
   onLeftClick,
   onRightClick,
   leftHref,
@@ -85,7 +85,19 @@ export function Topbar({
             {renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}
           </>
         )}
-        {variant === "close" && renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}
+        {variant === "close" && (
+          <>
+            {text ? (
+              <div className="relative flex w-full items-center justify-center">
+                <div className="absolute left-0" />
+                <div className="typo-title1">{text}</div>
+                <div className="absolute right-0">{renderButton(rightSVG, onRightClick, rightHref, LinkComponent)}</div>
+              </div>
+            ) : (
+              renderButton(rightSVG, onRightClick, rightHref, LinkComponent)
+            )}
+          </>
+        )}
       </header>
     </>
   );

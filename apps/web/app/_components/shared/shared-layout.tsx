@@ -18,8 +18,6 @@ export default function Layout({
   bottom = true,
   topbarProps = {},
 }: LayoutProps) {
-  // const { text, leftSVG, rightSVG, onLeftClick, onRightClick } = topbarProps;
-
   const getActiveTab = (): "home" | "library" | "mypage" | undefined => {
     if (pathname === "/" || pathname.startsWith("/home")) {
       return "home";
@@ -34,7 +32,7 @@ export default function Layout({
   };
 
   return (
-    <div className="relative h-screen pb-[90px]">
+    <div className="relative h-screen pb-[90px] bg-background">
       {top && <Topbar variant={topVariant} {...topbarProps} />}
       {children}
       {bottom && (
