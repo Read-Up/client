@@ -10,6 +10,7 @@ interface UseInfiniteQuizSetsOptions {
   direction?: string;
   pageSize?: number;
   enabled?: boolean;
+  chapterId?: number;
 }
 
 export function useInfiniteQuizSets({
@@ -19,13 +20,14 @@ export function useInfiniteQuizSets({
   direction = "DESC",
   pageSize = 10,
   enabled = true,
+  chapterId,
 }: UseInfiniteQuizSetsOptions) {
   return useInfiniteQuery({
-    queryKey: ["quizSets", bookId, filterType, sortOption, direction, pageSize],
+    queryKey: ["quizSets", bookId, filterType, sortOption, direction, pageSize, chapterId],
     queryFn: async ({ pageParam = 0 }) => {
       const res = await getClientApi()
         .get(
-          `${END_POINT.QUIZ.SETS.BY_BOOK_ID(bookId)}&page=${pageParam}&size=10&sort=${sortOption}&direction=${direction}`,
+          `${END_POINT.QUIZ.SETS.BY_BOOK_ID(bookId)}&page=${pageParam}&size=10&sort=${sortOption}&direction=${direction}&chapterId=${chapterId}`,
         )
         .json();
 

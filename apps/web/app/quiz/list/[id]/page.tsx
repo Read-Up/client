@@ -7,17 +7,25 @@ import { BookDetail } from "@/_types/books/schema";
 
 type PageParams = Promise<{ id: string }>;
 
-export default async function QuizListPage({ params }: { params: PageParams }) {
+export default async function QuizListPage({
+  params,
+  searchParams,
+}: {
+  params: PageParams;
+  searchParams: { chapterId: string };
+}) {
   const { id } = await params;
+  const { chapterId } = await searchParams;
 
   try {
     const res = await getBaseApi().get(END_POINT.BOOKS.DETAIL(id)).json<{ data: BookDetail }>();
     const book = res.data;
-    console.log("Fetched book:", book);
+    console.log("Fetched book:", book, chapterId);
+    const firstChapter = book.chapterList[0]?.chapterId || 0;
 
     return (
       <QuizListLayout title="퀴즈 목록">
-        <QuizListScreen book={book} />
+        <QuizListScreen book={book} chapterId={Number(chapterId) || firstChapter} />
       </QuizListLayout>
     );
   } catch {

@@ -50,6 +50,8 @@ export const useSolveQuizStore = create<SolveQuizState>((set, get) => ({
         .get(END_POINT.QUIZ.SETS.MY_PROGRESS(quizSetId))
         .json<MyQuizSetProgress>();
 
+      console.log("lastQuizIdRes", lastQuizIdRes);
+
       if (!lastQuizIdRes.success) {
         set({ fetchState: "error" });
         return;
@@ -59,6 +61,8 @@ export const useSolveQuizStore = create<SolveQuizState>((set, get) => ({
       const res = await getClientApi()
         .get(END_POINT.QUIZ.SETS.BY_LAST_QUIZ_ID(quizSetId, lastQuizId || "0"))
         .json<QuizSetResponse>();
+
+      console.log("res", res);
 
       if (res.success) {
         const fullList = res.data.quizResponseList;

@@ -30,18 +30,21 @@ const dummyQuizSets = Array.from({ length: TOTAL_ELEMENTS }).map((_, i) => ({
 }));
 
 // 새로운 스키마에 맞는 더미 데이터 (100개)
-const newDummyQuizSets: QuizSetListItem[] = Array.from({ length: TOTAL_ELEMENTS }).map((_, i) => ({
-  quizSetId: i + 1,
-  userId: faker.number.int({ min: 1, max: 50 }),
-  nickname: faker.internet.username(),
-  profileImageUrl: faker.image.avatar(),
-  createdAt: faker.date.recent().toISOString(),
-  participantCount: faker.number.int({ min: 10, max: 500 }),
-  likeAverage: parseFloat(faker.number.float({ min: 0, max: 5 }).toFixed(1)), // 0.0 ~ 5.0 사이의 값
-  correctAnswerAverage: parseFloat(faker.number.float({ min: 0, max: 100 }).toFixed(1)), // 0.0 ~ 100.0 사이의 값
-  estimatedTime: faker.number.int({ min: 60, max: 1800 }), // 1분 ~ 30분 (초 단위)
-  totalQuizCount: faker.number.int({ min: 2, max: 10 }),
-}));
+const newDummyQuizSets = (chapterId: number): QuizSetListItem[] => {
+  faker.seed(chapterId);
+  return Array.from({ length: TOTAL_ELEMENTS }).map((_, i) => ({
+    quizSetId: i + 1,
+    userId: faker.number.int({ min: 1, max: 50 }),
+    nickname: faker.internet.username(),
+    profileImageUrl: faker.image.avatar(),
+    createdAt: faker.date.recent().toISOString(),
+    participantCount: faker.number.int({ min: 10, max: 500 }),
+    likeAverage: parseFloat(faker.number.float({ min: 0, max: 5 }).toFixed(1)), // 0.0 ~ 5.0 사이의 값
+    correctAnswerAverage: parseFloat(faker.number.float({ min: 0, max: 100 }).toFixed(1)), // 0.0 ~ 100.0 사이의 값
+    estimatedTime: faker.number.int({ min: 60, max: 1800 }), // 1분 ~ 30분 (초 단위)
+    totalQuizCount: faker.number.int({ min: 2, max: 10 }),
+  }));
+};
 
 const dummyQuizSetWithQuizzes = (index: number, bookId: number): QuizSetResponse => {
   const quizSet = dummyQuizSets[index];
@@ -83,12 +86,14 @@ export const quizMockups = [
     const size = Number(url.searchParams.get("size") || 10);
     const sort = url.searchParams.get("sort") || "like";
     const direction = url.searchParams.get("direction") || "DESC";
+    const chapterId = Number(url.searchParams.get("chapterId") || 0);
+    const dummyQuizSets = newDummyQuizSets(chapterId);
 
     const totalPages = Math.ceil(TOTAL_ELEMENTS / size);
     const start = page * size;
     const end = start + size;
     // 정렬 로직
-    const sortedData = [...newDummyQuizSets];
+    const sortedData = [...dummyQuizSets];
     console.log("sort", sort, "direction", direction);
     if (sort === "like") {
       console.log("인기순", direction);

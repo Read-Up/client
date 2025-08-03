@@ -5,7 +5,7 @@ import { Button } from "@readup/ui/atoms";
 import { LinearProgress } from "@readup/ui/organisms";
 import { useSolveQuizStore } from "@/quiz/_store/useSolveQuizStore";
 import SolveQuizLayout from "@/quiz/_components/solve-quiz-layout";
-import { Modal } from "@readup/ui/molecules";
+import { QuizCheckModal } from "@readup/ui/molecules";
 import { useRouter } from "next/navigation";
 import { PATH } from "@/_constant/routes";
 import { Quiz } from "@/_schemas/quiz/quiz-set";
@@ -45,7 +45,12 @@ export default function QuizSolveScreen({ quizSetId }: QuizSolveScreenProps) {
 
   useEffect(() => {
     if (quizSetId) {
-      fetchQuizSet(quizSetId);
+      // fetchQuizSet(quizSetId);
+
+      // 테스트용 딜레이 - 딜레이를 걸어주지 않는 경우, mocking api 호출 시 문제가 발생함
+      setTimeout(() => {
+        fetchQuizSet(quizSetId);
+      }, 1000);
     }
   }, [quizSetId, fetchQuizSet]);
 
@@ -57,9 +62,9 @@ export default function QuizSolveScreen({ quizSetId }: QuizSolveScreenProps) {
   useEffect(() => {
     if (fetchState === "error") {
       resetQuiz();
-      router.push(PATH.QUIZ.LIST.ROOT);
+      // router.push(PATH.QUIZ.LIST.ROOT);
     }
-  }, [fetchState, resetQuiz, router]);
+  }, [fetchState, resetQuiz, router, fetchQuizSet, quizSetId]);
 
   if (!quizSet) {
     return <div>로딩중...</div>;
@@ -136,21 +141,21 @@ export default function QuizSolveScreen({ quizSetId }: QuizSolveScreenProps) {
           </>
         )}
       </div>
-      <Modal
+      <QuizCheckModal
         open={openModal}
-        onClose={() => {}}
+        onClose={undefined}
         title="정답을 맞추셨습니다! 🎉"
-        subtext={explanation || ""}
+        subtext={explanation || undefined}
         cancelText=""
         confirmText="다음 문제"
         onConfirm={handleClickNext}
         variant="contained"
       />
-      <Modal
+      <QuizCheckModal
         open={openIncorrectModal}
-        onClose={() => {}}
+        onClose={undefined}
         title="아쉽지만 좋은 시도였어요 🔥"
-        subtext={explanation || ""}
+        subtext={explanation || undefined}
         cancelText="재도전"
         confirmText="다음 문제"
         onConfirm={handleClickNext}

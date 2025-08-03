@@ -16,6 +16,7 @@ import { useInfiniteQuizSets } from "@/_hooks/use-infinite-quiz-sets";
 
 interface QuizListScreenProps {
   book: BookDetail;
+  chapterId: number;
 }
 
 const SORT_OPTIONS = [
@@ -29,7 +30,18 @@ const DIRECTION_OPTIONS = [
   { label: "낮은순", value: "ASC" },
 ];
 
-export default function QuizListScreen({ book }: QuizListScreenProps) {
+const PARTICIPATED_SORT_OPTIONS = [
+  { label: "최신순", value: "recent" },
+  { label: "오래된순", value: "old" },
+];
+
+const PARTICIPATED_FILTER_OPTIONS = [
+  { label: "전체", value: "all" },
+  { label: "완료", value: "completed" },
+  { label: "미완료", value: "notCompleted" },
+];
+
+export default function QuizListScreen({ book, chapterId }: QuizListScreenProps) {
   const router = useRouter();
   const [currentType, setCurrentType] = useState("all");
   const loaderRef = useRef<HTMLDivElement | null>(null);
@@ -37,12 +49,18 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
   const [selectedQuizSet, setSelectedQuizSet] = useState<QuizSetListItem | null>(null);
   const [sort, setSort] = useState<string>("like");
   const [direction, setDirection] = useState<string>("DESC");
+  const [selectedChapterId, setSelectedChapterId] = useState<number>(chapterId);
+  const [participatedSortAndFilter, setParticipatedSortAndFilter] = useState<{ sort: string; filter: string }>({
+    sort: "recent",
+    filter: "all",
+  }); // sort: "recent" | "old" / filter: "all" | "completed" | "notCompleted"
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuizSets({
     bookId: book.bookId,
     filterType: currentType,
     sortOption: sort,
     direction: direction,
+    chapterId: selectedChapterId,
   });
 
   // 정렬/방향 변경 시 퀴즈 목록 스크롤 초기화
@@ -107,14 +125,18 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
   return (
     <section className="flex flex-col w-full h-[calc(100vh-50px)] text-white p-4 gap-4">
       <h1 className="typo-title2">{book.title}</h1>
-      <Select>
+      <Select value={selectedChapterId.toString()} onValueChange={(value) => setSelectedChapterId(Number(value))}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="챕터를 선택해주세요" />
+          <SelectValue placeholder="챕터를 선택해주세요"></SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             {book.chapterList.map((chapter) => (
-              <SelectItem key={chapter.chapterId} value={chapter.chapterId.toString()}>
+              <SelectItem
+                key={chapter.chapterId}
+                value={chapter.chapterId.toString()}
+                onClick={() => setSelectedChapterId(chapter.chapterId)}
+              >
                 {chapter.chapterName}
               </SelectItem>
             ))}
@@ -146,6 +168,46 @@ export default function QuizListScreen({ book }: QuizListScreenProps) {
               <DropdownMenuItem
                 key={opt.value}
                 onClick={() => setDirection(opt.value)}
+                className={direction === opt.value ? "text-primary" : ""}
+              >
+                {opt.label}
+              </DropdownMenuItem>
+            ))}
+          </Dropdown>
+        </div>
+      )}
+      {currentType === "participated" && (
+        <div className="flex flex-row items-center gap-2">
+          <Dropdown
+            className="bg-background"
+            triggerLabel={
+              PARTICIPATED_SORT_OPTIONS.find((opt) => opt.value === participatedSortAndFilter.sort)?.label ?? "정렬"
+            }
+          >
+            {PARTICIPATED_SORT_OPTIONS.map((opt) => (
+              <DropdownMenuItem
+                key={opt.value}
+                onClick={() =>
+                  setParticipatedSortAndFilter({ sort: opt.value, filter: participatedSortAndFilter.filter })
+                }
+                className={sort === opt.value ? "text-primary" : ""}
+              >
+                {opt.label}
+              </DropdownMenuItem>
+            ))}
+          </Dropdown>
+          <Dropdown
+            className="bg-background"
+            triggerLabel={
+              PARTICIPATED_FILTER_OPTIONS.find((opt) => opt.value === participatedSortAndFilter.filter)?.label ?? "정렬"
+            }
+          >
+            {PARTICIPATED_FILTER_OPTIONS.map((opt) => (
+              <DropdownMenuItem
+                key={opt.value}
+                onClick={() =>
+                  setParticipatedSortAndFilter({ sort: participatedSortAndFilter.sort, filter: opt.value })
+                }
                 className={direction === opt.value ? "text-primary" : ""}
               >
                 {opt.label}

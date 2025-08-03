@@ -11,7 +11,7 @@ type QuizSolveScreenProps = {
 export default function QuizChoiceScreen({ book }: QuizSolveScreenProps) {
   const router = useRouter();
   const handleChapterClick = (chapterId: number) => {
-    router.push(`/quiz/solve/${book.bookId}/${chapterId}`);
+    router.push(`/quiz/list/${book.bookId}?chapterId=${chapterId}`);
   };
 
   return (
