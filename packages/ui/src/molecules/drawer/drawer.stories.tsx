@@ -14,7 +14,7 @@ const meta: Meta<typeof Drawer> = {
     },
     direction: {
       control: { type: "select" },
-      options: ["top", "bottom", "left", "right"],
+      options: ["top", "bottom"],
       description: "슬라이드 방향",
       defaultValue: "bottom",
     },
@@ -70,32 +70,6 @@ export const Playground: Story = {
     direction: "bottom",
     size: "h-[300px]",
     overlayOpacity: "bg-black/60",
-  },
-};
-
-export const FromLeft: Story = {
-  render: (args) => (
-    <div className="w-full h-screen flex items-center justify-center bg-background p-4">
-      <ControlledDrawer {...args} />
-    </div>
-  ),
-  args: {
-    direction: "left",
-    size: "w-[300px]",
-    overlayOpacity: "bg-black/70",
-  },
-};
-
-export const FromRight: Story = {
-  render: (args) => (
-    <div className="w-full h-screen flex items-center justify-center bg-background p-4">
-      <ControlledDrawer {...args} />
-    </div>
-  ),
-  args: {
-    direction: "right",
-    size: "w-[300px]",
-    overlayOpacity: "bg-black/80",
   },
 };
 
