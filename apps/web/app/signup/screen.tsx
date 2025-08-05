@@ -3,7 +3,7 @@
 import { ArrowLineUnderSVG, ArrowLineUpSVG } from "@readup/icons";
 import { useAgreementStore } from "./_stores/use-agreement-store";
 import { PATH } from "@/_constant/routes";
-import { Topbar } from "@readup/ui/molecules";
+import { Modal, Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
 import { END_POINT } from "@/_constant/end-point";
@@ -21,12 +21,22 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
   const { state, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = useState<Partial<Record<AgreementKey, boolean>>>({});
   const [nickname, setNickname] = useState<string>("");
+  const [closeModal, setCloseModal] = useState<boolean>(false);
 
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
       return;
     }
+    clear();
+    router.push(PATH.LOGIN.ROOT);
+  };
+
+  const openCloseModal = () => {
+    setCloseModal(true);
+  };
+
+  const handleClose = () => {
     clear();
     router.push(PATH.LOGIN.ROOT);
   };
@@ -90,28 +100,39 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-screen text-on-primary relative">
+    <div className="flex flex-col items-center w-full h-screen text-on-primary bg-background relative">
       {/* Topbar */}
       <Topbar
-        className="w-full bg-background text-on-primary typo-title1"
+        className="w-full bg-background text-on-primary typo-title1 h-[50px]"
         variant="icon2"
         onLeftClick={handleBack}
+        onRightClick={openCloseModal}
         text={step === 1 ? "회원가입" : "닉네임 설정"}
       />
 
       {/* ProgressBar */}
       <LinearProgress value={step * 50} />
 
-      {/* 회원가입 약관 동의 */}
-      {step === 1 && (
-        <Fragment>
-          {/* Info Message */}
-          <div className="flex flex-col w-full px-4 mt-[62px]">
-            <p className="typo-title1">리드업 서비스 이용을 위해</p>
-            <p className="typo-title1">동의가 필요해요</p>
-          </div>
+      {/* Main Content */}
+      <main className="flex flex-col w-full h-[calc(100vh-52px)] overflow-y-auto px-4 py-10">
+        {/* Info Message */}
+        <div className="flex flex-col w-full mt-[22px] typo-title1">
+          {step === 1 ? (
+            <Fragment>
+              <p>리드업 서비스 이용을 위해</p>
+              <p>동의가 필요해요</p>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <p>리드업 서비스에서</p>
+              <p>사용하실 이름을 정해주세요</p>
+            </Fragment>
+          )}
+        </div>
 
-          <div className="flex flex-col w-full px-4 mt-[50px] gap-4">
+        {step === 1 ? (
+          // 약관 목록
+          <section className="flex flex-col w-full mt-[50px] gap-4">
             <div className="flex flex-row items-center gap-2">
               <CheckBox
                 size="md"
@@ -158,18 +179,10 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
                 )}
               </Fragment>
             ))}
-          </div>
-        </Fragment>
-      )}
-
-      {/* 닉네임 설정 */}
-      {step === 2 && (
-        <Fragment>
-          <div className="flex flex-col w-full px-4 mt-[62px]">
-            <p className="typo-title1">리드업 서비스에서</p>
-            <p className="typo-title1">사용하실 이름을 정해주세요</p>
-          </div>
-          <div className="flex flex-row w-full px-4 mt-[50px] gap-2">
+          </section>
+        ) : (
+          // 닉네임 입력
+          <section className="flex flex-row w-full mt-[50px] gap-2">
             {/* 입력창 또는 정보 표시 */}
             <div className="flex items-center justify-between bg-surface px-4 py-3 rounded-[6px] text-sm w-full">
               <input
@@ -190,19 +203,33 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
             >
               랜덤닉네임 생성
             </button>
-          </div>
-        </Fragment>
-      )}
+          </section>
+        )}
+        {/* 빈 공간을 위한 div */}
+        <div className="grow-1" />
 
-      {/* 하단 버튼 */}
-      <Button
-        className="typo-title2 fixed bottom-10 left-4 right-4"
-        variant="filled"
-        disabled={step === 1 ? !(state.AGE && state.SERVICE && state.PRIVACY) : nickname.length === 0}
-        onClick={handleNext}
+        {/* 하단 버튼 */}
+        <Button
+          className="typo-title2 w-full"
+          variant="filled"
+          disabled={step === 1 ? !(state.AGE && state.SERVICE && state.PRIVACY) : nickname.length === 0}
+          onClick={handleNext}
+        >
+          {step === 1 ? "확인" : "입력완료"}
+        </Button>
+      </main>
+      <Modal
+        open={closeModal}
+        onClose={() => setCloseModal(false)}
+        title="회원가입을 종료하시겠습니까?"
+        subtext="회원가입을 종료하면 입력한 정보가 저장되지 않습니다."
+        confirmText="종료"
+        cancelText="취소"
+        onConfirm={handleClose}
+        onCancel={() => setCloseModal(false)}
       >
-        {step === 1 ? "확인" : "입력완료"}
-      </Button>
+        <p className="text-sm text-gray-500">회원가입을 종료하면 입력한 정보가 저장되지 않습니다.</p>
+      </Modal>
     </div>
   );
 }
