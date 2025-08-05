@@ -21,8 +21,8 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   onCancel,
   onConfirm,
-  confirmText = "Positive",
-  cancelText = "Negative",
+  confirmText,
+  cancelText,
   ...props
 }) => {
   return (
@@ -34,9 +34,11 @@ const Modal: React.FC<ModalProps> = ({
           <div className={"w-full h-15 flex flex-row items-center " + cancelText ? "justify-center" : "justify-end"}>
             {variant === "text" ? (
               <>
-                <button onClick={onCancel ? onCancel : onClose} className="w-1/2 text-gray-30">
-                  {cancelText}
-                </button>
+                {cancelText && (
+                  <button onClick={onCancel ? onCancel : onClose} className="w-1/2 text-gray-30">
+                    {cancelText}
+                  </button>
+                )}
                 <button onClick={onConfirm} className="w-1/2 text-primary">
                   {confirmText}
                 </button>

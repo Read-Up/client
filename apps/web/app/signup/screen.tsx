@@ -11,7 +11,7 @@ import { randomNicknameResponseSchema, AgreementItem, AgreementKey } from "./_ty
 import { CheckBox } from "@readup/ui/atoms/checkbox";
 import { BaseApi } from "@/_client/main/instance";
 import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { getBaseApi } from "@/_server/main/get-instance";
 import { SignupResponse } from "@/_types/signup/schema";
 
@@ -22,6 +22,7 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
   const [expanded, setExpanded] = useState<Partial<Record<AgreementKey, boolean>>>({});
   const [nickname, setNickname] = useState<string>("");
   const [closeModal, setCloseModal] = useState<boolean>(false);
+  const [agreementModal, setAgreementModal] = useState<boolean>(false);
 
   const handleBack = () => {
     if (step > 1) {
@@ -99,7 +100,23 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
     setNickname(parsed.data);
   };
 
-  return (
+  const handleCloseAgreementModal = () => {
+    router.push(PATH.LOGIN.ROOT);
+    setAgreementModal(false);
+  };
+
+  useEffect(() => {
+    // 2000ms 후 약관이 로드되었는지 확인
+    const timer = setTimeout(() => {
+      if (agreements.length === 0) {
+        setAgreementModal(true);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return agreements.length > 0 ? (
     <div className="flex flex-col items-center w-full h-screen text-on-primary bg-background relative">
       {/* Topbar */}
       <Topbar
@@ -230,6 +247,45 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
       >
         <p className="text-sm text-gray-500">회원가입을 종료하면 입력한 정보가 저장되지 않습니다.</p>
       </Modal>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center w-full h-screen text-on-primary bg-background relative">
+      {/* Topbar */}
+      <Topbar
+        className="w-full bg-background text-on-primary typo-title1 h-[50px]"
+        variant="icon2"
+        onLeftClick={handleBack}
+        onRightClick={openCloseModal}
+        text={step === 1 ? "회원가입" : "닉네임 설정"}
+      />
+
+      {/* ProgressBar */}
+      <LinearProgress value={step * 50} />
+
+      {/* Main Content */}
+      <main className="flex flex-col w-full h-[calc(100vh-52px)] overflow-y-auto px-4 py-10">
+        {/* Info Message */}
+        <div className="flex flex-col w-full mt-[22px] typo-title1">
+          <p>약관 정보를 불러오는 중입니다.</p>
+          <p>잠시만 기다려주세요.</p>
+        </div>
+
+        {/* 빈 공간을 위한 div */}
+        <div className="grow-1" />
+
+        {/* 하단 버튼 */}
+        <Button className="typo-title2 w-full" variant="filled" disabled={true} onClick={() => {}}>
+          확인
+        </Button>
+      </main>
+      <Modal
+        open={agreementModal}
+        onClose={handleCloseAgreementModal}
+        title="알림"
+        subtext="약관 정보를 불러오는 데 실패했습니다. 다시 시도해주세요."
+        confirmText="확인"
+        onConfirm={handleCloseAgreementModal}
+      />
     </div>
   );
 }
