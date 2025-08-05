@@ -21,7 +21,7 @@ export default async function RootLayout({
     <html lang="ko">
       <Head />
       <body
-        className={`bg-background ${Pretendard.className} overflow-y-scroll max-w-[768px] mx-auto bg-background/95`}
+        className={`bg-background ${Pretendard.className} overflow-y-scroll max-w-[768px] mx-auto bg-background/95 shadow-xl`}
       >
         <QueryProvider>
           <MSWProvider>{children}</MSWProvider>
