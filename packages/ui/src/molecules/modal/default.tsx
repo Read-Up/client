@@ -27,10 +27,10 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     open && (
-      <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" {...props}>
+      <div onClick={onClose} className="absolute inset-0 z-50 flex items-center justify-center bg-black/30" {...props}>
         <div className="w-[337px] min-h-[178px] bg-white rounded-[12px] shadow-lg p-6 text-center flex flex-col gap-6">
-          <h2 className="typo-title2 text-gray-20 font-bold">{title}</h2>
-          <p className="typo-body text-gray-20">{subtext}</p>
+          <h2 className="typo-title2 text-gray-20 font-bold break-keep whitespace-pre-line">{title}</h2>
+          <p className="typo-body text-gray-20 whitespace-pre-line break-keep">{subtext}</p>
           <div className={"w-full h-15 flex flex-row items-center " + cancelText ? "justify-center" : "justify-end"}>
             {variant === "text" ? (
               <>

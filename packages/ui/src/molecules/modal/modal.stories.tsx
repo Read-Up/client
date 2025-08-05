@@ -24,7 +24,7 @@ export const TextModalWithTrigger: Story = {
       const [open, setOpen] = React.useState(false);
 
       return (
-        <div className="min-h-80 flex items-center justify-center bg-background">
+        <div className="min-h-80 flex items-center justify-center bg-background relative">
           <Button variant="outline" onClick={() => setOpen(true)}>
             텍스트 모달 열기
           </Button>
@@ -58,7 +58,7 @@ export const ContainedModalWithTrigger: Story = {
       const [open, setOpen] = React.useState(false);
 
       return (
-        <div className="min-h-80 flex items-center justify-center bg-background">
+        <div className="min-h-80 flex items-center justify-center bg-background relative">
           <Button onClick={() => setOpen(true)}>Contained 모달 열기</Button>
           <Modal
             {...args}
@@ -90,7 +90,7 @@ export const QuizCheckModalWithTrigger: Story = {
       const [open, setOpen] = React.useState(true);
 
       return (
-        <div className="min-h-80 flex items-center justify-center bg-background">
+        <div className="min-h-80 flex items-center justify-center bg-background relative">
           <Button onClick={() => setOpen(true)}>Quiz Check 모달 열기</Button>
           <QuizCheckModal {...args} open={open} onClose={() => setOpen(false)} />
         </div>
