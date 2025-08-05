@@ -38,7 +38,7 @@ export default function LoginScreen() {
   }, [redirectPath, deleteRedirectPath]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-5">
+    <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-background">
       <h2 className="typo-h2 text-on-primary">Log-in</h2>
       <SocialLoginButtonWrapper provider="kakao" onClick={() => handleLoginClick("kakao")} className="mt-15" />
       <SocialLoginButtonWrapper provider="naver" onClick={() => handleLoginClick("naver")} />
