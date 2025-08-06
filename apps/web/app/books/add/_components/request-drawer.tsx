@@ -72,10 +72,10 @@ export default function BookAddRequestDrawer({ isOpen, onCloseAction }: BookAddR
     <Drawer
       isOpen={isOpen}
       onClose={() => {}}
-      direction="right"
-      size="w-full"
+      direction="top"
+      size="h-full"
       overlayOpacity="bg-black/30"
-      className="bg-background gap-2 text-white"
+      className="bg-background gap-2 text-white h-screen pt-0 pb-10"
     >
       {step === 1 ? (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2 relative h-screen">
@@ -85,8 +85,8 @@ export default function BookAddRequestDrawer({ isOpen, onCloseAction }: BookAddR
             className="bg-background w-full px-0"
             variant="close"
           />
-          <p className="typo-title2 ">책 추가하기</p>
-          <p className="typo-title3">닉네임</p>
+          <p className="typo-title2">책 추가하기</p>
+          <p className="typo-title3 mt-5">닉네임</p>
           <TextBox
             variant="textbox"
             className="w-full h-[40px] typo-body text-gray-90"
@@ -151,15 +151,15 @@ export default function BookAddRequestDrawer({ isOpen, onCloseAction }: BookAddR
             <div className="h-5" />
           )}
           {/* 하단 고정 영역 */}
+          <div className="grow" />
           <Button
             // type="button"
             type="submit"
             variant="filled"
-            className="fixed bottom-10 left-4 right-4"
+            className="w-full"
           >
             요청하기
           </Button>
-          <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
         </form>
       ) : (
         <div className="flex flex-col items-center justify-center h-full typo-title1 text-white">

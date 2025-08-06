@@ -118,7 +118,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
           {/* 실시간 fuzzy 검색 결과 */}
           {showFuzzy && (
-            <div className="flex flex-col gap-4 w-full max-w-md">
+            <div className="flex flex-col gap-4 w-full">
               <div className="flex gap-2 items-center mt-4">
                 <p className="text-title3 flex-1">찾는 책이 없으신가요?</p>
                 <Button variant="filled" onClick={handleAddBookClick}>
@@ -137,7 +137,7 @@ export default function BookSearchScreen({ initialBooks }: { initialBooks: BookI
 
           {/* 검색 확정 결과 */}
           {showSubmitted && (
-            <div className="flex flex-col gap-3.5 overflow-y-scroll w-full max-w-md">
+            <div className="flex flex-col gap-3.5 overflow-y-scroll w-full">
               {isLoading && <p>로딩중...</p>}
               {error && <p className="text-red-500">{String(error)}</p>}
               {!isLoading && !error && submittedFiltered.length === 0 && <p>검색 결과가 없습니다.</p>}

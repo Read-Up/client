@@ -36,7 +36,7 @@ export default function BookSearchLayout({ children }: { children: React.ReactNo
       match: (path) => path === PATH.BOOKS.ADD.ROOT,
       info: {
         title: "",
-        top: true,
+        top: false,
         bottom: false,
         onLeftClick: () => router.push(PATH.BOOKS.ROOT),
       },

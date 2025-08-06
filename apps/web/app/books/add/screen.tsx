@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { PATH } from "@/_constant/routes";
 import { HTTPError } from "ky";
 import { getClientApi } from "@/_server/main/get-instance";
+import { Topbar } from "@readup/ui/molecules";
 
 class ApiError extends Error {
   status: number;
@@ -188,6 +189,12 @@ export default function BookAddScreen() {
     router.push(PATH.BOOKS.ADD.CHAPTER); // 책 목차 추가 페이지로 이동
   };
 
+  const handleBack = () => {
+    resetBookChapter(); // 챕터 목록 초기화
+    setIsbn(null); // ISBN 상태 초기화
+    router.push(PATH.BOOKS.ROOT); // /books로 이동
+  };
+
   // ISBN을 모두 지웠을 때 상태 초기화
   useEffect(() => {
     if (isbnValue === "") {
@@ -204,10 +211,18 @@ export default function BookAddScreen() {
   }, [isbn, searchQuery]);
 
   return (
-    <Fragment>
-      <div className="flex flex-col gap-4 w-full px-4 text-white">
-        {!isLoading && (
-          <Fragment>
+    <div className="flex flex-col gap-4 w-full h-screen pb-10 text-white relative">
+      {!isLoading && (
+        <Fragment>
+          {/* Topbar */}
+          <Topbar
+            className="w-full bg-background text-on-primary typo-title1 h-[50px]"
+            variant="icon2"
+            onLeftClick={handleBack}
+            text=""
+          />
+
+          <main className="flex flex-col gap-4 w-full px-4">
             <div className="flex flex-row items-center justify-between">
               <p className="typo-title2">책 추가하기</p>
               <Button variant="text_only" textOption="connected" className="p-0" onClick={toggleDrawer}>
@@ -232,94 +247,95 @@ export default function BookAddScreen() {
                 ‘-’ 없이 숫자만 입력해주세요.
               </p>
             )}
-          </Fragment>
-        )}
+          </main>
+        </Fragment>
+      )}
 
-        {/* 결과 영역 */}
+      {/* 결과 영역 */}
 
-        {/* 로딩 스켈레톤 컴포넌트 */}
-        <BookSearchLoadingSkeleton isLoading={isLoading} />
+      {/* 로딩 스켈레톤 컴포넌트 */}
+      <BookSearchLoadingSkeleton isLoading={isLoading} />
 
-        {isSuccess && bookData && (
-          <div className=" w-full relative">
-            <div className="flex flex-col gap-4 w-full pb-30 text-white">
-              <p className="typo-footnote">이 책을 찾으시나요?</p>
-              <BookSearchResult
-                id={bookData.bookId}
-                image={`https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/${bookData.isbn}.jpg`}
-                title={bookData.title}
-                author={bookData.author}
-                publisher={bookData.publisher}
-                isbn={bookData.isbn}
-                href={`/books/${bookData.bookId}`}
-                showBookmark={false} // 북마크 기능은 현재 사용하지 않음
-              />
-              <p className="typo-title3">목차</p>
-              {bookData.chapterList.length === 0 ? (
-                <div className="typo-body text-gray-90 bg-surface w-full h-[200px] p-4 rounded-lg flex flex-col gap-1 justify-center text-center">
-                  <p>목차 정보가 제공되지 않는 책이에요.</p>
-                  <p>목차를 직접 입력하도록 할까요?</p>
-                  <p className="underline cursor-pointer mt-5" onClick={handleSelfAddBookChapter}>
-                    목차 직접 입력하기
-                  </p>
-                </div>
-              ) : (
-                <TextBox
-                  variant="questionbox"
-                  className="w-full h-[200px] overflow-y-auto typo-body text-gray-90"
-                  value={bookData.chapterList
-                    .map((chapter) => `CHAPTER ${chapter.chapterOrder} ${chapter.chapterName} 페이지 추후반영`)
-                    .join("\n")}
-                  readOnly
-                  isBorder={false}
-                  isButton={false}
-                />
-              )}
-            </div>
-
-            {/* 하단 고정 영역 */}
-            <Button
-              variant="filled"
-              className="fixed bottom-10 left-4 right-4"
-              onClick={() => handleAddBook(bookData.isbn, bookData.chapterList.length > 0)}
-            >
-              추가하기
-            </Button>
-            <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
-          </div>
-        )}
-        {isError && (
-          <>
-            {queryError.status === 404 ? (
-              <p className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
-                검색하신 책 정보가 없어요.
-              </p>
-            ) : (
-              <div className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
-                <p>이미 추가된 책이예요.</p>
-                <p>다른 ISBN을 입력하거나 현재 책을 확인해보세요.</p>
+      {isSuccess && bookData && (
+        <div className=" w-full relative">
+          <div className="flex flex-col gap-4 w-full pb-30 text-white">
+            <p className="typo-footnote">이 책을 찾으시나요?</p>
+            <BookSearchResult
+              id={bookData.bookId}
+              image={`https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/${bookData.isbn}.jpg`}
+              title={bookData.title}
+              author={bookData.author}
+              publisher={bookData.publisher}
+              isbn={bookData.isbn}
+              href={`/books/${bookData.bookId}`}
+              showBookmark={false} // 북마크 기능은 현재 사용하지 않음
+            />
+            <p className="typo-title3">목차</p>
+            {bookData.chapterList.length === 0 ? (
+              <div className="typo-body text-gray-90 bg-surface w-full h-[200px] p-4 rounded-lg flex flex-col gap-1 justify-center text-center">
+                <p>목차 정보가 제공되지 않는 책이에요.</p>
+                <p>목차를 직접 입력하도록 할까요?</p>
+                <p className="underline cursor-pointer mt-5" onClick={handleSelfAddBookChapter}>
+                  목차 직접 입력하기
+                </p>
               </div>
-            )}
-            {/* 하단 고정 영역 */}
-            {queryError.status === 404 && (
-              <Toast
-                isOpen={true}
-                className="text-secondary bottom-25 whitespace-nowrap"
-                text="대신에, 저희에게 요청해주세요!"
+            ) : (
+              <TextBox
+                variant="questionbox"
+                className="w-full h-[200px] overflow-y-auto typo-body text-gray-90"
+                value={bookData.chapterList
+                  .map((chapter) => `CHAPTER ${chapter.chapterOrder} ${chapter.chapterName} 페이지 추후반영`)
+                  .join("\n")}
+                readOnly
+                isBorder={false}
+                isButton={false}
               />
             )}
-            <Button
-              variant="filled"
-              className="fixed bottom-10 left-4 right-4"
-              onClick={queryError.status === 404 ? openRequestDrawer : handleConfirmBook}
-            >
-              {queryError.status === 404 ? "요청하기" : "책 확인하기"}
-            </Button>
-            <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
-          </>
-        )}
-      </div>
+          </div>
 
+          {/* 하단 고정 영역 */}
+          <Button
+            variant="filled"
+            className="fixed bottom-10 left-4 right-4"
+            onClick={() => handleAddBook(bookData.isbn, bookData.chapterList.length > 0)}
+          >
+            추가하기
+          </Button>
+          <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
+        </div>
+      )}
+      {isError && (
+        <section className="flex flex-col gap-4 w-full h-full items-center justify-center px-4">
+          {queryError.status === 404 ? (
+            <p className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
+              검색하신 책 정보가 없어요.
+            </p>
+          ) : (
+            <div className="typo-title3 text-center text-white fixed top-1/3 left-0 right-0">
+              <p>이미 추가된 책이예요.</p>
+              <p>다른 ISBN을 입력하거나 현재 책을 확인해보세요.</p>
+            </div>
+          )}
+
+          {/* 하단 고정 영역 */}
+          <div className="grow-1" />
+          {queryError.status === 404 && (
+            <Toast
+              isOpen={true}
+              className="text-secondary bottom-25 whitespace-nowrap"
+              text="대신에, 저희에게 요청해주세요!"
+            />
+          )}
+          <Button
+            variant="filled"
+            className="w-full"
+            onClick={queryError.status === 404 ? openRequestDrawer : handleConfirmBook}
+          >
+            {queryError.status === 404 ? "요청하기" : "책 확인하기"}
+          </Button>
+          {/* <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" /> */}
+        </section>
+      )}
       {/* Drawer 컴포넌트 */}
       <BookFindDrawer isOpen={isOpen} onCloseAction={closeDrawer} />
       <BookAddRequestDrawer isOpen={requestDrawerOpen} onCloseAction={closeRequestDrawer} />
@@ -330,6 +346,6 @@ export default function BookAddScreen() {
         onClose={closeModal}
         onConfirm={() => handleAddBook(isbnValue, false)}
       />
-    </Fragment>
+    </div>
   );
 }

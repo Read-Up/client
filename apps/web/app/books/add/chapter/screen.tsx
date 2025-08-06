@@ -52,10 +52,14 @@ export default function BookAddChapterScreen() {
   };
 
   const handleComplete = () => {
+    if (bookChapter.length === 0) {
+      console.warn("목차가 비어 있습니다. 최소한 하나의 목차를 입력해야 합니다.");
+      return;
+    }
     validateChapters();
     const hasError = bookChapter.some((chapter) => chapter.error || !chapter.chapterName.trim());
     if (!hasError) {
-      router.push(`${PATH.BOOKS.ADD.ROOT}`);
+      router.push(`${PATH.BOOKS.ADD.COMPLETE}?isbn=${isbn}`);
     }
   };
 
@@ -82,7 +86,7 @@ export default function BookAddChapterScreen() {
   }, [isbn]);
 
   return (
-    <form className="flex flex-col w-full h-[calc(100vh-150px)] gap-2 text-on-primary px-4 relative">
+    <form className="flex flex-col w-full h-[calc(100vh-50px)] gap-4 text-on-primary px-4 relative pb-10">
       {/* 상단 고정 영역 */}
       <div className="flex-none pt-4 pb-2">
         <h2 className="typo-title2">목차 입력하기</h2>
@@ -93,7 +97,7 @@ export default function BookAddChapterScreen() {
       </div>
 
       {/* 목차 입력 영역 */}
-      <div className="flex-1 overflow-y-auto mt-4 flex flex-col gap-3 items-center" ref={scrollRef}>
+      <div className="overflow-y-auto mt-4 flex flex-col gap-3 items-center" ref={scrollRef}>
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={bookChapter.map((c) => c.chapterId)} strategy={verticalListSortingStrategy}>
             {bookChapter.map((chapter, index) => (
@@ -109,29 +113,29 @@ export default function BookAddChapterScreen() {
                 inputRef={(el) => (inputRefs.current[chapter.chapterId] = el)}
               />
             ))}
-            <div
-              className="w-6 h-6 bg-primary rounded-full text-2xl leading-none text-white flex items-center justify-center cursor-pointer"
-              onClick={handleAddBookChapter}
-            >
-              +
-            </div>
           </SortableContext>
         </DndContext>
       </div>
 
       {/* 하단 고정 영역 */}
-      <div className="flex-none">
-        <Button
-          type="button"
-          variant="filled"
-          className="fixed bottom-10 left-4 right-4"
-          onClick={handleComplete}
-          disabled={bookChapter.filter((chapter) => chapter.error).length > 0}
+      <div className="w-full h-10 flex justify-center">
+        <div
+          className="w-6 h-6 bg-primary rounded-full text-2xl leading-none text-white flex items-center justify-center cursor-pointer"
+          onClick={handleAddBookChapter}
         >
-          입력완료
-        </Button>
-        <div className="fixed bottom-0 left-0 right-0 h-10 bg-background flex items-center justify-center" />
+          +
+        </div>
       </div>
+      <div className="grow" />
+      <Button
+        type="button"
+        variant="filled"
+        className="w-full"
+        onClick={handleComplete}
+        disabled={bookChapter.filter((chapter) => chapter.error).length > 0 || bookChapter.length === 0}
+      >
+        입력완료
+      </Button>
     </form>
   );
 }
