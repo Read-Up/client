@@ -240,32 +240,35 @@ export default function HomeScreen() {
 
         {/* 가장 최근에 읽은 책 */}
         {user && (
-          <div className="flex flex-col w-full gap-8 mt-8">
+          <div className="flex flex-col w-full gap-4 mt-8">
             <p className="typo-title2 text-primary">가장 최근에 읽은 책</p>
             {/* Image slider */}
             <div
               ref={sliderRef}
               onScroll={handleScrollToRecentBook}
-              className="flex flex-row gap-4 relative w-full overflow-x-auto px-[calc(50%-4rem)] snap-x snap-mandatory"
+              className="flex flex-row gap-12 relative w-full overflow-x-auto px-[calc(50%-4rem)] snap-x snap-mandatory py-8"
             >
               {recentBooks.map((book, index) => (
                 <div
                   key={book.bookId}
-                  className="flex flex-col items-center snap-center shrink-0 w-32"
+                  className="relative flex flex-col items-center snap-center shrink-0 w-32"
                   onClick={() => scrollToIndex(index)}
                 >
+                  {selectRecentBook?.bookId === book.bookId && (
+                    <div className="absolute w-40 h-30 top-1/2 -translate-y-1/2 rounded-full bg-primary blur-2xl" />
+                  )}
                   <Image
                     src={END_POINT.BOOKS.IMAGE(book.isbn)}
                     alt={book.title}
                     width={128}
                     height={192}
-                    className="w-32 h-48 object-cover rounded"
+                    className="w-32 h-48 object-cover rounded z-10"
                   />
                 </div>
               ))}
             </div>
             {selectRecentBook && (
-              <div className="flex flex-col items-center p-4 bg-surface w-120 rounded-md self-center relative gap-4 text-white">
+              <div className="flex flex-col items-center p-4 bg-surface max-w-120 rounded-md self-center relative gap-4 text-white">
                 {/* 말풍선 모양 렌더링 위쪽 경계에 이등변 삼각형을 추가 */}
                 <div
                   className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-surface"
