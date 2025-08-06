@@ -13,7 +13,7 @@ export const BottomNavigation = ({ activeTab, LinkComponent }: BottomNavigationP
   ] as const;
 
   return (
-    <nav className="absolute bottom-0 w-full flex flex-row bg-surface text-white h-[90px] justify-evenly shadow-bottom-nav">
+    <nav className="w-full flex flex-row bg-surface text-white h-[90px] justify-evenly shadow-bottom-nav">
       {tabs.map(({ key, label, icon: Icon, href }) => {
         const isActive = activeTab === key;
         return (

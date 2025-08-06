@@ -32,7 +32,7 @@ export default function Layout({
   };
 
   return (
-    <div className="relative h-screen bg-background shadow-xl">
+    <>
       {top && <Topbar variant={topVariant} {...topbarProps} />}
       {children}
       {bottom && (
@@ -45,6 +45,6 @@ export default function Layout({
           )}
         />
       )}
-    </div>
+    </>
   );
 }

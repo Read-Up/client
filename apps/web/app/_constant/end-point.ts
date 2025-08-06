@@ -34,6 +34,7 @@ export const END_POINT = {
     OAUTH: "api/public/oauth2",
   },
   USERS: {
+    DEFAULT: "api/private/users",
     RANDOM_NICKNAME: "api/public/users/random-nickname",
     SIGNUP: "api/private/users/signup",
   },
