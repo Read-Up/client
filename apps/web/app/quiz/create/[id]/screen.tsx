@@ -70,7 +70,7 @@ export default function QuizCreateScreen({ book }: QuizCreateScreenProps) {
 
   return (
     <CreateQuizLayout title="퀴즈 작성하기" onRightClick={handleSaveQuiz}>
-      <section className="flex flex-col w-full min-h-screen text-white p-4 gap-4">
+      <section className="flex flex-col w-full h-[calc(100vh-50px)] text-white p-4 gap-4">
         {/* 챕터 선택 드롭다운 */}
         <Select value={chapterId} onValueChange={handleChangeChapter}>
           <SelectTrigger className="w-full">
@@ -88,7 +88,7 @@ export default function QuizCreateScreen({ book }: QuizCreateScreenProps) {
         </Select>
 
         {/* 선택된 챕터에 대한 퀴즈 생성 UI */}
-        <section className="flex flex-col gap-4 w-full flex-grow overflow-y-auto">
+        <section className="flex flex-col gap-4 w-full grow overflow-y-auto">
           {questions.map((q, index) => (
             <CreateQuizTemplate
               key={index}
@@ -97,10 +97,10 @@ export default function QuizCreateScreen({ book }: QuizCreateScreenProps) {
               removeQuestion={() => removeQuestion(q.id)}
             />
           ))}
-          <Button variant="outline" onClick={addQuestion}>
-            퀴즈 추가하기
-          </Button>
         </section>
+        <Button variant="outline" onClick={addQuestion}>
+          퀴즈 추가하기
+        </Button>
       </section>
 
       {/* 경고 메시지 */}

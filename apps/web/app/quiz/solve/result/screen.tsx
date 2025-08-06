@@ -36,7 +36,7 @@ export default function QuizSolveResultScreen() {
   }, [fetchResultState, resetQuiz, router]);
 
   return (
-    <div className="flex flex-col w-full h-screen text-white p-4 relative items-center pt-[15vh]">
+    <div className="flex flex-col w-full h-screen text-white p-4 relative items-center pt-[15vh] pb-10">
       {step === "result" ? (
         <div className="flex flex-col w-full max-w-md items-center gap-6">
           <div className="flex flex-col items-center typo-title1 font-semibold">
@@ -89,8 +89,9 @@ export default function QuizSolveResultScreen() {
           </div>
         </div>
       )}
+      <div className="grow" />
       <Button
-        className="fixed bottom-10 left-4 right-4"
+        className="w-full"
         variant="filled"
         onClick={step === "result" ? handleClickNext : handleClickComplete}
         disabled={step === "scoring" && scoring === 0}

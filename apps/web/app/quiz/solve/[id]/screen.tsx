@@ -108,7 +108,7 @@ export default function QuizSolveScreen({ quizSetId }: QuizSolveScreenProps) {
 
   return (
     <SolveQuizLayout title={quizSet.chapterId.toString()} onRightClickAction={() => {}}>
-      <div className="flex flex-col gap-6 text-white p-4 relative">
+      <div className="h-[calc(100vh-50px)] flex flex-col gap-6 text-white p-4 relative pb-10">
         <LinearProgress value={((currentIndex + 1) / quizzes.length) * 100} max={100} height={6} background="#313335" />
         {quiz && (
           <>
@@ -131,11 +131,8 @@ export default function QuizSolveScreen({ quizSetId }: QuizSolveScreenProps) {
                 </div>
               ))}
             </div>
-            <Button
-              disabled={selectedOptionId === null}
-              onClick={postAnswer}
-              className="fixed bottom-10 left-4 right-4"
-            >
+            <div className="grow" />
+            <Button disabled={selectedOptionId === null} onClick={postAnswer} className="w-full">
               정답 확인
             </Button>
           </>

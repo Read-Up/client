@@ -234,10 +234,10 @@ export default function QuizListScreen({ book, chapterId }: QuizListScreenProps)
         <Drawer
           isOpen={!!selectedQuizSet}
           onClose={handleCloseDrawer}
-          direction="right"
-          size="w-full"
+          direction="top"
+          size="h-full"
           overlayOpacity="bg-black/30"
-          className="bg-background text-white"
+          className="bg-background text-white h-screen pt-0 pb-10"
         >
           {/* Drawer Content */}
           <section className="flex flex-col gap-4 relative h-screen items-center">
@@ -268,14 +268,11 @@ export default function QuizListScreen({ book, chapterId }: QuizListScreenProps)
             </div>
 
             {/* 하단 고정 영역 */}
-            <Button onClick={handleCloseDrawer} variant="outline" className="fixed bottom-25 left-4 right-4">
+            <div className="grow" />
+            <Button onClick={handleCloseDrawer} variant="outline" className="w-full">
               돌아가기
             </Button>
-            <Button
-              onClick={() => handleStartQuiz(selectedQuizSet.quizSetId)}
-              variant="filled"
-              className="fixed bottom-10 left-4 right-4"
-            >
+            <Button onClick={() => handleStartQuiz(selectedQuizSet.quizSetId)} variant="filled" className="w-full">
               시작하기
             </Button>
           </section>
