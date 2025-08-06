@@ -6,3 +6,4 @@ export * from "./use-local-storage";
 export * from "./use-mouted";
 export * from "./use-router";
 export * from "./use-scroll";
+export * from "./use-debounce";

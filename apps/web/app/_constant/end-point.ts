@@ -5,6 +5,7 @@ export const END_POINT = {
     DEFAULT: "api/public/books",
     DEFAULT_ISBN: (isbn: string | number) => `api/public/books?isbn=${isbn}`,
     DETAIL: (id: string | number) => `api/public/books/${id}`,
+    IMAGE: (isbn: string | number) => `https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/${isbn}.jpg`,
   },
   BOOKINFO: {
     EXTERNAL_BOOKS: (isbn: string | number) => `api/public/external-books/${isbn}`,

@@ -1,36 +1,142 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "./_components/shared/shared-layout";
 import { UserCircleSVG } from "@readup/icons";
 import { useRouter } from "next/navigation";
-import { END_POINT } from "./_constant/end-point";
 import { PATH } from "./_constant/routes";
-import { getClientApi } from "./_server/main/get-instance";
+import { MemberAPI } from "./_client/main/member-api";
+import { Divider, TextBox } from "@readup/ui/atoms";
+import { useDebounce } from "./_hooks";
+import { BookAPI } from "./_client/book";
+import { BookDetail, BookItem } from "./_types/books/schema";
+import { END_POINT } from "./_constant/end-point";
+import Image from "next/image";
+import { LinearProgress } from "@readup/ui/organisms";
+import Slider from "react-slick";
 
 export default function HomeScreen() {
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedQuery = useDebounce(searchQuery);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [recentBooks, setRecentBooks] = useState<BookItem[]>([]);
+  const [selectRecentBook, setSelectRecentBook] = useState<BookItem | null>(null);
+  const [selectRecentBookDetail, setSelectRecentBookDetail] = useState<BookDetail | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await getClientApi()
-          .get(END_POINT.USERS.DEFAULT, {
-            credentials: "include",
-          })
-          .json();
+        const response = await MemberAPI.getCurrentUser();
         console.log("User data:", response);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        setUser(response.data);
+        setUser(response); // response가 UserData 타입이라고 가정
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       }
     };
     getUser();
   }, []);
+
+  useEffect(() => {
+    const fetchRecentBooks = async () => {
+      try {
+        const books = await BookAPI.getBookList();
+        console.log("Recent books:", books);
+        setRecentBooks(books);
+        if (books.length > 0) {
+          setSelectRecentBook(books[0] as BookItem);
+        }
+      } catch (error) {
+        console.error("Failed to fetch recent books:", error);
+      }
+    };
+
+    fetchRecentBooks();
+  }, [user]);
+
+  useEffect(() => {
+    // console.log("Select Recent Book:", selectRecentBook);
+    const fetchBookDetail = async () => {
+      if (selectRecentBook) {
+        try {
+          const bookDetail = await BookAPI.getBookDetail(selectRecentBook.bookId);
+          console.log("Fetched book detail:", bookDetail);
+          setSelectRecentBookDetail(bookDetail);
+          // 추가적인 로직이 필요하다면 여기에 작성
+        } catch (error) {
+          console.error("Failed to fetch book detail:", error);
+        }
+      }
+    };
+    fetchBookDetail();
+  }, [selectRecentBook]);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      // 여기에 실제 검색 API 호출 또는 쿼리 동작을 수행
+      console.log("Debounced search query:", debouncedQuery);
+      // 예시: await BookAPI.search(debouncedQuery)
+    }
+  }, [debouncedQuery]);
+
+  const handleScrollToRecentBook = () => {
+    const slider = sliderRef.current;
+    if (!slider) {
+      return;
+    }
+
+    const children = Array.from(slider.children) as HTMLDivElement[];
+    const centerX = window.innerWidth / 2;
+
+    let closestChild: HTMLDivElement | null = null;
+    let closestDistance = Infinity;
+
+    for (const child of children) {
+      const rect = child.getBoundingClientRect();
+      const childCenterX = rect.left + rect.width / 2;
+      const distance = Math.abs(centerX - childCenterX);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestChild = child;
+      }
+    }
+
+    if (closestChild) {
+      const index = children.indexOf(closestChild);
+      if (index !== -1) {
+        setSelectRecentBook(recentBooks[index] as BookItem);
+      }
+    }
+  };
+
+  const scrollToIndex = (index: number) => {
+    console.log("Scrolling to index:", index);
+    const slider = sliderRef.current;
+    if (!slider) {
+      return;
+    }
+
+    const child = slider.children[index] as HTMLDivElement;
+    if (child) {
+      child.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      console.log("Scrolled to book:", recentBooks[index]);
+      setSelectRecentBook(recentBooks[index] as BookItem);
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      // 여기에 Enter 키 입력 시의 동작을 추가할 수 있습니다.
+      console.log("Enter key pressed:", searchQuery);
+      // 예시: 검색 API 호출
+    }
+  };
 
   const renderTopbarRightButton = () => {
     if (user) {
@@ -53,6 +159,38 @@ export default function HomeScreen() {
     }
   };
 
+  const renderFadeCarousel = () => {
+    const settings = {
+      dots: true,
+      fade: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      centerMode: true,
+    };
+    return (
+      <Slider {...settings}>
+        {recentBooks.map((book) => (
+          <div key={book.bookId}>
+            <div className="w-full h-full flex flex-col gap-2 items-center justify-center">
+              <Image
+                src={END_POINT.BOOKS.IMAGE(book.isbn)}
+                alt={book.title}
+                width={128}
+                height={192}
+                className="w-32 h-48 object-cover rounded"
+              />
+              <p className="typo-title3 text-white mt-2">{book.title}</p>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    );
+  };
+
   return (
     // NOTE: 이후 PageLayout을 변경할 수 있기 때문에 HomeLayout에서 PageLayout을 사용하지 않고
     // screen.tsx에 PageLayout을 사용하도록 하였습니다.
@@ -66,80 +204,114 @@ export default function HomeScreen() {
       }}
     >
       <section className="flex flex-col w-full h-[calc(100vh-140px)] p-4 gap-4 bg-background overflow-y-auto">
-        <p className="typo-title1 text-white">환영합니다!</p>
-        <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-        <button
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-          onClick={() => router.push(PATH.BOOKS.ROOT)}
-        >
-          책 목록 보기
-        </button>
-        <div className="flex flex-col gap-4 w-full">
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
-          <p className="typo-title1 text-white">환영합니다!</p>
-          <p className="typo-body1 text-gray-60">리드업에서 독서의 즐거움을 느껴보세요.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => router.push(PATH.BOOKS.ROOT)}
-          >
-            책 목록 보기
-          </button>
+        {/* 검색창 */}
+        <div className="flex mt-7 items-center justify-center gap-3.5">
+          <TextBox
+            placeholder="검색어를 입력해주세요."
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+          />
         </div>
+
+        {/* 사용자 안내 */}
+        <div className="flex flex-col w-full gap-2 mt-8 typo-title1 text-white">
+          {user ? (
+            <>
+              <p>{user.nickname}님,</p>
+              <p>
+                오늘도 <span className="text-error">퀴즈에 참여</span>해
+              </p>
+              <p>
+                <span className="text-error">실력을 업그레이드</span> 해보세요!
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                <span className="text-error">로그인 후 퀴즈에 참여</span>해
+              </p>
+              <p>
+                <span className="text-error">실력을 업그레이드</span> 해보세요!
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* 가장 최근에 읽은 책 */}
+        {user && (
+          <div className="flex flex-col w-full gap-8 mt-8">
+            <p className="typo-title2 text-primary">가장 최근에 읽은 책</p>
+            {/* Image slider */}
+            <div
+              ref={sliderRef}
+              onScroll={handleScrollToRecentBook}
+              className="flex flex-row gap-4 relative w-full overflow-x-auto px-[calc(50%-4rem)] snap-x snap-mandatory"
+            >
+              {recentBooks.map((book, index) => (
+                <div
+                  key={book.bookId}
+                  className="flex flex-col items-center snap-center shrink-0 w-32"
+                  onClick={() => scrollToIndex(index)}
+                >
+                  <Image
+                    src={END_POINT.BOOKS.IMAGE(book.isbn)}
+                    alt={book.title}
+                    width={128}
+                    height={192}
+                    className="w-32 h-48 object-cover rounded"
+                  />
+                </div>
+              ))}
+            </div>
+            {selectRecentBook && (
+              <div className="flex flex-col items-center p-4 bg-surface w-120 rounded-md self-center relative gap-4 text-white">
+                {/* 말풍선 모양 렌더링 위쪽 경계에 이등변 삼각형을 추가 */}
+                <div
+                  className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-surface"
+                  style={{
+                    clipPath: "polygon(0% 100%, 50% 0%, 100% 100%)",
+                  }}
+                />
+
+                {/* 책 제목 및 진행률 표시 */}
+                <p className="typo-title3">{selectRecentBook.title}</p>
+                <div className="flex flex-col w-full items-end gap-2">
+                  <p className="typo-footnote">30.00%</p>
+                  <LinearProgress value={30} max={100} />
+                </div>
+
+                {/* 챕터 진행 현황 */}
+                <div className="flex flex-col w-full gap-2">
+                  <div className="flex flex-row items-center justify-between">
+                    <p className="typo-body2">진행 현황</p>
+                    <p className="typo-footnote">{selectRecentBookDetail?.chapterList.length}챕터</p>
+                  </div>
+                </div>
+
+                <Divider />
+              </div>
+            )}
+          </div>
+        )}
+        {/* 인기 퀴즈 TOP 5 */}
+
+        {/* 최근 생성된 퀴즈 */}
+
+        {/* 오늘의 랜덤 퀴즈 */}
+
+        {/* 관심 장르 추천 책 */}
+
+        {/* 내가 만든 퀴즈 요약 */}
+
+        {/* 공지 슬라이드 */}
+        <div className="flex flex-col w-full gap-8 mt-8 mb-8">
+          <p className="typo-title2 text-primary">공지사항</p>
+          {/* 공지사항 슬라이드 컴포넌트 추가 예정 */}
+          {recentBooks.length > 0 && renderFadeCarousel()}
+        </div>
+
+        {/* 퀴즈 제작 유도 배너 */}
       </section>
     </Layout>
   );
