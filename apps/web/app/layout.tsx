@@ -20,12 +20,12 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <Head />
-      <body
-        className={`bg-background ${Pretendard.className} overflow-y-scroll max-w-[768px] mx-auto bg-background/95 shadow-xl`}
-      >
-        <QueryProvider>
-          <MSWProvider>{children}</MSWProvider>
-        </QueryProvider>
+      <body className={`bg-background/95 ${Pretendard.className} overflow-y-scroll`}>
+        <main className="max-w-[768px] mx-auto bg-background shadow-xl">
+          <QueryProvider>
+            <MSWProvider>{children}</MSWProvider>
+          </QueryProvider>
+        </main>
       </body>
     </html>
   );
