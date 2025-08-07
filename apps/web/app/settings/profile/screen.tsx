@@ -93,11 +93,18 @@ export default function ProfileScreen() {
         size="h-[300px]"
         direction="bottom"
       >
-        <>
-          <p className="typo-title3 text-white mt-2">닉네임을 변경해주세요</p>
-          <p className="typo-body text-gray-70">공백없이 2~12글자로 입력해주세요</p>
+        {/* <MUIDrawer
+        isOpen={isEditNickname}
+        onClose={closeEditNickname}
+        // className="flex flex-col gap-2 pb-10"
+        size="h-[300px]"
+        direction="up"
+        overlayOpacity="bg-black/60"
+      > */}
+        <div className="flex flex-col gap-2 h-full">
+          <p className="typo-title3 text-white">닉네임을 변경해주세요</p>
+          <p className="typo-body text-gray-70 mb-4">공백없이 2~12글자로 입력해주세요</p>
           <TextBox
-            className="mt-2"
             variant="textbox"
             placeholder="닉네임"
             value={changedNickname}
@@ -118,7 +125,7 @@ export default function ProfileScreen() {
           >
             완료
           </Button>
-        </>
+        </div>
       </Drawer>
     </div>
   );
