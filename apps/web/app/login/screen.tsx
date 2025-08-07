@@ -6,7 +6,7 @@ import { Toast } from "@readup/ui/atoms/toast";
 import { END_POINT } from "@/_constant/end-point";
 import { useCookie } from "@/_hooks";
 
-const getSocialHref = (provider: string) => `${END_POINT.BASE_URL}${END_POINT.LOGIN.OAUTH}/${provider}`;
+const getSocialHref = (provider: string) => `${END_POINT.BASE_URL}/${END_POINT.LOGIN.OAUTH}/${provider}`;
 
 // ?redirect=${process.env.NEXT_PUBLIC_URL}`;
 
@@ -38,7 +38,7 @@ export default function LoginScreen() {
   }, [redirectPath, deleteRedirectPath]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-5">
+    <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-background">
       <h2 className="typo-h2 text-on-primary">Log-in</h2>
       <SocialLoginButtonWrapper provider="kakao" onClick={() => handleLoginClick("kakao")} className="mt-15" />
       <SocialLoginButtonWrapper provider="naver" onClick={() => handleLoginClick("naver")} />

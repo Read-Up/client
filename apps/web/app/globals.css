@@ -1,2 +1,16 @@
 @import "@readup/ui/styles.css";
 @config "../tailwind.config.ts";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+/* 기본 점 색상 */
+.slick-dots li button:before {
+  font-size: 10px;
+  color: var(--color-gray-30); /* gray-30 컬러 */
+  opacity: 1;
+}
+
+/* 현재 활성화된 점 색상 */
+.slick-dots li.slick-active button:before {
+  color: var(--color-primary); /* primary 컬러 */
+}

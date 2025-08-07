@@ -7,6 +7,7 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
   subtext?: string;
   onClose?: () => void;
+  onCancel?: () => void;
   onConfirm?: () => void;
   confirmText?: string;
   cancelText?: string;
@@ -18,33 +19,38 @@ const Modal: React.FC<ModalProps> = ({
   title,
   subtext,
   onClose,
+  onCancel,
   onConfirm,
-  confirmText = "Positive",
-  cancelText = "Negative",
+  confirmText,
+  cancelText,
   ...props
 }) => {
   return (
     open && (
-      <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black/30" {...props}>
-        <div className="relative w-[337px] h-[178px] bg-white rounded-[12px] shadow-lg p-6 text-center">
-          <h2 className="typo-title2 text-gray-20 font-bold mt-2">{title}</h2>
-          <p className="typo-body text-gray-20 mt-1">{subtext}</p>
-          <div className="absolute bottom-2 left-0 w-full h-15 flex flex-row items-center justify-center">
+      <div onClick={onClose} className="absolute inset-0 z-50 flex items-center justify-center bg-black/30" {...props}>
+        <div className="w-[337px] min-h-[178px] bg-white rounded-[12px] shadow-lg p-6 text-center flex flex-col gap-6">
+          <h2 className="typo-title2 text-gray-20 font-bold break-keep whitespace-pre-line">{title}</h2>
+          <p className="typo-body text-gray-20 whitespace-pre-line break-keep">{subtext}</p>
+          <div className={"w-full h-15 flex flex-row items-center " + cancelText ? "justify-center" : "justify-end"}>
             {variant === "text" ? (
               <>
-                <button onClick={onClose} className="w-1/2 text-gray-30">
-                  {cancelText}
-                </button>
+                {cancelText && (
+                  <button onClick={onCancel ? onCancel : onClose} className="w-1/2 text-gray-30">
+                    {cancelText}
+                  </button>
+                )}
                 <button onClick={onConfirm} className="w-1/2 text-primary">
                   {confirmText}
                 </button>
               </>
             ) : (
-              <div className="w-full px-5 flex flex-row items-center justify-center gap-5">
-                <Button variant="outline" size="full" onClick={onClose}>
-                  {cancelText}
-                </Button>
-                <Button variant="filled" size="full" onClick={onConfirm}>
+              <div className="w-full px-5 flex flex-row items-center gap-5 justify-end">
+                {cancelText && (
+                  <Button variant="outline" size="full" onClick={onCancel ? onCancel : onClose}>
+                    {cancelText}
+                  </Button>
+                )}
+                <Button variant="filled" size={cancelText ? "full" : "default"} onClick={onConfirm}>
                   {confirmText}
                 </Button>
               </div>

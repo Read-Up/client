@@ -1,4 +1,6 @@
-import Layout from "@/_components/shared/layout";
+"use client";
+
+import Layout from "@/_components/shared/shared-layout";
 
 export default function MyPageLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import React, { useState } from "react";
 import { Drawer } from "../../molecules/drawer";
 import { Button } from "../../atoms";
+import { MUIDrawer } from "./mui-drawer";
+import { Typography } from "@mui/material";
 
 const meta: Meta<typeof Drawer> = {
   title: "Molecules/Drawer",
@@ -14,7 +16,7 @@ const meta: Meta<typeof Drawer> = {
     },
     direction: {
       control: { type: "select" },
-      options: ["top", "bottom", "left", "right"],
+      options: ["top", "bottom"],
       description: "슬라이드 방향",
       defaultValue: "bottom",
     },
@@ -73,32 +75,6 @@ export const Playground: Story = {
   },
 };
 
-export const FromLeft: Story = {
-  render: (args) => (
-    <div className="w-full h-screen flex items-center justify-center bg-background p-4">
-      <ControlledDrawer {...args} />
-    </div>
-  ),
-  args: {
-    direction: "left",
-    size: "w-[300px]",
-    overlayOpacity: "bg-black/70",
-  },
-};
-
-export const FromRight: Story = {
-  render: (args) => (
-    <div className="w-full h-screen flex items-center justify-center bg-background p-4">
-      <ControlledDrawer {...args} />
-    </div>
-  ),
-  args: {
-    direction: "right",
-    size: "w-[300px]",
-    overlayOpacity: "bg-black/80",
-  },
-};
-
 export const FromTop: Story = {
   render: (args) => (
     <div className="w-full h-screen flex items-center justify-center bg-background p-4">
@@ -109,5 +85,51 @@ export const FromTop: Story = {
     direction: "top",
     size: "h-[300px]",
     overlayOpacity: "bg-black/70",
+  },
+};
+
+const ControlledMUIDrawer = (
+  args: Omit<React.ComponentProps<typeof MUIDrawer>, "isOpen" | "onClose"> & { children?: React.ReactNode },
+) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Open MUI Drawer</Button>
+      <MUIDrawer {...args} isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        {/* {args.children ?? (
+          <>
+            <Typography variant="h6" className="text-white mb-4">
+              MUI Drawer Content
+            </Typography>
+            <Typography variant="body1" className="text-gray-300 mb-4">
+              This is an interactive MUI drawer component.
+            </Typography>
+          </>
+        )} */}
+        <div className="w-full h-full bg-background">
+          <Typography variant="h6" className="text-white mb-4">
+            MUI Drawer Content
+          </Typography>
+          <Typography variant="body1" className="text-gray-300 mb-4">
+            This is an interactive MUI drawer component.
+          </Typography>
+          <Button onClick={() => setIsOpen(false)}>Close</Button>
+        </div>
+      </MUIDrawer>
+    </>
+  );
+};
+
+export const MUIDrawerExample: Story = {
+  render: () => (
+    <div className="w-full h-screen flex items-center justify-center bg-background p-4">
+      <ControlledMUIDrawer direction="right" size="h-[300px]" overlayOpacity="bg-black/60" />
+    </div>
+  ),
+  args: {
+    direction: "up",
+    size: "h-[300px]",
+    overlayOpacity: "bg-black/60",
   },
 };

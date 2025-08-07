@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "@/_components/shared/layout";
+import Layout from "@/_components/shared/shared-layout";
 import { PATH } from "@/_constant/routes";
 import { usePathname } from "next/navigation";
 

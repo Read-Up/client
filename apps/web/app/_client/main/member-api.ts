@@ -5,15 +5,18 @@ import type { KyInstance } from "ky";
 import { clientApi } from "@/_server/main/instance";
 import { revalidateCache } from "@/_server/main/helper";
 import { END_POINT } from "@/_constant/end-point";
+import { getClientApi } from "@/_server/main/get-instance";
 
 class API {
-  API: KyInstance = clientApi;
+  // API: KyInstance = clientApi;
+  API: KyInstance = getClientApi();
 
   constructor(ky?: KyInstance) {
     if (ky) {
       this.API = ky;
     } else {
-      this.API = clientApi;
+      // this.API = clientApi;
+      this.API = getClientApi();
     }
   }
 
@@ -41,6 +44,18 @@ class API {
     }
 
     return { isValid, message };
+  }
+
+  async getCurrentUser() {
+    try {
+      const response = await this.API(END_POINT.USERS.DEFAULT, {
+        method: "GET",
+        credentials: "include", // 쿠키 포함
+      }).json<ResJson<MemberDTO["member"]>>();
+      return response.data; // 유저 정보 반환
+    } catch {
+      return null; // 로그인되지 않은 경우
+    }
   }
 }
 

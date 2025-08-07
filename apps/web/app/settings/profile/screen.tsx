@@ -41,7 +41,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <div className="w-full flex flex-col p-4 gap-2.5 relative">
+    <div className="w-full h-[calc(100vh-50px)] flex flex-col p-4 pb-10 gap-2.5 relative">
       {/* 프로필 이미지 */}
       <div className="w-[90px] h-[90px] self-center m-8 flex relative overflow-hidden">
         {profileImage ? (
@@ -82,26 +82,29 @@ export default function ProfileScreen() {
       <TextBox variant="searchbox" value={email} isButton={false} isBorder={false} readOnly />
 
       {/* 하단 버튼 */}
-      <Button
-        className="typo-title2 fixed bottom-10 left-4 right-4"
-        variant="filled"
-        disabled={!isChanged}
-        onClick={() => {}}
-      >
+      <div className="grow" />
+      <Button className="typo-title2" variant="filled" disabled={!isChanged} onClick={() => {}}>
         수정하기
       </Button>
       <Drawer
         isOpen={isEditNickname}
         onClose={closeEditNickname}
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 pb-10"
         size="h-[300px]"
         direction="bottom"
       >
-        <>
-          <p className="typo-title3 text-white mt-2">닉네임을 변경해주세요</p>
-          <p className="typo-body text-gray-70">공백없이 2~12글자로 입력해주세요</p>
+        {/* <MUIDrawer
+        isOpen={isEditNickname}
+        onClose={closeEditNickname}
+        // className="flex flex-col gap-2 pb-10"
+        size="h-[300px]"
+        direction="up"
+        overlayOpacity="bg-black/60"
+      > */}
+        <div className="flex flex-col gap-2 h-full">
+          <p className="typo-title3 text-white">닉네임을 변경해주세요</p>
+          <p className="typo-body text-gray-70 mb-4">공백없이 2~12글자로 입력해주세요</p>
           <TextBox
-            className="mt-2"
             variant="textbox"
             placeholder="닉네임"
             value={changedNickname}
@@ -110,8 +113,9 @@ export default function ProfileScreen() {
             }}
             icon={<p className="typo-body text-gray-60 whitespace-nowrap">{`${changedNickname.length} / 12`}</p>}
           />
+          <div className="grow" />
           <Button
-            className="typo-title2 fixed bottom-10 left-4 right-4"
+            className="typo-title2"
             variant="filled"
             disabled={changedNickname === nickname || changedNickname.length < 2 || changedNickname.length > 12}
             onClick={() => {
@@ -121,7 +125,7 @@ export default function ProfileScreen() {
           >
             완료
           </Button>
-        </>
+        </div>
       </Drawer>
     </div>
   );

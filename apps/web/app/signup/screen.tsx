@@ -3,7 +3,7 @@
 import { ArrowLineUnderSVG, ArrowLineUpSVG } from "@readup/icons";
 import { useAgreementStore } from "./_stores/use-agreement-store";
 import { PATH } from "@/_constant/routes";
-import { Topbar } from "@readup/ui/molecules";
+import { Modal, Topbar } from "@readup/ui/molecules";
 import { LinearProgress } from "@readup/ui/organisms";
 import { Button, Divider, TextBox } from "@readup/ui/atoms";
 import { END_POINT } from "@/_constant/end-point";
@@ -11,7 +11,9 @@ import { randomNicknameResponseSchema, AgreementItem, AgreementKey } from "./_ty
 import { CheckBox } from "@readup/ui/atoms/checkbox";
 import { BaseApi } from "@/_client/main/instance";
 import { useRouter } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { getBaseApi } from "@/_server/main/get-instance";
+import { SignupResponse } from "@/_types/signup/schema";
 
 export default function SignupScreen({ agreements }: { agreements: AgreementItem[] }) {
   const router = useRouter();
@@ -19,12 +21,23 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
   const { state, toggle, setAll, clear } = useAgreementStore();
   const [expanded, setExpanded] = useState<Partial<Record<AgreementKey, boolean>>>({});
   const [nickname, setNickname] = useState<string>("");
+  const [closeModal, setCloseModal] = useState<boolean>(false);
+  const [agreementModal, setAgreementModal] = useState<boolean>(false);
 
   const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
       return;
     }
+    clear();
+    router.push(PATH.LOGIN.ROOT);
+  };
+
+  const openCloseModal = () => {
+    setCloseModal(true);
+  };
+
+  const handleClose = () => {
     clear();
     router.push(PATH.LOGIN.ROOT);
   };
@@ -45,11 +58,19 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
           termsConsentRequestList,
           nickname,
         };
-        const response = await BaseApi.post(END_POINT.USERS.SIGNUP, {
-          body: JSON.stringify(requestBody),
-        }).json();
+        const response = await getBaseApi()
+          .post(END_POINT.USERS.SIGNUP, {
+            body: JSON.stringify(requestBody),
+            credentials: "include",
+          })
+          .json<SignupResponse>();
 
-        console.log("response: ", response);
+        if (response.success) {
+          alert("회원가입이 완료되었습니다.");
+          router.push(PATH.HOME.ROOT);
+        } else {
+          alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+        }
       } catch (e) {
         console.error(e);
       }
@@ -79,29 +100,56 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
     setNickname(parsed.data);
   };
 
-  return (
-    <div className="flex flex-col items-center w-full h-screen text-on-primary relative">
+  const handleCloseAgreementModal = () => {
+    router.push(PATH.LOGIN.ROOT);
+    setAgreementModal(false);
+  };
+
+  useEffect(() => {
+    // 2000ms 후 약관이 로드되었는지 확인
+    const timer = setTimeout(() => {
+      if (agreements.length === 0) {
+        setAgreementModal(true);
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return agreements.length > 0 ? (
+    <div className="flex flex-col items-center w-full h-screen text-on-primary bg-background relative">
       {/* Topbar */}
       <Topbar
-        className="w-full bg-background text-on-primary typo-title1"
+        className="w-full bg-background text-on-primary typo-title1 h-[50px]"
         variant="icon2"
         onLeftClick={handleBack}
+        onRightClick={openCloseModal}
         text={step === 1 ? "회원가입" : "닉네임 설정"}
       />
 
       {/* ProgressBar */}
       <LinearProgress value={step * 50} />
 
-      {/* 회원가입 약관 동의 */}
-      {step === 1 && (
-        <Fragment>
-          {/* Info Message */}
-          <div className="flex flex-col w-full px-4 mt-[62px]">
-            <p className="typo-title1">리드업 서비스 이용을 위해</p>
-            <p className="typo-title1">동의가 필요해요</p>
-          </div>
+      {/* Main Content */}
+      <main className="flex flex-col w-full h-[calc(100vh-52px)] overflow-y-auto px-4 py-10">
+        {/* Info Message */}
+        <div className="flex flex-col w-full mt-[22px] typo-title1">
+          {step === 1 ? (
+            <Fragment>
+              <p>리드업 서비스 이용을 위해</p>
+              <p>동의가 필요해요</p>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <p>리드업 서비스에서</p>
+              <p>사용하실 이름을 정해주세요</p>
+            </Fragment>
+          )}
+        </div>
 
-          <div className="flex flex-col w-full px-4 mt-[50px] gap-4">
+        {step === 1 ? (
+          // 약관 목록
+          <section className="flex flex-col w-full mt-[50px] gap-4">
             <div className="flex flex-row items-center gap-2">
               <CheckBox
                 size="md"
@@ -148,18 +196,10 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
                 )}
               </Fragment>
             ))}
-          </div>
-        </Fragment>
-      )}
-
-      {/* 닉네임 설정 */}
-      {step === 2 && (
-        <Fragment>
-          <div className="flex flex-col w-full px-4 mt-[62px]">
-            <p className="typo-title1">리드업 서비스에서</p>
-            <p className="typo-title1">사용하실 이름을 정해주세요</p>
-          </div>
-          <div className="flex flex-row w-full px-4 mt-[50px] gap-2">
+          </section>
+        ) : (
+          // 닉네임 입력
+          <section className="flex flex-row w-full mt-[50px] gap-2">
             {/* 입력창 또는 정보 표시 */}
             <div className="flex items-center justify-between bg-surface px-4 py-3 rounded-[6px] text-sm w-full">
               <input
@@ -180,19 +220,72 @@ export default function SignupScreen({ agreements }: { agreements: AgreementItem
             >
               랜덤닉네임 생성
             </button>
-          </div>
-        </Fragment>
-      )}
+          </section>
+        )}
+        {/* 빈 공간을 위한 div */}
+        <div className="grow-1" />
 
-      {/* 하단 버튼 */}
-      <Button
-        className="typo-title2 fixed bottom-10 left-4 right-4"
-        variant="filled"
-        disabled={step === 1 ? !(state.AGE && state.SERVICE && state.PRIVACY) : nickname.length === 0}
-        onClick={handleNext}
+        {/* 하단 버튼 */}
+        <Button
+          className="typo-title2 w-full"
+          variant="filled"
+          disabled={step === 1 ? !(state.AGE && state.SERVICE && state.PRIVACY) : nickname.length === 0}
+          onClick={handleNext}
+        >
+          {step === 1 ? "확인" : "입력완료"}
+        </Button>
+      </main>
+      <Modal
+        open={closeModal}
+        onClose={() => setCloseModal(false)}
+        title="회원가입을 종료하시겠습니까?"
+        subtext="회원가입을 종료하면 입력한 정보가 저장되지 않습니다."
+        confirmText="종료"
+        cancelText="취소"
+        onConfirm={handleClose}
+        onCancel={() => setCloseModal(false)}
       >
-        {step === 1 ? "확인" : "입력완료"}
-      </Button>
+        <p className="text-sm text-gray-500">회원가입을 종료하면 입력한 정보가 저장되지 않습니다.</p>
+      </Modal>
+    </div>
+  ) : (
+    <div className="flex flex-col items-center w-full h-screen text-on-primary bg-background relative">
+      {/* Topbar */}
+      <Topbar
+        className="w-full bg-background text-on-primary typo-title1 h-[50px]"
+        variant="icon2"
+        onLeftClick={handleBack}
+        onRightClick={openCloseModal}
+        text={step === 1 ? "회원가입" : "닉네임 설정"}
+      />
+
+      {/* ProgressBar */}
+      <LinearProgress value={step * 50} />
+
+      {/* Main Content */}
+      <main className="flex flex-col w-full h-[calc(100vh-52px)] overflow-y-auto px-4 py-10">
+        {/* Info Message */}
+        <div className="flex flex-col w-full mt-[22px] typo-title1">
+          <p>약관 정보를 불러오는 중입니다.</p>
+          <p>잠시만 기다려주세요.</p>
+        </div>
+
+        {/* 빈 공간을 위한 div */}
+        <div className="grow-1" />
+
+        {/* 하단 버튼 */}
+        <Button className="typo-title2 w-full" variant="filled" disabled={true} onClick={() => {}}>
+          확인
+        </Button>
+      </main>
+      <Modal
+        open={agreementModal}
+        onClose={handleCloseAgreementModal}
+        title="알림"
+        subtext="약관 정보를 불러오는 데 실패했습니다. 다시 시도해주세요."
+        confirmText="확인"
+        onConfirm={handleCloseAgreementModal}
+      />
     </div>
   );
 }

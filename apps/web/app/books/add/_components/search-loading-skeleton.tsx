@@ -7,7 +7,7 @@
 export default function BookSearchLoadingSkeleton({ isLoading }: { isLoading: boolean }) {
   return (
     isLoading && (
-      <div className="space-y-4" data-testid="book-search-loading-skeleton">
+      <div className="mt-[50px] px-4 space-y-4" data-testid="book-search-loading-skeleton">
         <div className="h-8 bg-overlay-16dp rounded animate-pulse w-20" />
         <div className="h-10 bg-overlay-16dp rounded animate-pulse w-full" />
         <div className="h-5 bg-gray-700 rounded animate-pulse w-1/3" />
