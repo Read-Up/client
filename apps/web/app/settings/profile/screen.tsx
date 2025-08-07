@@ -41,7 +41,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <div className="w-full flex flex-col p-4 gap-2.5 relative">
+    <div className="w-full h-[calc(100vh-50px)] flex flex-col p-4 pb-10 gap-2.5 relative">
       {/* 프로필 이미지 */}
       <div className="w-[90px] h-[90px] self-center m-8 flex relative overflow-hidden">
         {profileImage ? (
@@ -82,18 +82,14 @@ export default function ProfileScreen() {
       <TextBox variant="searchbox" value={email} isButton={false} isBorder={false} readOnly />
 
       {/* 하단 버튼 */}
-      <Button
-        className="typo-title2 fixed bottom-10 left-4 right-4"
-        variant="filled"
-        disabled={!isChanged}
-        onClick={() => {}}
-      >
+      <div className="grow" />
+      <Button className="typo-title2" variant="filled" disabled={!isChanged} onClick={() => {}}>
         수정하기
       </Button>
       <Drawer
         isOpen={isEditNickname}
         onClose={closeEditNickname}
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 pb-10"
         size="h-[300px]"
         direction="bottom"
       >
@@ -110,8 +106,9 @@ export default function ProfileScreen() {
             }}
             icon={<p className="typo-body text-gray-60 whitespace-nowrap">{`${changedNickname.length} / 12`}</p>}
           />
+          <div className="grow" />
           <Button
-            className="typo-title2 fixed bottom-10 left-4 right-4"
+            className="typo-title2"
             variant="filled"
             disabled={changedNickname === nickname || changedNickname.length < 2 || changedNickname.length > 12}
             onClick={() => {
