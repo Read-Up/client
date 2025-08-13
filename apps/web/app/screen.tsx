@@ -5,7 +5,6 @@ import Layout from "./_components/shared/shared-layout";
 import { UserCircleSVG } from "@readup/icons";
 import { useRouter } from "next/navigation";
 import { PATH } from "./_constant/routes";
-import { MemberAPI } from "./_client/main/member-api";
 import { Divider, TextBox } from "@readup/ui/atoms";
 import { useDebounce } from "./_hooks";
 import { BookAPI } from "./_client/book";
@@ -14,10 +13,11 @@ import { END_POINT } from "./_constant/end-point";
 import Image from "next/image";
 import { LinearProgress } from "@readup/ui/organisms";
 import Slider from "react-slick";
+import { useCurrentUserQuery } from "./_hooks/use-current-user-query";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [user, setUser] = useState<UserData | null>(null);
+  const { user } = useCurrentUserQuery();
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedQuery = useDebounce(searchQuery);
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -27,19 +27,7 @@ export default function HomeScreen() {
   const [selectRecentBookDetail, setSelectRecentBookDetail] = useState<BookDetail | null>(null);
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await MemberAPI.getCurrentUser();
-        console.log("User data:", response);
-        setUser(response); // response가 UserData 타입이라고 가정
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
-    getUser();
-  }, []);
-
-  useEffect(() => {
+    console.log(`[HomeScreen] User:`, user);
     const fetchRecentBooks = async () => {
       try {
         const books = await BookAPI.getBookList();

@@ -1,5 +1,7 @@
 "use client";
 
+import { MemberAPI } from "@/_client/main/member-api";
+import { PATH } from "@/_constant/routes";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -9,9 +11,11 @@ export default function LogoutScreen() {
   useEffect(() => {
     const logout = async () => {
       try {
-        // await fetch("/api/logout", { method: "POST", credentials: "include" });
+        await MemberAPI.logout();
+      } catch (error) {
+        console.error("로그아웃 중 오류 발생:", error);
       } finally {
-        // router.replace("/login"); // 로그아웃 후 이동
+        router.push(PATH.HOME.ROOT);
       }
     };
 

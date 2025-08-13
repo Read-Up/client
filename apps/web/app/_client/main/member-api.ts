@@ -6,6 +6,7 @@ import { clientApi } from "@/_server/main/instance";
 import { revalidateCache } from "@/_server/main/helper";
 import { END_POINT } from "@/_constant/end-point";
 import { getClientApi } from "@/_server/main/get-instance";
+import { useAuthStore } from "@/_stores/use-auth-store";
 
 class API {
   // API: KyInstance = clientApi;
@@ -55,6 +56,21 @@ class API {
       return response.data; // 유저 정보 반환
     } catch {
       return null; // 로그인되지 않은 경우
+    }
+  }
+
+  async logout() {
+    try {
+      // 로그아웃 API 호출
+      console.log("로그아웃 API 추가 예정");
+
+      // useAuthStore user 상태 변경
+      useAuthStore.getState().clearAuth();
+
+      // 쿼리 무효화 - 커스텀 이벤트로 알림
+      window.dispatchEvent(new CustomEvent("auth:logout"));
+    } catch (error) {
+      console.error("로그아웃 중 오류 발생:", error);
     }
   }
 }

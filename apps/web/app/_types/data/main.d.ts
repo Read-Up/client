@@ -36,5 +36,5 @@ interface UserData {
 }
 
 interface MemberDTO {
-  member: UserData;
+  member: UserData; // 회원 정보
 }
