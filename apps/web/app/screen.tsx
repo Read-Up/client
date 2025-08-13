@@ -21,6 +21,7 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedQuery = useDebounce(searchQuery);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [recentBooks, setRecentBooks] = useState<BookItem[]>([]);
   const [selectRecentBook, setSelectRecentBook] = useState<BookItem | null>(null);
   const [selectRecentBookDetail, setSelectRecentBookDetail] = useState<BookDetail | null>(null);
@@ -79,6 +80,24 @@ export default function HomeScreen() {
       // 예시: await BookAPI.search(debouncedQuery)
     }
   }, [debouncedQuery]);
+
+  useEffect(() => {
+    const root = carouselRef.current;
+    if (!root) {
+      return;
+    }
+
+    const obs = new MutationObserver(() => {
+      const ae = document.activeElement as HTMLElement | null;
+      if (ae && ae.closest('.slick-slide[aria-hidden="true"]')) {
+        ae.blur();
+        carouselRef.current?.focus();
+      }
+    });
+
+    obs.observe(root, { subtree: true, attributes: true, attributeFilter: ["aria-hidden", "tabindex"] });
+    return () => obs.disconnect();
+  }, []);
 
   const handleScrollToRecentBook = () => {
     const slider = sliderRef.current;
@@ -163,9 +182,24 @@ export default function HomeScreen() {
   };
 
   const renderFadeCarousel = () => {
+    const stripTabIndexFromSlides = () => {
+      document.querySelectorAll<HTMLElement>(".slick-slide[tabindex]").forEach((el) => el.removeAttribute("tabindex"));
+    };
+
+    const applyInertToHiddenSlides = () => {
+      document.querySelectorAll<HTMLElement>(".slick-slide").forEach((el) => {
+        const hidden = el.getAttribute("aria-hidden") === "true";
+        if (hidden) {
+          el.setAttribute("inert", "");
+        } else {
+          el.removeAttribute("inert");
+        }
+      });
+    };
+
     const settings = {
       dots: true,
-      fade: true,
+      // fade: true,
       infinite: true,
       speed: 500,
       slidesToShow: 1,
@@ -174,12 +208,44 @@ export default function HomeScreen() {
       autoplaySpeed: 3000,
       centerMode: true,
       arrows: false,
-    };
+      accessibility: false, // 키보드 내비 비활성화
+      pauseOnHover: false,
+      pauseOnFocus: false,
+      // slick 콜백들
+      onInit: () => {
+        stripTabIndexFromSlides();
+        applyInertToHiddenSlides();
+      },
+      onReInit: () => {
+        stripTabIndexFromSlides();
+        applyInertToHiddenSlides();
+      },
+      beforeChange: () => {
+        // 전환 직전 포커스가 숨겨질 슬라이드 안에 있으면 강제 해제하고 피난처로 이동
+        const ae = document.activeElement as HTMLElement | null;
+        if (ae && ae.closest(".slick-slide")) {
+          ae.blur();
+          carouselRef.current?.focus(); // 슬라이더 바깥의 안전한 곳에 포커스 이동
+        }
+      },
+      afterChange: () => {
+        // 전환 후에도 다시 정리 (slick가 aria-hidden 업데이트함)
+        stripTabIndexFromSlides();
+        applyInertToHiddenSlides();
+      },
+    } as const;
+
     return (
       <Slider {...settings}>
-        {recentBooks.map((book) => (
+        {recentBooks.map((book, idx) => (
           <div key={book.bookId}>
-            <div className="w-full h-full flex flex-col gap-2 items-center justify-center bg-secondary">
+            <div
+              tabIndex={-1}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${idx + 1} / ${recentBooks.length}`}
+              className="w-full h-full flex flex-col gap-2 items-center justify-center bg-secondary"
+            >
               <Image
                 src={END_POINT.BOOKS.IMAGE(book.isbn)}
                 alt={book.title}
@@ -312,7 +378,7 @@ export default function HomeScreen() {
         {/* 내가 만든 퀴즈 요약 */}
 
         {/* 공지 슬라이드 */}
-        <div className="flex flex-col w-full gap-8 mt-8 mb-8">
+        <div className="flex flex-col w-full gap-8 mt-8 mb-8" ref={carouselRef} tabIndex={-1}>
           <p className="typo-title2 text-primary">공지사항</p>
           {/* 공지사항 슬라이드 컴포넌트 추가 예정 */}
           {recentBooks.length > 0 && renderFadeCarousel()}
