@@ -1,19 +1,40 @@
 "use client";
 
+import { MemberAPI } from "@/_client/main/member-api";
 import { PencilSVG } from "@readup/icons";
 import { Button, TextBox } from "@readup/ui/atoms";
 import { Drawer } from "@readup/ui/molecules";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ProfileScreen() {
   const [nickname, setNickname] = useState("nickname"); // 기존 닉네임을 가져와야 함
   const [changedNickname, setChangedNickname] = useState(nickname); // 변경된 닉네임을 저장하기 위한 상태
-  const email = "example@google.com"; // 이메일은 고정값으로 설정 (유저 정보 가져오기 필요)
+  const [email, setEmail] = useState(""); // 이메일은 고정값으로 설정 (유저 정보 가져오기 필요)
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isEditNickname, setIsEditNickname] = useState(false); // 닉네임 수정 모달 상태
   const [isChanged, setIsChanged] = useState(false); // 프로필 이미지 변경 여부 상태
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await MemberAPI.getCurrentUser();
+        console.log("User data:", response);
+        if (response) {
+          setNickname(response.nickname);
+          setEmail("example@google.com");
+          // 프로필 이미지 URL이 있다면 설정
+          if (response.imageUrl) {
+            setProfileImage(response.imageUrl);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    getUser();
+  }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

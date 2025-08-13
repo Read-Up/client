@@ -140,8 +140,11 @@ export default function HomeScreen() {
 
   const renderTopbarRightButton = () => {
     if (user) {
+      const handleProfileClick = () => {
+        router.push(PATH.SETTINGS.ROOT);
+      };
       return (
-        <div className="flex flex-row items-center gap-2">
+        <div className="flex flex-row items-center gap-2 cursor-pointer" onClick={handleProfileClick}>
           <p className="typo-body1 text-white">{user.nickname}</p>
           <UserCircleSVG className="w-6 h-6 text-white" />
         </div>
@@ -170,12 +173,13 @@ export default function HomeScreen() {
       autoplay: true,
       autoplaySpeed: 3000,
       centerMode: true,
+      arrows: false,
     };
     return (
       <Slider {...settings}>
         {recentBooks.map((book) => (
           <div key={book.bookId}>
-            <div className="w-full h-full flex flex-col gap-2 items-center justify-center">
+            <div className="w-full h-full flex flex-col gap-2 items-center justify-center bg-secondary">
               <Image
                 src={END_POINT.BOOKS.IMAGE(book.isbn)}
                 alt={book.title}
